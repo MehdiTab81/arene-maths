@@ -1119,7 +1119,19 @@ CHAPTERS.forEach(ch=>ch.questions.forEach(q=>{q.type=q.type||'qcm';q.time=q.time
 const TYPE_LABEL={qcm:'QCM',vf:'Vrai ou faux',jauge:'Jauge',saisie:'Réponse à taper',ordre:'Remets dans l’ordre'};
 
 /* ================= Utilitaires ================= */
-const HOST_PREFIX='arenemaths-v2-';
+const HOST_PREFIX='arenemaths-salle-';
+/* Serveurs de connexion : STUN publics + relais TURN (Open Relay, identifiants temporaires calculés) pour les réseaux qui bloquent la liaison directe */
+async function iceServers(){
+  const list=[{urls:['stun:stun.l.google.com:19302','stun:stun1.l.google.com:19302']}];
+  try{
+    const user=(Math.floor(Date.now()/1000)+24*3600)+':arene';
+    const enc=new TextEncoder(),key=await crypto.subtle.importKey('raw',enc.encode('openrelayprojectsecret'),{name:'HMAC',hash:'SHA-1'},false,['sign']);
+    const sig=await crypto.subtle.sign('HMAC',key,enc.encode(user));
+    const cred=btoa(String.fromCharCode(...new Uint8Array(sig)));
+    list.push({urls:['turn:staticauth.openrelay.metered.ca:80','turn:staticauth.openrelay.metered.ca:80?transport=tcp','turn:staticauth.openrelay.metered.ca:443','turns:staticauth.openrelay.metered.ca:443?transport=tcp'],username:user,credential:cred});
+  }catch(e){}
+  return list;
+}
 const LET5=['A','B','C','D','E'];
 const $=s=>document.querySelector(s);
 const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
@@ -1288,19 +1300,23 @@ function openBank(chId){
 const online=()=>st.players.filter(p=>p.online);
 function send(pl,msg){if(pl&&pl.conn&&pl.online){try{pl.conn.send(msg)}catch(e){}}}
 function broadcast(msg){online().forEach(p=>send(p,msg))}
+function pendingStatus(){if(st.phase!=='lobby')return;setStatus(st.pending?`Salle ouverte · ${st.pending} téléphone${st.pending>1?'s':''} en cours de connexion…`:'Salle ouverte','ok')}
 function setStatus(t,cls=''){const s=$('#netStatus');s.textContent=t;s.className='status '+cls}
 function openRoom(){
   st.players=[];st.banned=new Set();st.phase='lobby';
   show('lobby');drawRoster();
   if(typeof Peer==='undefined'){noNetwork();return}
-  const tryOpen=(attempt=0)=>{
+  const tryOpen=async(attempt=0)=>{
+    const ice=await iceServers();
     st.pin=String(Math.floor(100000+Math.random()*900000));
     $('#pin').hidden=true;$('#qr').hidden=true;$('#fileWarn').hidden=true;setStatus('Ouverture de la salle…');
-    const peer=new Peer(HOST_PREFIX+st.pin,{debug:0});st.peer=peer;
+    const peer=new Peer(HOST_PREFIX+st.pin,{debug:0,config:{iceServers:ice}});st.peer=peer;st.pending=0;
     let opened=false;
     const guard=setTimeout(()=>{if(!opened&&st.peer===peer)noNetwork()},9000);
     peer.on('open',()=>{opened=true;clearTimeout(guard);showJoinInfo();setStatus('Salle ouverte','ok')});
     peer.on('connection',conn=>{
+      st.pending++;pendingStatus();let done=false;const settle=()=>{if(!done){done=true;st.pending=Math.max(0,st.pending-1);pendingStatus()}};
+      conn.on('open',settle);conn.on('error',settle);setTimeout(settle,25000);
       conn.on('data',d=>hostMsg(conn,d));
       conn.on('close',()=>{const pl=st.players.find(p=>p.conn===conn);if(pl){pl.online=false;pl.conn=null;refreshCounts()}});
     });
@@ -1697,7 +1713,7 @@ function playerApp(pin0){
       h+=`<div class="pcenter"><div class="pcard"><h2>Choisis ton avatar</h2><div class="avgrid">${AV.map((a,i)=>`<button class="avbtn" type="button" data-i="${i}" aria-pressed="${i===P.av}">${avatar(i)}<span>${esc(a.n)}</span></button>`).join('')}</div>
         <button class="btn primary big" type="button" id="pgo" style="width:100%">C'est parti !</button><button class="btn small" type="button" id="pback">Modifier le code ou le pseudo</button></div></div>`;
     }else if(P.state==='connecting'){
-      h+=`<div class="pcenter"><div class="pcard"><div class="spin"></div><h2>Connexion…</h2><p>Code ${esc(P.pin)}</p></div></div>`;
+      h+=`<div class="pcenter"><div class="pcard"><div class="spin"></div><h2>Connexion…</h2><p id="pstep">${esc(P.step||'')}</p></div></div>`;
     }else if(P.state==='wait'){
       h+=`<div class="pcenter"><div class="pcard">${avatar(P.av)}<h2>Tu es dans la partie !</h2><p>Regarde le tableau. Les réponses apparaîtront ici à chaque question.</p></div></div>`;
     }else if(P.state==='play'){
@@ -1742,19 +1758,23 @@ function playerApp(pin0){
   }
   function sendAns(v){if(P.state!=='play')return;try{P.conn.send({t:'ans',n:P.q.n,v})}catch(e){}try{navigator.vibrate&&navigator.vibrate(30)}catch(e){};P.state='sent';render()}
   function fail(msg){P.state=P.joined?'lost':'join';P.err=msg;try{P.peer&&P.peer.destroy()}catch(e){};render()}
-  function connect(rejoin){
-    if(typeof Peer==='undefined'){P.err='Connexion impossible : vérifie internet puis recharge la page.';P.state='join';render();return}
+  function stepMsg(t){P.step=t;const el=document.getElementById('pstep');if(el)el.textContent=t}
+  async function connect(rejoin){
+    if(typeof Peer==='undefined'){P.err='Connexion impossible : la page n\u2019a pas pu charger le module de connexion. Vérifie internet puis recharge la page.';P.state='join';render();return}
     try{P.peer&&P.peer.destroy()}catch(e){}
-    P.state='connecting';render();
-    clearTimeout(P.timer);P.timer=setTimeout(()=>{if(P.state==='connecting')fail('Pas de réponse. Vérifie le code, ou essaie avec les données mobiles.')},15000);
-    const peer=new Peer({debug:0});P.peer=peer;
+    P.step='Étape 1/3 : connexion au service…';P.state='connecting';render();
+    const ice=await iceServers();
+    clearTimeout(P.timer);P.timer=setTimeout(()=>{if(P.state==='connecting')fail(P.step.startsWith('Étape 3')?'Le tableau a été trouvé mais la liaison n\u2019a pas abouti (réseau bloquant). Essaie avec un autre réseau (Wi-Fi ↔ données mobiles), puis réessaie.':'Pas de réponse ('+P.step.replace('…','')+'). Vérifie internet et le code.')},25000);
+    const peer=new Peer({debug:0,config:{iceServers:ice}});P.peer=peer;
     peer.on('open',()=>{
+      stepMsg('Étape 2/3 : recherche de la salle '+P.pin+'…');
       const conn=peer.connect(HOST_PREFIX+P.pin,{reliable:true});P.conn=conn;
+      setTimeout(()=>{if(P.state==='connecting'&&P.step.startsWith('Étape 2'))stepMsg('Étape 3/3 : liaison avec le tableau…')},1500);
       conn.on('open',()=>conn.send({t:'join',name:P.name,av:P.av,rejoin:!!rejoin}));
       conn.on('data',onMsg);
       conn.on('close',()=>{if(P.state!=='kicked'&&P.state!=='end')fail('La connexion avec le tableau a été coupée.')});
     });
-    peer.on('error',e=>{if(e.type==='peer-unavailable')fail('Aucune partie ouverte avec ce code.');else if(P.state==='connecting')fail('Connexion impossible ('+e.type+').')});
+    peer.on('error',e=>{if(e.type==='peer-unavailable')fail('Aucune salle ouverte avec le code '+P.pin+'. Vérifie le code au tableau. Si tu avais déjà ouvert le jeu, recharge la page.');else if(P.state==='connecting')fail('Connexion impossible (code '+e.type+').')});
   }
   function onMsg(d){
     if(!d||typeof d!=='object')return;
