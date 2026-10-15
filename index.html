@@ -1,0 +1,1309 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Arène Maths</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Unbounded:wght@500;700;900&display=swap">
+<style>
+*{box-sizing:border-box} body{margin:0} img{max-width:100%} [hidden]{display:none!important}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+
+/* Layout : plateau de jeu plein écran pour vidéoprojecteur — barre haute, énoncé, figure sur papier quadrillé + chrono, 4 dalles de réponse */
+:root{
+  --night:#10162f; --night-2:#182047; --night-3:#232d60; --line:rgba(196,206,255,.13);
+  --fg:#f5f3ec; --muted:#a9b1d6;
+  --paper:#fbfaf4; --paper-grid:#dbe2ef; --paper-ink:#1c2242; --paper-mute:#6b7193; --fp:#7a4bd0;
+  --o0:#e0505b; --o1:#2e76d6; --o2:#e3a020; --o3:#14916b;
+  --good:#33c27a; --bad:#ef5a64; --gold:#f2c44c;
+  --display:"Unbounded","Arial Black",system-ui,sans-serif;
+  --body:"Atkinson Hyperlegible","Segoe UI",system-ui,sans-serif;
+  color-scheme:dark;
+}
+html,body{height:100%}
+body{background:var(--night);color:var(--fg);font-family:var(--body);font-size:16px;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:56px 56px;background-position:-1px -1px}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible,label:focus-within{outline:3px solid var(--gold);outline-offset:2px}
+.app{height:100%;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:14px;box-sizing:border-box}
+.screen{height:100%;box-sizing:border-box}
+
+/* ---------- Accueil ---------- */
+#home{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(20px,4vw,56px);align-items:center;max-width:1280px;margin:0 auto;overflow:auto}
+.eyebrow{font-family:var(--display);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+h1{font-family:var(--display);font-weight:900;font-size:clamp(2.6rem,6.4vw,5.6rem);line-height:.95;margin:.25em 0 .3em;text-wrap:balance;letter-spacing:-.02em}
+h1 span{display:block;color:transparent;-webkit-text-stroke:2px var(--fg)}
+.lede{color:var(--muted);font-size:1.12rem;line-height:1.55;max-width:46ch;margin:0 0 22px}
+.motif{background:var(--paper);border-radius:16px;padding:10px;max-width:520px;box-shadow:0 20px 50px rgba(0,0,0,.35)}
+.motif svg{display:block;width:100%;height:auto}
+.ghost{transform-box:view-box;transform-origin:224px 176px;animation:turn 6s ease-in-out infinite}
+@keyframes turn{0%,18%{transform:rotate(0)}42%,70%{transform:rotate(-90deg)}94%,100%{transform:rotate(0)}}
+
+.panel{background:var(--night-2);border:1px solid var(--line);border-radius:18px;padding:22px;display:grid;gap:20px}
+.panel h2{font-family:var(--display);font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 10px;font-weight:500}
+.themes{display:grid;gap:8px}
+.theme{display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:transparent;text-align:left}
+.theme.on{background:var(--night-3);border-color:var(--gold)}
+.theme .lv{font-family:var(--display);font-size:.7rem;padding:4px 8px;border-radius:6px;background:var(--gold);color:var(--night);font-weight:700;flex:none}
+.theme b{display:block;font-size:1.05rem}
+.theme small{color:var(--muted)}
+.theme[disabled]{opacity:.45;cursor:not-allowed}
+.theme[disabled] .lv{background:var(--muted)}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg label{display:flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:8px 14px;cursor:pointer;font-weight:700}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg label:has(input:checked){background:var(--fg);color:var(--night);border-color:var(--fg)}
+.teams{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px}
+.teams input{width:100%;box-sizing:border-box;background:var(--night);border:1px solid var(--line);color:var(--fg);border-radius:10px;padding:9px 10px;font:inherit;font-weight:700}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.mini{border:1px solid var(--line);background:transparent;border-radius:10px;padding:7px 12px;font-weight:700}
+.go{font-family:var(--display);font-weight:700;font-size:1.15rem;background:var(--gold);color:var(--night);border:0;border-radius:14px;padding:16px 22px;box-shadow:0 5px 0 #b48a1d;transition:transform .08s}
+.go:active{transform:translateY(3px);box-shadow:0 2px 0 #b48a1d}
+.hint{color:var(--muted);font-size:.9rem;margin:0}
+kbd{font-family:var(--body);background:var(--night-3);border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:.85em}
+
+/* ---------- Barre haute ---------- */
+.bar{display:flex;align-items:center;gap:14px;min-width:0}
+.brand{font-family:var(--display);font-weight:900;font-size:1rem;white-space:nowrap}
+.dots{display:flex;gap:4px;flex:1;min-width:0}
+.dots i{flex:1;height:6px;border-radius:3px;background:var(--night-3)}
+.dots i.done{background:var(--muted)}
+.dots i.now{background:var(--gold)}
+.qn{font-family:var(--display);font-size:.85rem;white-space:nowrap;font-variant-numeric:tabular-nums}
+.score{font-family:var(--display);font-weight:700;background:var(--night-3);border-radius:10px;padding:6px 12px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.ibtn{border:1px solid var(--line);background:transparent;border-radius:10px;padding:7px 10px;font-weight:700;white-space:nowrap}
+
+/* ---------- Question ---------- */
+#quiz{display:grid;grid-template-rows:auto auto minmax(0,1fr) auto;gap:clamp(10px,1.6vh,18px)}
+.prompt{font-family:var(--display);font-weight:700;font-size:clamp(1.15rem,2.3vw,2.1rem);line-height:1.2;margin:0;text-wrap:balance}
+.stage{display:grid;grid-template-columns:minmax(0,1fr) clamp(240px,25vw,360px);gap:clamp(12px,2vw,24px);min-height:0}
+.board{min-height:0;display:flex}
+.paper{background:var(--paper);color:var(--paper-ink);border-radius:16px;padding:10px 12px;flex:1;min-height:0;min-width:0;display:flex;flex-direction:column;gap:6px;box-shadow:0 18px 40px rgba(0,0,0,.35)}
+.paper .figbox{flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
+.fig-svg{width:100%;height:100%;max-height:100%}
+.caption{font-weight:700;text-align:center;font-size:clamp(.95rem,1.5vw,1.25rem);margin:0}
+.bigq{flex:1;display:flex;align-items:center;justify-content:center;text-align:center;border:2px dashed var(--line);border-radius:16px;padding:20px}
+.bigq p{font-family:var(--display);font-weight:700;font-size:clamp(1.5rem,3.4vw,3rem);line-height:1.2;margin:0;max-width:24ch;text-wrap:balance}
+.side{display:flex;flex-direction:column;gap:12px;min-height:0;overflow:auto}
+.clock{position:relative;width:min(100%,220px);aspect-ratio:1;margin:auto;max-width:100%}
+.clock svg{width:100%;height:100%;transform:rotate(-90deg)}
+.clock .track{fill:none;stroke:var(--night-3);stroke-width:12}
+.clock .ring{fill:none;stroke:var(--gold);stroke-width:12;stroke-linecap:round;transition:stroke .3s}
+.clock.hurry .ring{stroke:var(--bad)}
+.clock b{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--display);font-size:clamp(2.4rem,5vw,4rem);font-variant-numeric:tabular-nums}
+.verdict{border-radius:14px;padding:12px 14px;font-family:var(--display);font-weight:700;font-size:1.2rem}
+.verdict.ok{background:var(--good);color:#06240f}
+.verdict.ko{background:var(--bad);color:#2a0306}
+.verdict.neutral{background:var(--night-3)}
+.verdict small{display:block;font-family:var(--body);font-weight:700;font-size:.9rem;margin-top:2px}
+.explain{background:var(--night-2);border:1px solid var(--line);border-radius:14px;padding:12px 14px;line-height:1.5;font-size:clamp(.98rem,1.25vw,1.15rem)}
+.explain h3{margin:0 0 4px;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-family:var(--display);font-weight:500}
+.who h3{margin:0 0 8px;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-family:var(--display);font-weight:500}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:2px solid var(--line);background:transparent;border-radius:999px;padding:7px 12px;font-weight:700}
+.chip[aria-pressed="true"]{background:var(--good);border-color:var(--good);color:#06240f}
+.next{font-family:var(--display);font-weight:700;background:var(--fg);color:var(--night);border:0;border-radius:12px;padding:13px 16px;font-size:1rem}
+.reveal-btn{background:transparent;border:2px solid var(--fg);color:var(--fg)}
+
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:clamp(8px,1.2vw,14px)}
+.tile{display:flex;align-items:center;gap:14px;border:0;border-radius:14px;padding:clamp(10px,1.6vh,18px) 16px;min-height:clamp(56px,9vh,96px);text-align:left;color:#fff;font-weight:700;font-size:clamp(1.05rem,1.8vw,1.6rem);box-shadow:0 5px 0 rgba(0,0,0,.28);transition:opacity .25s,transform .12s,filter .25s;position:relative}
+.tile .k{flex:none;width:1.9em;height:1.9em;border-radius:9px;background:rgba(255,255,255,.22);display:grid;place-items:center;font-family:var(--display);font-size:.9em}
+.tile .tx{min-width:0}
+.tile[data-p="0"]{background:var(--o0)} .tile[data-p="1"]{background:var(--o1)} .tile[data-p="2"]{background:var(--o2)} .tile[data-p="3"]{background:var(--o3)}
+button.tile:hover{filter:brightness(1.08)}
+button.tile:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(0,0,0,.28)}
+div.tile{cursor:default}
+.tile.off{opacity:.28;filter:saturate(.4)}
+.tile.ok{outline:4px solid var(--fg);outline-offset:3px}
+.tile .mark{margin-left:auto;font-family:var(--display);font-size:1.4em}
+.tile.picked:not(.ok)::after{content:"ta réponse";position:absolute;top:6px;right:10px;font-size:.6em;opacity:.9}
+
+/* Figures */
+.fig-svg .gl{stroke:var(--paper-grid);stroke-width:1}
+.fig-svg text{font-family:var(--body);font-weight:700;fill:var(--paper-ink)}
+.fig-svg .F polygon{fill:rgba(28,34,66,.16);stroke:var(--paper-ink);stroke-width:3;stroke-linejoin:round}
+.fig-svg .Fp polygon{fill:rgba(122,75,208,.2);stroke:var(--fp);stroke-width:3;stroke-linejoin:round}
+.fig-svg .Fp text{fill:var(--fp)}
+.fig-svg .opt polygon{fill:var(--c);fill-opacity:.2;stroke:var(--c);stroke-width:3;stroke-linejoin:round;transition:fill-opacity .3s}
+.fig-svg .opt,.fig-svg .ptopt{transition:opacity .35s}
+.fig-svg .badge text{fill:#fff;font-family:var(--display);font-size:15px}
+.fig-svg .is-off{opacity:.15}
+.fig-svg .is-ok polygon{fill-opacity:.5;stroke-width:5}
+.fig-svg .axis{stroke:var(--o0);stroke-width:2.5;stroke-dasharray:10 6}
+.fig-svg .axis-l{fill:var(--o0)}
+.fig-svg .vec{stroke:var(--paper-ink);stroke-width:3}
+.fig-svg .arrowhead{fill:var(--paper-ink)}
+.fig-svg .dash{stroke:var(--paper-mute);stroke-width:1.5;stroke-dasharray:5 5}
+.fig-svg .cross{stroke:var(--paper-ink);stroke-width:2.5}
+
+/* ---------- Classement ---------- */
+#rank,#end{display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:18px;max-width:1100px;margin:0 auto}
+.title2{font-family:var(--display);font-weight:900;font-size:clamp(1.8rem,4vw,3.2rem);margin:0;text-wrap:balance}
+.lb{display:grid;gap:10px;align-content:start;overflow:auto}
+.lbrow{display:grid;grid-template-columns:2.2em minmax(0,1fr) auto;align-items:center;gap:12px;background:var(--night-2);border:1px solid var(--line);border-radius:14px;padding:10px 14px}
+.lbrow .pos{font-family:var(--display);font-weight:900;font-size:1.4rem;color:var(--muted)}
+.lbrow:first-child .pos{color:var(--gold)}
+.lbrow .nm{font-weight:700;font-size:1.2rem;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lbrow .bar2{grid-column:2/3;height:10px;border-radius:5px;background:var(--night-3);overflow:hidden}
+.lbrow .bar2 i{display:block;height:100%;background:var(--gold);width:0;transition:width .9s cubic-bezier(.2,.8,.2,1)}
+.lbrow .pts{grid-row:1/3;grid-column:3;font-family:var(--display);font-weight:700;font-size:1.4rem;text-align:right;font-variant-numeric:tabular-nums}
+.lbrow .pts small{display:block;font-family:var(--body);font-size:.85rem;color:var(--good)}
+.foot{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+
+.podium{display:flex;align-items:flex-end;justify-content:center;gap:clamp(8px,2vw,22px);min-height:0}
+.step{display:flex;flex-direction:column;align-items:center;gap:8px;width:min(30%,230px)}
+.step .nm{font-weight:700;font-size:clamp(1rem,2vw,1.5rem);text-align:center;overflow-wrap:anywhere}
+.step .blk{width:100%;border-radius:14px 14px 0 0;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:12px;font-family:var(--display);font-weight:900;color:var(--night)}
+.step .blk span{font-size:clamp(2rem,5vw,3.6rem)}
+.step .blk small{font-family:var(--body);font-size:1rem;font-variant-numeric:tabular-nums}
+.p1 .blk{background:var(--gold);height:clamp(140px,28vh,260px)}
+.p2 .blk{background:#cfd5ea;height:clamp(100px,20vh,190px)}
+.p3 .blk{background:#d99a6c;height:clamp(70px,14vh,140px)}
+.solo-sum{display:grid;gap:14px;align-content:start;overflow:auto}
+.bignum{font-family:var(--display);font-weight:900;font-size:clamp(3rem,9vw,6rem);line-height:1;font-variant-numeric:tabular-nums}
+.review{display:grid;gap:8px}
+.review div{background:var(--night-2);border:1px solid var(--line);border-radius:12px;padding:10px 14px;line-height:1.45}
+.review b{color:var(--gold)}
+#confetti{position:fixed;inset:0;pointer-events:none;width:100%;height:100%}
+
+@media (max-width:820px){
+  .app{height:auto;min-height:100%}
+  .screen{height:auto}
+  #home{grid-template-columns:1fr}
+  .stage{grid-template-columns:1fr}
+  .paper .figbox{min-height:240px}
+  .clock{width:140px}
+  .tiles{grid-template-columns:1fr}
+  .brand{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .ghost{animation:none}
+  *{transition:none!important}
+}
+
+
+/* ---------- Salle d'attente (direct) ---------- */
+#lobby{display:grid;grid-template-rows:auto minmax(0,1fr);gap:18px}
+.lobby{display:grid;grid-template-columns:minmax(0,auto) minmax(0,1fr);gap:clamp(16px,3vw,40px);min-height:0}
+.joinbox{display:flex;flex-direction:column;align-items:center;gap:10px;background:var(--night-2);border:1px solid var(--line);border-radius:18px;padding:22px;text-align:center}
+.qr{background:#fff;padding:14px;border-radius:14px;line-height:0}
+.qr img,.qr canvas{width:clamp(180px,28vh,300px)!important;height:auto!important}
+.url{font-weight:700;color:var(--muted);margin:0;overflow-wrap:anywhere;max-width:34ch}
+.pinlabel{font-family:var(--display);font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-top:4px}
+.pin{font-family:var(--display);font-weight:900;font-size:clamp(2.8rem,7vw,5.2rem);letter-spacing:.08em;line-height:1;font-variant-numeric:tabular-nums}
+.warn{background:rgba(239,90,100,.15);border:1px solid var(--bad);border-radius:12px;padding:10px 12px;margin:0;max-width:40ch;line-height:1.45;text-align:left}
+.roster{display:flex;flex-direction:column;gap:12px;min-height:0}
+.roster .chips{overflow:auto;align-content:flex-start;flex:1;min-height:0}
+.pchip{border:2px solid var(--line);background:var(--night-2);border-radius:999px;padding:8px 14px;font-weight:700;font-size:1.1rem;animation:pop .3s ease-out}
+.pchip.off{opacity:.4}
+.pchip:hover{border-color:var(--bad)}
+@keyframes pop{from{transform:scale(.6);opacity:0}to{transform:none;opacity:1}}
+.status{font-weight:700;color:var(--muted);font-size:.9rem}
+.status.ok{color:var(--good)} .status.ko{color:var(--bad)}
+.go[disabled]{opacity:.4;cursor:not-allowed;box-shadow:none}
+.answered{text-align:center;font-family:var(--display);font-weight:700;font-size:1.3rem;font-variant-numeric:tabular-nums}
+.answered small{display:block;font-family:var(--body);font-size:.9rem;color:var(--muted);font-weight:700}
+.tile .cnt{margin-left:auto;font-family:var(--display);font-size:1.1em;background:rgba(0,0,0,.22);border-radius:10px;padding:2px 12px;font-variant-numeric:tabular-nums}
+.tile .cnt+.mark{margin-left:10px}
+
+/* ---------- Téléphone élève ---------- */
+#player{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:14px;min-height:100%}
+.ptop{display:flex;justify-content:space-between;align-items:center;gap:10px;font-weight:700}
+.ptop .brand{display:block}
+.ptop .me{background:var(--night-3);border-radius:10px;padding:6px 10px;max-width:55%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pcenter{flex:1;display:flex;flex-direction:column;justify-content:center;gap:16px}
+.pcard{background:var(--night-2);border:1px solid var(--line);border-radius:18px;padding:22px;text-align:center;display:grid;gap:10px}
+.pcard h2{font-family:var(--display);font-weight:900;font-size:clamp(1.6rem,7vw,2.4rem);margin:0;line-height:1.1;text-wrap:balance}
+.pcard p{margin:0;color:var(--muted);font-size:1.1rem;line-height:1.45}
+.pcard.ok{background:var(--good);color:#06240f;border-color:transparent} .pcard.ok p{color:#06240f}
+.pcard.ko{background:var(--bad);color:#2a0306;border-color:transparent} .pcard.ko p{color:#2a0306}
+.pbig{font-family:var(--display);font-weight:900;font-size:3.2rem;font-variant-numeric:tabular-nums}
+.pform{display:grid;gap:12px}
+.pform label{font-weight:700;color:var(--muted);display:grid;gap:6px;text-align:left}
+.pform input{background:var(--night);border:2px solid var(--line);color:var(--fg);border-radius:14px;padding:14px;font:inherit;font-size:1.4rem;font-weight:700;width:100%;box-sizing:border-box}
+.pform input#p-pin{font-family:var(--display);letter-spacing:.2em;text-align:center}
+.perr{color:var(--bad);font-weight:700;min-height:1.4em;margin:0}
+.pbtns{flex:1;display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:minmax(130px,1fr);gap:10px}
+.pbtn{border:0;border-radius:18px;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:12px;box-shadow:0 6px 0 rgba(0,0,0,.28);min-width:0}
+.pbtn b{font-family:var(--display);font-size:3rem;line-height:1}
+.pbtn small{font-size:1rem;font-weight:700;text-align:center;overflow-wrap:anywhere;line-height:1.25}
+.pbtn:active{transform:translateY(4px);box-shadow:0 2px 0 rgba(0,0,0,.28)}
+.pbtn[data-p="0"]{background:var(--o0)} .pbtn[data-p="1"]{background:var(--o1)} .pbtn[data-p="2"]{background:var(--o2)} .pbtn[data-p="3"]{background:var(--o3)}
+.pq{font-family:var(--display);font-size:.85rem;color:var(--muted);text-align:center}
+.spin{width:44px;height:44px;border-radius:50%;border:5px solid var(--night-3);border-top-color:var(--gold);margin:0 auto;animation:sp 1s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+@media (max-width:820px){ .lobby{grid-template-columns:1fr} }
+
+/* ---------- Sélecteur de chapitres ---------- */
+#home{align-items:start;align-content:start}
+.motif{max-width:440px}
+.chapters{grid-column:1/-1;background:var(--night-2);border:1px solid var(--line);border-radius:18px;padding:22px;display:grid;gap:18px}
+.selinfo{font-weight:700;color:var(--gold);font-variant-numeric:tabular-nums}
+.domains{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:22px;align-items:start}
+.dom{display:grid;gap:8px}
+.dom-h{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.dom-h h3{margin:0;font-family:var(--display);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.dom-h button{background:none;border:0;color:var(--muted);font-weight:700;font-size:.85rem;text-decoration:underline;padding:2px}
+.ch{display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:transparent;text-align:left;width:100%}
+.ch .box{width:22px;height:22px;border-radius:6px;border:2px solid var(--muted);flex:none;display:grid;place-items:center;font-weight:900;color:var(--night);font-size:.85rem}
+.ch .t{min-width:0;flex:1}
+.ch b{display:block;font-size:1rem}
+.ch small{color:var(--muted);display:block;line-height:1.3}
+.ch .n{font-family:var(--display);font-size:.75rem;color:var(--muted);flex:none}
+.ch[aria-pressed="true"]{background:var(--night-3);border-color:var(--gold)}
+.ch[aria-pressed="true"] .box{background:var(--gold);border-color:var(--gold)}
+.ch[aria-pressed="true"] .box::after{content:"✓"}
+.chap{font-weight:700;color:var(--gold);border:1px solid var(--line);border-radius:999px;padding:4px 12px;white-space:nowrap;font-size:.85rem;max-width:30vw;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:820px){.chap{display:none}}
+/* Figures supplémentaires */
+.fig-svg .seg2{stroke:var(--paper-ink);stroke-width:2.5;stroke-linecap:round}
+.fig-svg .seg2.acc{stroke:var(--o1);stroke-width:3.5}
+.fig-svg .mark{fill:none;stroke:var(--paper-ink);stroke-width:2}
+.fig-svg .arcm{fill:none;stroke:var(--o0);stroke-width:2.5}
+.fig-svg .curve{fill:none;stroke:var(--o1);stroke-width:3.5;stroke-linejoin:round;stroke-linecap:round}
+.fig-svg .axl{stroke:var(--paper-ink);stroke-width:2}
+.fig-svg .tick{font-size:13px;fill:var(--paper-mute)}
+.fig-svg .barr{fill:var(--o1);fill-opacity:.85}
+.vtab{border-collapse:collapse;font-size:clamp(1.2rem,2.4vw,2rem);font-weight:700;color:var(--paper-ink);margin:auto}
+.vtab td{border:2px solid var(--paper-ink);padding:.35em .9em;text-align:center;font-variant-numeric:tabular-nums}
+.vtab td:first-child{background:#e9edf6}
+
+
+.fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.1;margin:0 .1em;font-size:.88em}
+.fr>span{display:block;padding:0 .18em;white-space:nowrap}
+.fr>span:first-child{border-bottom:.09em solid currentColor;padding-bottom:.06em}
+.fr>span:last-child{padding-top:.06em}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.4/peerjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+<div class="app">
+<!-- ============ ACCUEIL (prof) ============ -->
+<section class="screen" id="home" hidden>
+  <div>
+    <div class="eyebrow">Quiz de classe · Collège</div>
+    <h1>Arène<span>Maths</span></h1>
+    <p class="lede">Les élèves rejoignent la partie sur leur téléphone avec un QR code ou un code à 6 chiffres. Les questions s'affichent au tableau, les réponses arrivent en direct. Choisissez un ou plusieurs chapitres de 3ème : la partie mélange leurs questions.</p>
+    <div class="motif" aria-hidden="true">
+      <svg viewBox="0 0 448 288">
+        <g stroke="#dbe2ef" stroke-width="1">
+          <path d="M0 0V288M32 0V288M64 0V288M96 0V288M128 0V288M160 0V288M192 0V288M224 0V288M256 0V288M288 0V288M320 0V288M352 0V288M384 0V288M416 0V288M448 0V288"/>
+          <path d="M0 0H448M0 32H448M0 64H448M0 96H448M0 128H448M0 160H448M0 192H448M0 224H448M0 256H448M0 288H448"/>
+        </g>
+        <line x1="224" y1="0" x2="224" y2="288" stroke="#e0505b" stroke-width="2.5" stroke-dasharray="10 6"/>
+        <polygon points="288,160 320,160 320,96 352,96 352,64 288,64" fill="rgba(28,34,66,.16)" stroke="#1c2242" stroke-width="3" stroke-linejoin="round"/>
+        <text x="296" y="142" font-family="Atkinson Hyperlegible,sans-serif" font-weight="700" fill="#1c2242" font-size="16">F</text>
+        <polygon points="160,160 128,160 128,96 96,96 96,64 160,64" fill="rgba(224,80,91,.2)" stroke="#e0505b" stroke-width="3" stroke-linejoin="round"/>
+        <g class="ghost">
+          <polygon points="288,160 320,160 320,96 352,96 352,64 288,64" fill="rgba(46,118,214,.18)" stroke="#2e76d6" stroke-width="3" stroke-linejoin="round" stroke-dasharray="6 4"/>
+        </g>
+        <circle cx="224" cy="176" r="5" fill="#1c2242"/>
+        <text x="232" y="196" font-family="Atkinson Hyperlegible,sans-serif" font-weight="700" fill="#1c2242" font-size="16">O</text>
+      </svg>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div>
+      <h2>Mode de jeu</h2>
+      <div class="seg" role="radiogroup">
+        <label><input type="radio" name="mode" id="m-live" value="live" checked>En direct · téléphones</label>
+        <label><input type="radio" name="mode" id="m-classe" value="classe">Équipes · cartons</label>
+        <label><input type="radio" name="mode" id="m-solo" value="solo">Solo</label>
+      </div>
+    </div>
+    <div id="teamCfg" hidden>
+      <h2>Équipes</h2>
+      <div class="teams" id="teamList"></div>
+      <div class="row" style="margin-top:8px">
+        <button class="mini" type="button" id="tMinus">− Équipe</button>
+        <button class="mini" type="button" id="tPlus">+ Équipe</button>
+        <p class="hint">Les élèves lèvent des cartons A, B, C, D ; vous cochez les équipes gagnantes.</p>
+      </div>
+    </div>
+    <div class="row" style="gap:18px;align-items:flex-start">
+      <div>
+        <h2>Partie</h2>
+        <div class="seg">
+          <label><input type="radio" name="len" id="len-10" value="10">10</label>
+          <label><input type="radio" name="len" id="len-20" value="20" checked>20</label>
+          <label><input type="radio" name="len" id="len-30" value="30">30</label>
+          <label><input type="radio" name="len" id="len-all" value="999">Toutes</label>
+        </div>
+      </div>
+      <div>
+        <h2>Chrono</h2>
+        <div class="seg">
+          <label><input type="radio" name="tm" id="tm-1" value="1" checked>Normal</label>
+          <label><input type="radio" name="tm" id="tm-15" value="1.5">Long ×1,5</label>
+        </div>
+      </div>
+    </div>
+    <div class="row" style="justify-content:space-between">
+      <p class="hint"><kbd>Espace</kbd> révéler / suivant · <kbd>F</kbd> plein écran</p>
+      <button class="go" type="button" id="start">Ouvrir la salle</button>
+    </div>
+  </div>
+
+  <div class="chapters">
+    <div class="row" style="justify-content:space-between">
+      <h2 class="title2" style="font-size:clamp(1.3rem,2.4vw,1.9rem)">Chapitres de 3ème</h2>
+      <div class="row"><span class="selinfo" id="selInfo"></span><button class="mini" type="button" id="selAll">Tout cocher</button><button class="mini" type="button" id="selNone">Tout décocher</button></div>
+    </div>
+    <div class="domains" id="domains"></div>
+  </div>
+</section>
+
+<!-- ============ SALLE D'ATTENTE ============ -->
+<section class="screen" id="lobby" hidden>
+  <div class="bar">
+    <div class="brand">Arène Maths</div>
+    <div class="status" id="netStatus">Ouverture de la salle…</div>
+    <div style="flex:1"></div>
+    <button class="ibtn" type="button" id="fs2">Plein écran</button>
+    <button class="ibtn" type="button" id="closeRoom">Fermer la salle</button>
+  </div>
+  <div class="lobby">
+    <div class="joinbox">
+      <div class="eyebrow">Scanne pour jouer</div>
+      <div class="qr" id="qr" hidden></div>
+      <p class="url" id="joinUrl"></p>
+      <div class="pinlabel">Code de la partie</div>
+      <div class="pin" id="pin" hidden>······</div>
+      <p class="warn" id="fileWarn" hidden>Ce fichier est ouvert depuis l'ordinateur : le QR code ne marchera pas sur les téléphones. Mettez-le en ligne (voir la notice) puis ouvrez-le depuis son adresse https.</p>
+    </div>
+    <div class="roster">
+      <div class="row" style="justify-content:space-between">
+        <h2 class="title2"><span id="nPl">0</span> <span id="nPlW">joueur</span></h2>
+        <button class="go" type="button" id="liveStart" disabled>Lancer la partie</button>
+      </div>
+      <p class="hint">Les pseudos apparaissent ici. Cliquez sur un pseudo pour le retirer de la partie.</p>
+      <div class="chips" id="roster"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ QUESTION ============ -->
+<section class="screen" id="quiz" hidden>
+  <div class="bar">
+    <div class="brand">Arène Maths</div>
+    <div class="qn" id="qn">1 / 16</div>
+    <div class="chap" id="chap"></div>
+    <div class="dots" id="dots"></div>
+    <div class="score" id="soloScore" hidden>0</div>
+    <button class="ibtn" type="button" id="snd" aria-pressed="true">Son : oui</button>
+    <button class="ibtn" type="button" id="fs">Plein écran</button>
+    <button class="ibtn" type="button" id="quit">Quitter</button>
+  </div>
+  <h2 class="prompt" id="prompt"></h2>
+  <div class="stage">
+    <div class="board" id="boardArea"></div>
+    <div class="side" id="side">
+      <div class="clock" id="clock">
+        <svg viewBox="0 0 120 120"><circle class="track" cx="60" cy="60" r="52"/><circle class="ring" id="ring" cx="60" cy="60" r="52"/></svg>
+        <b id="secs">20</b>
+      </div>
+      <div class="answered" id="answered" hidden></div>
+      <div id="after" hidden style="display:grid;gap:12px">
+        <div class="verdict" id="verdict"></div>
+        <div class="explain"><h3>Pourquoi</h3><div id="explain"></div></div>
+        <div class="who" id="who" hidden><h3>Équipes qui ont trouvé</h3><div class="chips" id="chips"></div></div>
+      </div>
+      <button class="next reveal-btn" type="button" id="revealBtn">Révéler la réponse</button>
+      <button class="next" type="button" id="nextBtn" hidden>Suivant</button>
+    </div>
+  </div>
+  <div class="tiles" id="tiles"></div>
+</section>
+
+<!-- ============ CLASSEMENT ============ -->
+<section class="screen" id="rank" hidden>
+  <div class="row" style="justify-content:space-between">
+    <h2 class="title2">Classement</h2>
+    <div class="qn" id="rankInfo"></div>
+  </div>
+  <div class="lb" id="lb"></div>
+  <div class="foot"><button class="go" type="button" id="rankNext">Question suivante</button></div>
+</section>
+
+<!-- ============ FIN ============ -->
+<section class="screen" id="end" hidden>
+  <h2 class="title2" id="endTitle">Podium</h2>
+  <div id="endBody" style="min-height:0;display:flex;flex-direction:column"></div>
+  <div class="foot">
+    <button class="mini" type="button" id="home2">Accueil</button>
+    <button class="go" type="button" id="again">Rejouer</button>
+  </div>
+</section>
+
+<!-- ============ TÉLÉPHONE ÉLÈVE ============ -->
+<section class="screen" id="player" hidden></section>
+</div>
+<canvas id="confetti" hidden></canvas>
+
+<script>
+
+/* ================= Géométrie ================= */
+const LET=['A','B','C','D'];
+const ap=(s,f)=>({pts:s.pts.map(f),lab:f(s.lab)});
+const sh=(dx,dy)=>p=>[p[0]+dx,p[1]+dy];
+const reflX=a=>p=>[2*a-p[0],p[1]];
+const rot=(ox,oy,deg)=>p=>{const r=deg*Math.PI/180,c=Math.round(Math.cos(r)*1e9)/1e9,s=Math.round(Math.sin(r)*1e9)/1e9,dx=p[0]-ox,dy=p[1]-oy;return[ox+c*dx-s*dy,oy+s*dx+c*dy]};
+const hom=(ox,oy,k)=>p=>[ox+k*(p[0]-ox),oy+k*(p[1]-oy)];
+// Figure de base F (en L, sans symétrie) et quelques variantes « pièges »
+const S={pts:[[0,0],[1,0],[1,2],[2,2],[2,3],[0,3]],lab:[.5,1]};
+const M=ap(S,p=>[2-p[0],p[1]]);      // en miroir
+const R=ap(S,p=>[2-p[0],3-p[1]]);    // demi-tour
+const Rc=ap(S,p=>[3-p[1],p[0]]);     // quart de tour direct
+const Tri={pts:[[0,0],[2,0],[0,1]],lab:[.62,.34]};
+const Tri2=ap(Tri,p=>[2*p[0],2*p[1]]);
+
+/* ================= Questions : Transformations 3ème ================= */
+const F3=ap(S,sh(3,5)), F4=ap(S,sh(2,4)), F5=ap(S,sh(9,7)), F6=ap(Tri,sh(11,7)), F2=ap(S,sh(2,1));
+const QUESTIONS=[
+{prompt:"Par quelle transformation passe-t-on de la figure F à la figure F′ ?",time:20,
+ fig:{w:14,h:8,alt:"Deux figures F et F′ de même orientation",items:[{t:'shape',s:ap(S,sh(1,1)),role:'F',name:'F'},{t:'shape',s:ap(S,sh(8,3)),role:'Fp',name:'F′'}]},
+ opts:["Une symétrie axiale","Une symétrie centrale","Une translation","Une rotation de 90°"],ok:2,
+ exp:"F et F′ ont exactement la même orientation : chaque point glisse de 7 carreaux vers la droite et de 2 vers le haut. C'est une translation."},
+{prompt:"Par quelle transformation passe-t-on de F à F′ ?",time:20,
+ fig:{w:14,h:8,alt:"F et F′ symétriques par rapport au point O",items:[{t:'shape',s:F2,role:'F',name:'F'},{t:'shape',s:ap(F2,rot(7,4,180)),role:'Fp',name:'F′'},{t:'pt',p:[7,4],name:'O'}]},
+ opts:["Une symétrie d'axe vertical","La symétrie de centre O","Une translation","Une homothétie de rapport 2"],ok:1,
+ exp:"F′ est F tournée d'un demi-tour autour de O : O est le milieu de chaque segment [MM′]. C'est la symétrie de centre O."},
+{prompt:"Quelle figure est l'image de F par la symétrie d'axe (d) ?",time:25,pick:'Figure',
+ fig:{w:16,h:10,alt:"Figure F, axe (d) et quatre figures A à D",items:[{t:'axis',x:7,name:'(d)'},{t:'shape',s:F3,role:'F',name:'F'},
+   {t:'shape',s:ap(F3,reflX(7)),opt:0},{t:'shape',s:ap(S,sh(9,1)),opt:1},{t:'shape',s:ap(R,sh(12,5)),opt:2},{t:'shape',s:ap(M,sh(3,1)),opt:3}]},
+ ok:0,exp:"L'image est de l'autre côté de (d), à la même distance, et « en miroir ». {1} a seulement glissé, {2} a fait un demi-tour, {3} est bien en miroir mais du même côté que F."},
+{prompt:"Quelle figure est l'image de F par la translation qui transforme M en N ?",time:25,pick:'Figure',
+ fig:{w:16,h:10,alt:"Vecteur de M vers N, figure F et quatre figures A à D",items:[{t:'vec',a:[1,1],b:[5,2],na:'M',nb:'N'},{t:'shape',s:F4,role:'F',name:'F'},
+   {t:'shape',s:ap(F4,sh(4,1)),opt:0},{t:'shape',s:ap(F4,sh(8,2)),opt:1},{t:'shape',s:ap(M,sh(7,0)),opt:2},{t:'shape',s:ap(R,sh(12,1)),opt:3}]},
+ ok:0,exp:"Chaque point de F se déplace comme M vers N : 4 carreaux à droite et 1 vers le haut, sans tourner ni se retourner. {1} s'est déplacée deux fois trop loin."},
+{prompt:"Quelle figure est l'image de F par la rotation de centre O, d'angle 90°, dans le sens inverse des aiguilles d'une montre ?",time:30,pick:'Figure',
+ fig:{w:16,h:12,alt:"Point O, figure F et quatre figures A à D",items:[{t:'pt',p:[7,6],name:'O'},{t:'shape',s:F5,role:'F',name:'F'},
+   {t:'shape',s:ap(F5,rot(7,6,90)),opt:0},{t:'shape',s:ap(F5,rot(7,6,-90)),opt:1},{t:'shape',s:ap(F5,rot(7,6,180)),opt:2},{t:'shape',s:ap(Rc,sh(12,6)),opt:3}]},
+ ok:0,exp:"Un quart de tour vers la gauche autour de O envoie F en haut à gauche. {1} : quart de tour dans le sens des aiguilles d'une montre. {2} : demi-tour. {3} : bonne orientation, mais elle n'a pas tourné autour de O."},
+{prompt:"Quelle figure est l'image du triangle F par l'homothétie de centre O et de rapport 2 ?",time:30,pick:'Figure',
+ fig:{w:18,h:11,alt:"Point O, triangle F et quatre triangles A à D",items:[{t:'pt',p:[9,6],name:'O'},{t:'shape',s:F6,role:'F',name:'F'},
+   {t:'shape',s:ap(F6,hom(9,6,2)),opt:0},{t:'shape',s:ap(F6,hom(9,6,-2)),opt:1},{t:'shape',s:ap(Tri2,sh(12,1)),opt:2},{t:'shape',s:ap(ap(Tri2,p=>[4-p[0],p[1]]),sh(1,8)),opt:3}]},
+ ok:0,exp:"Rapport 2 : chaque image M′ est sur la demi-droite [OM) avec OM′ = 2 × OM. {1} correspond au rapport −2 (de l'autre côté de O). {2} a la bonne taille mais n'est pas alignée avec O et F."},
+{prompt:"Une homothétie de rapport −1, c'est…",time:20,
+ opts:["Une symétrie centrale","Une symétrie axiale","Une translation","Un agrandissement"],ok:0,
+ exp:"Avec k = −1, on a OM′ = OM et M′ est de l'autre côté de O : O est le milieu de [MM′]. C'est la symétrie de centre O."},
+{prompt:"Une homothétie de rapport 3 multiplie les aires par…",time:20,
+ opts:["3","6","9","27"],ok:2,
+ exp:"Les longueurs sont multipliées par 3, donc les aires par 3² = 9 (et les volumes par 3³ = 27)."},
+{prompt:"Quelle propriété n'est PAS conservée par une homothétie de rapport 2 ?",time:20,
+ opts:["L'alignement","Les mesures des angles","Les longueurs","Le parallélisme"],ok:2,
+ exp:"Une homothétie conserve l'alignement, les angles et le parallélisme. Les longueurs, elles, sont multipliées par |k| : ici elles doublent."},
+{prompt:"A′B′C′ est l'image de ABC par une homothétie de centre O. Quel est son rapport ?",time:30,
+ fig:{w:10.5,h:8.5,grid:false,caption:"OA = 2 cm   ·   OA′ = 5 cm",alt:"Triangle ABC agrandi en A′B′C′ depuis O",items:[
+   {t:'seg',a:[1,1],b:[6,3.5]},{t:'seg',a:[1,1],b:[9,7.5]},{t:'seg',a:[1,1],b:[3,6]},
+   {t:'tri',pts:[[3,2],[4.2,3.6],[1.8,3]],names:['A','B','C'],role:'F'},{t:'tri',pts:[[6,3.5],[9,7.5],[3,6]],names:['A′','B′','C′'],role:'Fp'},{t:'pt',p:[1,1],name:'O'}]},
+ opts:["2,5","3","0,4","−2,5"],ok:0,
+ exp:"A et A′ sont du même côté de O, donc le rapport est positif. k = OA′ ÷ OA = 5 ÷ 2 = 2,5."},
+{prompt:"A′B′C′ est l'image de ABC par une homothétie de centre O. Quel est son rapport ?",time:30,
+ fig:{w:12,h:7,grid:false,caption:"OA = 3 cm   ·   OA′ = 6 cm",alt:"Triangle ABC et son image A′B′C′ de l'autre côté de O",items:[
+   {t:'seg',a:[3.5,5],b:[8,2]},{t:'seg',a:[2,4.6],b:[11,2.8]},{t:'seg',a:[3,3.2],b:[9,5.6]},
+   {t:'tri',pts:[[3.5,5],[2,4.6],[3,3.2]],names:['A','B','C'],role:'F'},{t:'tri',pts:[[8,2],[11,2.8],[9,5.6]],names:['A′','B′','C′'],role:'Fp'},{t:'pt',p:[5,4],name:'O'}]},
+ opts:["2","−2","0,5","−0,5"],ok:1,
+ exp:"En valeur, OA′ ÷ OA = 6 ÷ 3 = 2. Comme O est entre A et A′, le rapport est négatif : k = −2."},
+{prompt:"Par une homothétie de rapport 0,5, un segment de 8 cm devient un segment de…",time:20,
+ opts:["16 cm","4 cm","8,5 cm","2 cm"],ok:1,
+ exp:"0,5 × 8 = 4 cm. Un rapport compris entre 0 et 1 donne une réduction."},
+{prompt:"La rotation de centre O et d'angle 180° est aussi…",time:20,
+ opts:["La symétrie de centre O","Une symétrie axiale","Une translation","Une homothétie de rapport 2"],ok:0,
+ exp:"Un demi-tour autour de O envoie chaque point M sur M′ tel que O soit le milieu de [MM′] : c'est la symétrie de centre O."},
+{prompt:"La translation qui transforme A en B transforme C en D. Quel quadrilatère est forcément un parallélogramme ?",time:25,
+ opts:["ABCD","ABDC","ACBD","ADBC"],ok:1,
+ exp:"Le même déplacement envoie A sur B et C sur D : les vecteurs AB et CD sont égaux, donc ABDC est un parallélogramme. Attention à l'ordre des lettres."},
+{prompt:"Un triangle a une aire de 4 cm². Quelle est l'aire de son image par une homothétie de rapport 1,5 ?",time:25,
+ opts:["6 cm²","9 cm²","6,25 cm²","13,5 cm²"],ok:1,
+ exp:"Les aires sont multipliées par 1,5² = 2,25 : 4 × 2,25 = 9 cm²."},
+{prompt:"Quel point est l'image de A par la rotation de centre O, d'angle 90°, dans le sens des aiguilles d'une montre ?",time:30,pick:'Point',
+ fig:{w:10,h:10,alt:"Point O, point A et quatre points A à D",items:[{t:'seg',a:[5,5],b:[8,6]},{t:'pt',p:[5,5],name:'O'},{t:'pt',p:[8,6],name:'A',big:true},
+   {t:'popt',p:[6,2],opt:0},{t:'popt',p:[4,8],opt:1},{t:'popt',p:[2,4],opt:2},{t:'popt',p:[2,6],opt:3}]},
+ ok:0,exp:"De O vers A : 3 carreaux à droite et 1 en haut. Un quart de tour dans le sens des aiguilles d'une montre donne 1 à droite et 3 en bas. {1} : sens inverse. {2} : demi-tour. {3} : symétrique par rapport à la verticale passant par O."}
+];
+QUESTIONS.forEach((q,i)=>{q.idx=i;if(!q.opts)q.opts=[null,null,null,null]});
+
+/* ================= Rendu des figures ================= */
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function renderFig(f,posOf){
+  const C=32,P=18,W=f.w*C+2*P,H=f.h*C+2*P;
+  const X=x=>(P+x*C).toFixed(1),Y=y=>(P+(f.h-y)*C).toFixed(1);
+  const pp=pts=>pts.map(p=>X(p[0])+','+Y(p[1])).join(' ');
+  const badge=(p,pos,dx=0,dy=0,r=13)=>`<g class="badge"><circle cx="${+X(p[0])+dx}" cy="${+Y(p[1])+dy}" r="${r}" fill="var(--o${pos})"/><text x="${+X(p[0])+dx}" y="${+Y(p[1])+dy+5.5}" text-anchor="middle">${LET[pos]}</text></g>`;
+  let o=`<svg class="fig-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${esc(f.alt||'Figure')}">`;
+  if(f.grid!==false){
+    let d='';for(let x=0;x<=f.w;x++)d+=`M${X(x)} ${Y(0)}V${Y(f.h)}`;for(let y=0;y<=f.h;y++)d+=`M${X(0)} ${Y(y)}H${X(f.w)}`;
+    o+=`<path class="gl" d="${d}"/>`;
+  }
+  for(const it of f.items){
+    if(it.t==='shape'){
+      if(it.opt!=null){const pos=posOf(it.opt);
+        o+=`<g class="opt" data-opt="${it.opt}" style="--c:var(--o${pos})"><polygon points="${pp(it.s.pts)}"/>${badge(it.s.lab,pos)}</g>`;
+      }else{
+        o+=`<g class="${it.role}"><polygon points="${pp(it.s.pts)}"/><text x="${X(it.s.lab[0])}" y="${+Y(it.s.lab[1])+6}" text-anchor="middle" font-size="17">${esc(it.name)}</text></g>`;
+      }
+    }else if(it.t==='tri'){
+      const g=[0,1].map(k=>it.pts.reduce((a,p)=>a+p[k],0)/3);
+      o+=`<g class="${it.role}"><polygon points="${pp(it.pts)}"/>`;
+      it.pts.forEach((p,i)=>{const vx=p[0]-g[0],vy=p[1]-g[1],n=Math.hypot(vx,vy)||1;const q=[p[0]+.45*vx/n,p[1]+.45*vy/n];
+        o+=`<text x="${X(q[0])}" y="${+Y(q[1])+6}" text-anchor="middle" font-size="17">${esc(it.names[i])}</text>`});
+      o+=`</g>`;
+    }else if(it.t==='pt'){
+      const x=+X(it.p[0]),y=+Y(it.p[1]),r=it.big?7:6;
+      o+=`<path class="cross" d="M${x-r} ${y-r}L${x+r} ${y+r}M${x-r} ${y+r}L${x+r} ${y-r}"/><text x="${x+9}" y="${y+22}" font-size="18">${esc(it.name)}</text>`;
+    }else if(it.t==='popt'){
+      const pos=posOf(it.opt);
+      o+=`<g class="ptopt" data-opt="${it.opt}"><circle cx="${X(it.p[0])}" cy="${Y(it.p[1])}" r="6" fill="var(--o${pos})"/>${badge(it.p,pos,17,-17,12)}</g>`;
+    }else if(it.t==='axis'){
+      o+=`<line class="axis" x1="${X(it.x)}" y1="${Y(0)}" x2="${X(it.x)}" y2="${Y(f.h)}"/><text class="axis-l" x="${+X(it.x)+8}" y="${+Y(f.h)+18}" font-size="17">${esc(it.name)}</text>`;
+    }else if(it.t==='seg'){
+      o+=`<line class="dash" x1="${X(it.a[0])}" y1="${Y(it.a[1])}" x2="${X(it.b[0])}" y2="${Y(it.b[1])}"/>`;
+    }else if(it.t==='vec'){
+      const ax=+X(it.a[0]),ay=+Y(it.a[1]),bx=+X(it.b[0]),by=+Y(it.b[1]),ang=Math.atan2(by-ay,bx-ax),L=14;
+      const h1=[bx-L*Math.cos(ang-.4),by-L*Math.sin(ang-.4)],h2=[bx-L*Math.cos(ang+.4),by-L*Math.sin(ang+.4)];
+      o+=`<line class="vec" x1="${ax}" y1="${ay}" x2="${bx-6*Math.cos(ang)}" y2="${by-6*Math.sin(ang)}"/><polygon class="arrowhead" points="${bx},${by} ${h1[0].toFixed(1)},${h1[1].toFixed(1)} ${h2[0].toFixed(1)},${h2[1].toFixed(1)}"/>`;
+      o+=`<circle cx="${ax}" cy="${ay}" r="4" fill="var(--paper-ink)"/><text x="${ax-6}" y="${ay+22}" font-size="17">${esc(it.na)}</text><text x="${bx+4}" y="${by-10}" font-size="17">${esc(it.nb)}</text>`;
+    }else o+=figExtraItem(it,X,Y);
+  }
+  return o+'</svg>';
+}
+
+
+
+
+/* Fractions affichées avec une barre horizontale */
+const _N='(?:\\d{1,3}(?: \\d{3})+|\\d+(?:,\\d+)?)[²³⁰¹⁴⁵⁶⁷⁸⁹⁻]*',_P='[A-Z]{1,3}′?';
+const FRAC=new RegExp(`(?<![\\wÀ-ÿ′,])(${_N}|${_P})\\/(${_N}|${_P}|[a-z])(?![\\wÀ-ÿ])`,'g');
+const frHTML=(n,d)=>`<span class="fr"><span>${n}</span><span>${d}</span></span>`;
+function fmt(t){
+  return esc(t).replace(/⟦([^|⟧]+)\|([^⟧]+)⟧/g,(m,n,d)=>frHTML(n,d)).replace(FRAC,(m,n,d)=>frHTML(n,d));
+}
+/* ================= Figures supplémentaires ================= */
+function figExtraItem(it,X,Y){
+  const pt=p=>[+X(p[0]),+Y(p[1])];
+  if(it.t==='line'){const a=pt(it.a),b=pt(it.b);return `<line class="seg2${it.c?' '+it.c:''}" x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}"/>`}
+  if(it.t==='dot'){const a=pt(it.p);return `<circle cx="${a[0]}" cy="${a[1]}" r="3.5" fill="var(--paper-ink)"/>`}
+  if(it.t==='lbl'){const a=pt(it.p);return `<text x="${a[0]+(it.dx||0)}" y="${a[1]+(it.dy||0)}" font-size="${it.big?24:17}">${esc(it.s)}</text>`}
+  if(it.t==='right'||it.t==='arc'){
+    const v=pt(it.v),p=pt(it.p),q=pt(it.q);
+    const u=[p[0]-v[0],p[1]-v[1]],w=[q[0]-v[0],q[1]-v[1]],nu=Math.hypot(...u),nw=Math.hypot(...w);
+    if(it.t==='right'){const s=14,a=[v[0]+s*u[0]/nu,v[1]+s*u[1]/nu],c=[v[0]+s*w[0]/nw,v[1]+s*w[1]/nw],m=[a[0]+c[0]-v[0],a[1]+c[1]-v[1]];
+      return `<polyline class="mark" points="${a.join(',')} ${m.join(',')} ${c.join(',')}"/>`}
+    const r=34,a1=Math.atan2(u[1],u[0]),a2=Math.atan2(w[1],w[0]);
+    const d=((a2-a1)%(2*Math.PI)+2*Math.PI)%(2*Math.PI),sw=d<Math.PI?1:0;
+    const s=[v[0]+r*Math.cos(a1),v[1]+r*Math.sin(a1)],e=[v[0]+r*Math.cos(a2),v[1]+r*Math.sin(a2)];
+    return `<path class="arcm" d="M${s[0].toFixed(1)},${s[1].toFixed(1)} A${r},${r} 0 0 ${sw} ${e[0].toFixed(1)},${e[1].toFixed(1)}"/>`;
+  }
+  return '';
+}
+function renderGraph(f){
+  const C=40,P=28,[x0,x1]=f.x,[y0,y1]=f.y,W=(x1-x0)*C+2*P,H=(y1-y0)*C+2*P;
+  const X=x=>(P+(x-x0)*C),Y=y=>(P+(y1-y)*C);
+  let o=`<svg class="fig-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${esc(f.alt||'Graphique')}">`;
+  let d='';for(let x=x0;x<=x1;x++)d+=`M${X(x)} ${Y(y0)}V${Y(y1)}`;for(let y=y0;y<=y1;y++)d+=`M${X(x0)} ${Y(y)}H${X(x1)}`;
+  o+=`<path class="gl" d="${d}"/>`;
+  o+=`<line class="axl" x1="${X(x0)}" y1="${Y(0)}" x2="${X(x1)}" y2="${Y(0)}"/><line class="axl" x1="${X(0)}" y1="${Y(y0)}" x2="${X(0)}" y2="${Y(y1)}"/>`;
+  o+=`<polygon class="arrowhead" points="${X(x1)+8},${Y(0)} ${X(x1)-2},${Y(0)-6} ${X(x1)-2},${Y(0)+6}"/><polygon class="arrowhead" points="${X(0)},${Y(y1)-8} ${X(0)-6},${Y(y1)+2} ${X(0)+6},${Y(y1)+2}"/>`;
+  for(let x=x0;x<x1;x++)if(x!==0)o+=`<text class="tick" x="${X(x)}" y="${Y(0)+17}" text-anchor="middle">${String(x).replace('-','−')}</text>`;
+  for(let y=y0;y<y1;y++)if(y!==0)o+=`<text class="tick" x="${X(0)-7}" y="${Y(y)+4}" text-anchor="end">${String(y).replace('-','−')}</text>`;
+  o+=`<text class="tick" x="${X(0)-7}" y="${Y(0)+17}" text-anchor="end">0</text>`;
+  let pts=f.pts;
+  if(f.line){const {m,p}=f.line;let xa=x0,xb=x1;
+    if(m!==0){const ya=(y0-p)/m,yb=(y1-p)/m;xa=Math.max(x0,Math.min(ya,yb));xb=Math.min(x1,Math.max(ya,yb))}
+    pts=[[xa,m*xa+p],[xb,m*xb+p]]}
+  o+=`<polyline class="curve" points="${pts.map(q=>X(q[0]).toFixed(1)+','+Y(q[1]).toFixed(1)).join(' ')}"/>`;
+  if(f.name)o+=`<text x="${X(f.nameAt[0])}" y="${Y(f.nameAt[1])}" font-size="20" style="fill:var(--o1)">${esc(f.name)}</text>`;
+  return o+'</svg>';
+}
+function renderBars(f){
+  const n=f.values.length,bw=70,gap=40,C=28,L=56,B=58,T=24;
+  const W=L+n*(bw+gap)+gap/2,H=T+f.ymax*C+B;
+  const Y=v=>T+(f.ymax-v)*C;
+  let o=`<svg class="fig-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${esc(f.alt||'Diagramme')}">`;
+  for(let v=0;v<=f.ymax;v++){o+=`<line class="gl" x1="${L}" y1="${Y(v)}" x2="${W}" y2="${Y(v)}"/><text class="tick" x="${L-8}" y="${Y(v)+4}" text-anchor="end">${v}</text>`}
+  f.values.forEach((v,i)=>{const x=L+gap/2+i*(bw+gap);
+    o+=`<rect class="barr" x="${x}" y="${Y(v)}" width="${bw}" height="${v*C}"/><text x="${x+bw/2}" y="${Y(0)+22}" text-anchor="middle" font-size="17">${esc(f.labels[i])}</text>`});
+  o+=`<line class="axl" x1="${L}" y1="${Y(0)}" x2="${W}" y2="${Y(0)}"/><line class="axl" x1="${L}" y1="${Y(0)}" x2="${L}" y2="${T-10}"/>`;
+  o+=`<text class="tick" x="${(L+W)/2}" y="${H-8}" text-anchor="middle" style="font-size:15px">${esc(f.xlabel||'')}</text>`;
+  o+=`<text class="tick" x="${L-8}" y="${T-12}" text-anchor="start" style="font-size:14px">${esc(f.ylabel||'')}</text>`;
+  return o+'</svg>';
+}
+function renderTable(f){
+  return `<table class="vtab">${f.rows.map(r=>`<tr>${r.map(c=>`<td>${esc(c)}</td>`).join('')}</tr>`).join('')}</table>`;
+}
+
+
+/* ================= Banque de questions — 3ème ================= */
+// Dans chaque question, la bonne réponse est la première (l'ordre est mélangé à l'affichage).
+const Q=(prompt,opts,exp,x={})=>Object.assign({prompt,opts,ok:0,exp},x);
+const lerp=(a,b,t)=>[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t];
+function thalesFig(t,cap){
+  const A=[1,1],B=[5,7],C=[11,1],M=lerp(A,B,t),N=lerp(A,C,t);
+  return {w:12,h:8,grid:false,caption:cap,alt:"Triangle ABC, M sur [AB], N sur [AC], (MN) parallèle à (BC)",items:[
+    {t:'line',a:A,b:B},{t:'line',a:A,b:C},{t:'line',a:B,b:C},{t:'line',a:M,b:N,c:'acc'},
+    {t:'dot',p:A},{t:'dot',p:B},{t:'dot',p:C},{t:'dot',p:M},{t:'dot',p:N},
+    {t:'lbl',p:A,s:'A',dx:-20,dy:18},{t:'lbl',p:B,s:'B',dx:-6,dy:-12},{t:'lbl',p:C,s:'C',dx:8,dy:18},
+    {t:'lbl',p:M,s:'M',dx:-24,dy:0},{t:'lbl',p:N,s:'N',dx:-5,dy:24}]};
+}
+const trigFig=cap=>({w:11.5,h:8,grid:false,caption:cap,alt:"Triangle ABC rectangle en B",items:[
+  {t:'line',a:[2,1],b:[10,1]},{t:'line',a:[2,1],b:[2,7]},{t:'line',a:[10,1],b:[2,7]},
+  {t:'right',v:[2,1],p:[10,1],q:[2,7]},{t:'arc',v:[10,1],p:[2,1],q:[2,7]},
+  {t:'lbl',p:[10,1],s:'A',dx:8,dy:18},{t:'lbl',p:[2,1],s:'B',dx:-22,dy:18},{t:'lbl',p:[2,7],s:'C',dx:-22,dy:-2},
+  {t:'lbl',p:[6,1],s:'4 cm',dx:-18,dy:24},{t:'lbl',p:[2,4],s:'3 cm',dx:-54,dy:6},{t:'lbl',p:[6,4],s:'5 cm',dx:12,dy:-4}]});
+const pythFig={w:11.5,h:8,grid:false,alt:"Triangle rectangle de côtés 6 cm et 8 cm",items:[
+  {t:'line',a:[2,1],b:[10,1]},{t:'line',a:[2,1],b:[2,7]},{t:'line',a:[10,1],b:[2,7],c:'acc'},
+  {t:'right',v:[2,1],p:[10,1],q:[2,7]},
+  {t:'lbl',p:[2,4],s:'6 cm',dx:-54,dy:6},{t:'lbl',p:[6,1],s:'8 cm',dx:-18,dy:24},{t:'lbl',p:[6,4],s:'?',dx:14,dy:-4,big:1}]};
+const fGraph={kind:'graph',x:[-5,5],y:[-3,5],pts:[[-4,-2],[-2,2],[0,0],[2,4],[4,2]],name:'𝒞f',nameAt:[3.2,3.6],alt:"Courbe de la fonction f"};
+
+const CHAPTERS=[
+{id:'calc',dom:'Nombres et calculs',title:'Calcul numérique',sub:'Fractions, relatifs, priorités',time:30,questions:[
+ Q("2/3 + 1/4 = ?",["11/12","3/7","3/12","2/12"],"On met au même dénominateur 12 : 8/12 + 3/12 = 11/12. On n'additionne jamais les dénominateurs."),
+ Q("3/5 × 10/9 = ?",["2/3","13/14","30/14","13/45"],"On multiplie numérateurs et dénominateurs : 30/45, qui se simplifie par 15 en 2/3."),
+ Q("(2/3) ÷ (4/9) = ?",["3/2","8/27","2/3","6/12"],"Diviser par 4/9, c'est multiplier par son inverse 9/4 : 2/3 × 9/4 = 18/12 = 3/2."),
+ Q("−3 × (−4) − 5 = ?",["7","−17","17","−7"],"La multiplication d'abord : −3 × (−4) = 12, puis 12 − 5 = 7."),
+ Q("5 + 3 × 2² = ?",["17","64","41","25"],"Priorités : la puissance (2² = 4), puis la multiplication (3 × 4 = 12), puis l'addition : 5 + 12 = 17."),
+ Q("Quel est l'inverse de −4 ?",["−1/4","4","1/4","−4"],"L'inverse de a est 1/a : (−4) × (−1/4) = 1. L'opposé, lui, serait 4."),
+ Q("1 − 2/5 = ?",["3/5","−1/5","1/5","1/3"],"1 = 5/5, donc 5/5 − 2/5 = 3/5."),
+ Q("Quel est l'opposé de 7/3 ?",["−7/3","3/7","−3/7","7/3"],"L'opposé change le signe : 7/3 + (−7/3) = 0. 3/7 est l'inverse."),
+ Q("−2 − (−9) = ?",["7","−11","11","−7"],"Soustraire −9, c'est ajouter 9 : −2 + 9 = 7."),
+]},
+{id:'arith',dom:'Nombres et calculs',title:'Arithmétique',sub:'Nombres premiers, diviseurs, fractions irréductibles',time:30,questions:[
+ Q("Lequel de ces nombres est premier ?",["37","39","51","57"],"39 = 3 × 13, 51 = 3 × 17 et 57 = 3 × 19. 37 n'a que deux diviseurs : 1 et 37.",{time:25}),
+ Q("Quelle est la décomposition de 60 en produit de facteurs premiers ?",["2² × 3 × 5","2 × 3 × 10","4 × 15","2 × 30"],"60 = 2 × 2 × 3 × 5. Les nombres 4, 10, 15 et 30 ne sont pas premiers."),
+ Q("Combien vaut 2³ × 3² ?",["72","36","30","54"],"2³ = 8 et 3² = 9, donc 8 × 9 = 72."),
+ Q("Quelle est la forme irréductible de 84/126 ?",["2/3","42/63","12/18","4/6"],"84 = 2² × 3 × 7 et 126 = 2 × 3² × 7 : on simplifie par 2 × 3 × 7 = 42, ce qui donne 2/3."),
+ Q("Quel nombre est un diviseur commun à 42 et 70 ?",["14","6","10","21"],"42 = 14 × 3 et 70 = 14 × 5. 6 ne divise pas 70, 10 ne divise pas 42, 21 ne divise pas 70."),
+ Q("Le nombre 1 est-il premier ?",["Non, il n'a qu'un seul diviseur","Oui, il n'est divisible que par 1","Oui, comme tous les nombres impairs","Non, car il est pair"],"Un nombre premier a exactement deux diviseurs distincts : 1 et lui-même. 1 n'en a qu'un.",{time:20}),
+ Q("Un nombre entier est divisible par 9 si…",["la somme de ses chiffres est divisible par 9","il se termine par 9","son chiffre des unités est 0 ou 9","il est divisible par 3"],"Critère de divisibilité par 9 : la somme des chiffres est un multiple de 9. Exemple : 4 5 9 → 4 + 5 + 9 = 18.",{time:20}),
+ Q("Avec 24 crayons et 36 gommes, on fait des lots identiques en utilisant tout. Nombre maximal de lots ?",["12","6","4","72"],"Il faut le plus grand diviseur commun de 24 et 36 : 12 lots de 2 crayons et 3 gommes."),
+ Q("Quel est le plus petit nombre premier ?",["2","1","0","3"],"2 a exactement deux diviseurs (1 et 2). C'est le seul nombre premier pair.",{time:15}),
+ Q("Lequel n'est PAS un multiple de 7 ?",["87","91","63","112"],"91 = 7 × 13, 63 = 7 × 9, 112 = 7 × 16. Mais 87 = 3 × 29."),
+]},
+{id:'puis',dom:'Nombres et calculs',title:'Puissances',sub:'Puissances de 10, notation scientifique',time:25,questions:[
+ Q("10³ × 10⁵ = ?",["10⁸","10¹⁵","100⁸","10²"],"On multiplie des puissances de 10 : on additionne les exposants, 3 + 5 = 8."),
+ Q("10⁷ / 10³ = ?",["10⁴","10¹⁰","10²¹","1⁴"],"On divise : on soustrait les exposants, 7 − 3 = 4."),
+ Q("(10²)³ = ?",["10⁶","10⁵","10⁸","10⁹"],"(10²)³ = 10² × 10² × 10² : on multiplie les exposants, 2 × 3 = 6."),
+ Q("10⁻³ s'écrit…",["0,001","−1 000","0,000 1","−0,001"],"10⁻³ = 1/10³ = 1/1 000 = 0,001. Un exposant négatif ne rend pas le nombre négatif."),
+ Q("Notation scientifique de 45 000 ?",["4,5 × 10⁴","45 × 10³","4,5 × 10³","0,45 × 10⁵"],"La mantisse doit être entre 1 et 10 (10 exclu) : 45 000 = 4,5 × 10 000 = 4,5 × 10⁴."),
+ Q("Notation scientifique de 0,000 32 ?",["3,2 × 10⁻⁴","3,2 × 10⁴","32 × 10⁻⁵","3,2 × 10⁻³"],"On décale la virgule de 4 rangs vers la droite pour obtenir 3,2 : 0,000 32 = 3,2 × 10⁻⁴."),
+ Q("(−2)⁴ = ?",["16","−16","−8","8"],"(−2) × (−2) × (−2) × (−2) = 16 : un nombre pair de facteurs négatifs donne un résultat positif."),
+ Q("−2⁴ = ?",["−16","16","−8","8"],"Sans parenthèses, seul le 2 est élevé à la puissance : −2⁴ = −(2⁴) = −16."),
+ Q("5⁰ = ?",["1","0","5","Ce n'est pas défini"],"Par convention, tout nombre non nul élevé à la puissance 0 vaut 1.",{time:15}),
+ Q("(3 × 10⁵) × (2 × 10⁻²) = ?",["6 × 10³","6 × 10⁻¹⁰","5 × 10³","6 × 10⁷"],"3 × 2 = 6 et 10⁵ × 10⁻² = 10³."),
+ Q("2⁻³ = ?",["1/8","−8","−6","1/6"],"2⁻³ = 1/2³ = 1/8."),
+]},
+{id:'litt',dom:'Nombres et calculs',title:'Calcul littéral',sub:'Développer, factoriser, identités remarquables',time:30,questions:[
+ Q("Développer 3(x + 4)",["3x + 12","3x + 4","x + 12","3x + 7"],"On distribue le 3 : 3 × x + 3 × 4 = 3x + 12.",{time:20}),
+ Q("Développer (x + 2)(x + 5)",["x² + 7x + 10","x² + 10","x² + 7x + 7","2x + 7"],"x × x + x × 5 + 2 × x + 2 × 5 = x² + 5x + 2x + 10 = x² + 7x + 10."),
+ Q("Développer (2x + 1)(x − 3)",["2x² − 5x − 3","2x² − 3","2x² − 7x − 3","3x − 2"],"Double distributivité : 2x × x + 2x × (−3) + 1 × x + 1 × (−3) = 2x² − 6x + x − 3 = 2x² − 5x − 3."),
+ Q("Factoriser (x + 1)(x + 2) + (x + 1)(3x − 5)",["(x + 1)(4x − 3)","(x + 1)(4x + 7)","(x + 1)²(4x − 3)","(x + 1) + (4x − 3)"],"Le facteur commun est (x + 1) : (x + 1)[(x + 2) + (3x − 5)] = (x + 1)(4x − 3)."),
+ Q("Développer (x − 5)(x + 5)",["x² − 25","x² + 25","x² − 10x − 25","x² − 10"],"(a − b)(a + b) = a² − b² : x² − 25."),
+ Q("Factoriser 6x + 15",["3(2x + 5)","6(x + 15)","3(2x + 15)","2(3x + 5)"],"Le facteur commun est 3 : 6x = 3 × 2x et 15 = 3 × 5. On vérifie en développant."),
+ Q("Factoriser x² − 49",["(x − 7)(x + 7)","(x − 7)²","(x − 49)(x + 1)","x(x − 49)"],"x² − 49 = x² − 7², de la forme a² − b² = (a − b)(a + b)."),
+ Q("Factoriser 5x² − 3x",["x(5x − 3)","5x(x − 3)","x(5 − 3x)","2x"],"Le facteur commun est x : 5x² = x × 5x et 3x = x × 3."),
+ Q("Valeur de 2x² − 3x pour x = −2 ?",["14","2","−2","−14"],"2 × (−2)² − 3 × (−2) = 2 × 4 + 6 = 14. On n'oublie pas que (−2)² = 4."),
+ Q("Réduire 3x − (2x − 5)",["x + 5","x − 5","5x − 5","5x + 5"],"Un signe − devant une parenthèse change tous les signes : 3x − 2x + 5 = x + 5."),
+ Q("Factoriser 9x² − 4",["(3x − 2)(3x + 2)","(9x − 2)(9x + 2)","(3x − 2)²","(3x − 4)(3x + 1)"],"9x² = (3x)² et 4 = 2² : on reconnaît a² − b² = (a − b)(a + b) avec a = 3x et b = 2."),
+]},
+{id:'equa',dom:'Nombres et calculs',title:'Équations et inéquations',sub:'Premier degré, produit nul, x² = a',time:30,questions:[
+ Q("Solution de 3x − 7 = 8 ?",["5","1/3","−5","15"],"3x = 8 + 7 = 15, donc x = 15 ÷ 3 = 5. Vérification : 3 × 5 − 7 = 8."),
+ Q("Solution de 5x + 2 = 2x − 7 ?",["−3","3","−5/7","5/3"],"5x − 2x = −7 − 2, soit 3x = −9, donc x = −3."),
+ Q("Solutions de (x − 3)(2x + 8) = 0 ?",["3 et −4","−3 et 4","3 et −8","3 et 4"],"Un produit est nul si l'un des facteurs est nul : x − 3 = 0 donne x = 3 ; 2x + 8 = 0 donne x = −4."),
+ Q("Solutions de x² = 36 ?",["6 et −6","6","18","Aucune"],"6² = 36 et (−6)² = 36 : il y a deux solutions."),
+ Q("Solutions de x² = −9 ?",["Aucune","3 et −3","−3","3"],"Un carré est toujours positif ou nul : il ne peut pas valoir −9.",{time:20}),
+ Q("x = 2 est-il solution de x² − 3x + 2 = 0 ?",["Oui","Non","Seulement si x est positif","On ne peut pas savoir"],"On remplace : 2² − 3 × 2 + 2 = 4 − 6 + 2 = 0. L'égalité est vraie."),
+ Q("Solutions de l'inéquation −2x > 6 ?",["x < −3","x > −3","x < 3","x > 3"],"On divise par −2, un nombre négatif : le sens de l'inégalité change. x < −3."),
+ Q("Un nombre augmenté de 7 est égal au triple de ce nombre. Quel est-il ?",["3,5","7","2,1","21"],"x + 7 = 3x, donc 7 = 2x et x = 3,5. Vérification : 3,5 + 7 = 10,5 = 3 × 3,5."),
+ Q("« Si on retire 5 au double d'un nombre, on obtient 11 ». Quelle équation ?",["2x − 5 = 11","2(x − 5) = 11","x² − 5 = 11","2x = 11 − 5"],"Le double du nombre : 2x. On lui retire 5 : 2x − 5. Le résultat vaut 11."),
+ Q("Solutions de x(x + 4) = 0 ?",["0 et −4","4","−4","0 et 4"],"Produit nul : x = 0 ou x + 4 = 0, c'est-à-dire x = −4."),
+]},
+{id:'prop',dom:'Données et fonctions',title:'Proportionnalité et pourcentages',sub:'Évolutions, échelles, proportionnalité',time:30,questions:[
+ Q("Augmenter une quantité de 20 % revient à la multiplier par…",["1,2","0,2","0,8","1,02"],"100 % + 20 % = 120 % = 1,2.",{time:20}),
+ Q("Diminuer une quantité de 15 % revient à la multiplier par…",["0,85","0,15","1,15","−0,15"],"100 % − 15 % = 85 % = 0,85.",{time:20}),
+ Q("Un article à 80 € est soldé à −25 %. Nouveau prix ?",["60 €","55 €","20 €","75 €"],"80 × 0,75 = 60 €. La réduction est de 20 €."),
+ Q("Un prix passe de 50 € à 60 €. Quel est le pourcentage d'augmentation ?",["20 %","10 %","16,7 %","120 %"],"L'augmentation est de 10 € sur 50 € : 10 ÷ 50 = 0,2 = 20 %."),
+ Q("Un prix augmente de 10 %, puis baisse de 10 %. Au final…",["il baisse de 1 %","il est inchangé","il augmente de 1 %","il baisse de 20 %"],"On multiplie par 1,1 puis par 0,9 : 1,1 × 0,9 = 0,99, soit une baisse de 1 %."),
+ Q("3 kg de pommes coûtent 4,50 €. Combien coûtent 5 kg ?",["7,50 €","6,50 €","9 €","7 €"],"Le kilo coûte 4,50 ÷ 3 = 1,50 €, donc 5 kg coûtent 5 × 1,50 = 7,50 €."),
+ Q("Sur une carte à l'échelle 1/25 000, 4 cm représentent…",["1 km","100 m","10 km","25 km"],"4 × 25 000 = 100 000 cm = 1 000 m = 1 km."),
+ Q("Lequel de ces tableaux est un tableau de proportionnalité ?",["2→6 ; 5→15 ; 7→21","2→4 ; 3→9 ; 4→16","1→3 ; 2→5 ; 3→7","2→6 ; 4→10 ; 6→14"],"Dans le premier, on multiplie toujours par 3. Les autres n'ont pas de coefficient constant."),
+ Q("Après une hausse de 25 %, un prix vaut 100 €. Quel était le prix initial ?",["80 €","75 €","125 €","4 €"],"Prix initial × 1,25 = 100, donc prix initial = 100 ÷ 1,25 = 80 €. Retirer 25 % de 100 € serait une erreur."),
+ Q("Quel pourcentage de 40 représente 10 ?",["25 %","4 %","40 %","10 %"],"10 ÷ 40 = 0,25 = 25 %.",{time:20}),
+]},
+{id:'fonc',dom:'Données et fonctions',title:'Notion de fonction',sub:'Image, antécédent, lecture graphique',time:30,questions:[
+ Q("f(x) = x² − 3. Quelle est l'image de −2 par f ?",["1","−7","7","−1"],"f(−2) = (−2)² − 3 = 4 − 3 = 1."),
+ Q("f(x) = 2x + 1. Quel est l'antécédent de 9 par f ?",["4","19","5","9"],"On résout 2x + 1 = 9 : 2x = 8, donc x = 4. 19 est l'image de 9, pas son antécédent."),
+ Q("On sait que f(3) = 7. Cela signifie que…",["7 est l'image de 3","3 est l'image de 7","7 est un antécédent de 3","f vaut 3 × 7"],"f(3) = 7 : par la fonction f, 3 a pour image 7 (et 3 est un antécédent de 7).",{time:20}),
+ Q("D'après le graphique, quelle est l'image de 2 par f ?",["4","1","−2","2"],"On part de 2 sur l'axe des abscisses, on monte jusqu'à la courbe et on lit l'ordonnée : 4.",{fig:fGraph}),
+ Q("D'après le graphique, quels sont les antécédents de 2 par f ?",["−2 ; 1 et 4","4","1 et 4","−2"],"On trace la droite horizontale y = 2 : elle coupe la courbe en trois points, d'abscisses −2, 1 et 4.",{fig:fGraph}),
+ Q("Quelle est l'image de 0 par f(x) = 3x² − 5x + 2 ?",["2","0","−3","10"],"f(0) = 3 × 0 − 5 × 0 + 2 = 2.",{time:20}),
+ Q("D'après ce tableau de valeurs, quelle est l'image de 2 par f ?",["−5","4","0","2"],"Dans la colonne x = 2, on lit f(2) = −5.",{time:20,fig:{kind:'table',rows:[['x','−1','0','2','4'],['f(x)','4','1','−5','2']]}}),
+ Q("Quel point appartient à la courbe de f(x) = 2x − 3 ?",["(4 ; 5)","(5 ; 4)","(0 ; 3)","(1 ; 1)"],"f(4) = 2 × 4 − 3 = 5, donc le point (4 ; 5) est sur la courbe. Pour (1 ; 1), f(1) = −1."),
+ Q("f(x) = −x². Combien vaut f(3) ?",["−9","9","−6","6"],"f(3) = −(3²) = −9. Le carré est calculé avant le signe moins."),
+]},
+{id:'aff',dom:'Données et fonctions',title:'Fonctions linéaires et affines',sub:'Coefficient, ordonnée à l’origine, représentation',time:30,questions:[
+ Q("Laquelle est une fonction linéaire ?",["f(x) = −4x","f(x) = 4x + 1","f(x) = x²","f(x) = 4/x"],"Une fonction linéaire s'écrit f(x) = ax. −4x est de cette forme, avec a = −4.",{time:20}),
+ Q("f(x) = 3x − 2. Coefficient directeur et ordonnée à l'origine ?",["3 et −2","−2 et 3","3 et 2","3x et −2"],"f(x) = ax + b avec a = 3 (coefficient directeur) et b = −2 (ordonnée à l'origine).",{time:20}),
+ Q("f est affine, f(0) = 5 et f(2) = 11. Quelle est son expression ?",["f(x) = 3x + 5","f(x) = 5x + 3","f(x) = 6x + 5","f(x) = 2x + 11"],"b = f(0) = 5 et a = (11 − 5) ÷ (2 − 0) = 3."),
+ Q("Quelle fonction est représentée par cette droite ?",["f(x) = 2x + 1","f(x) = x + 2","f(x) = 2x","f(x) = −2x + 1"],"La droite coupe l'axe des ordonnées en 1 (b = 1). Quand x augmente de 1, y augmente de 2 (a = 2).",{fig:{kind:'graph',x:[-3,3],y:[-4,6],line:{m:2,p:1},name:'𝒟',nameAt:[1.4,4.6],alt:"Droite passant par (0 ; 1) et (1 ; 3)"}}),
+ Q("La représentation graphique d'une fonction linéaire est…",["une droite qui passe par l'origine","une droite qui ne passe pas par l'origine","une parabole","une courbe quelconque"],"f(0) = a × 0 = 0 : la droite passe toujours par l'origine du repère.",{time:20}),
+ Q("f est linéaire et f(4) = 10. Combien vaut f(6) ?",["15","12","24","16"],"a = 10 ÷ 4 = 2,5, donc f(6) = 2,5 × 6 = 15."),
+ Q("f(x) = −2x + 3. Quel est son sens de variation ?",["Décroissante","Croissante","Constante","Ça dépend de x"],"Le coefficient directeur −2 est négatif : la fonction est décroissante.",{time:20}),
+ Q("Coefficient directeur de la droite passant par A(1 ; 2) et B(3 ; 8) ?",["3","6","2","1/3"],"a = (8 − 2) ÷ (3 − 1) = 6 ÷ 2 = 3."),
+ Q("f(x) = 4x − 1. Quel est l'antécédent de 7 ?",["2","27","1,5","8"],"4x − 1 = 7, donc 4x = 8 et x = 2."),
+]},
+{id:'stat',dom:'Données et fonctions',title:'Statistiques',sub:'Moyenne, médiane, étendue',time:30,questions:[
+ Q("Série : 12 ; 15 ; 9 ; 14 ; 10. Quelle est la moyenne ?",["12","9","60","10"],"Somme : 12 + 15 + 9 + 14 + 10 = 60. Moyenne : 60 ÷ 5 = 12."),
+ Q("Série : 4 ; 7 ; 8 ; 10 ; 11 ; 14 ; 16. Quelle est la médiane ?",["10","8","11","7"],"7 valeurs rangées : la médiane est la 4e, c'est-à-dire 10."),
+ Q("Quelle est la médiane de la série 3 ; 5 ; 8 ; 12 ?",["6,5","5","8","7"],"4 valeurs : la médiane est entre la 2e et la 3e, (5 + 8) ÷ 2 = 6,5. 7 est la moyenne."),
+ Q("Étendue de la série 4 ; 7 ; 8 ; 10 ; 11 ; 14 ; 16 ?",["12","16","10","4"],"Étendue = plus grande valeur − plus petite valeur = 16 − 4 = 12.",{time:20}),
+ Q("Un élève a trois notes de 12 et deux notes de 17. Quelle est sa moyenne ?",["14","14,5","29","12"],"(3 × 12 + 2 × 17) ÷ 5 = (36 + 34) ÷ 5 = 70 ÷ 5 = 14. 14,5 oublierait les effectifs."),
+ Q("La médiane d'une série…",["partage la série en deux groupes de même effectif","est toujours égale à la moyenne","est la valeur la plus fréquente","est l'écart entre la plus grande et la plus petite valeur"],"Au moins la moitié des valeurs sont inférieures ou égales à la médiane, au moins la moitié lui sont supérieures ou égales.",{time:20}),
+ Q("Moyenne des 10 garçons : 12. Moyenne des 15 filles : 14. Moyenne de la classe ?",["13,2","13","26","12,5"],"(10 × 12 + 15 × 14) ÷ 25 = (120 + 210) ÷ 25 = 13,2. Les deux groupes n'ont pas le même effectif."),
+ Q("Si on ajoute 2 points à toutes les notes d'une série, l'étendue…",["ne change pas","augmente de 2","augmente de 4","double"],"Le maximum et le minimum augmentent tous deux de 2 : leur différence reste la même.",{time:20}),
+ Q("Combien d'élèves ont au moins 2 frères et sœurs ?",["7","5","2","16"],"« Au moins 2 », c'est 2 ou 3 : 5 + 2 = 7 élèves.",{fig:{kind:'bars',labels:['0','1','2','3'],values:[4,9,5,2],ymax:10,xlabel:'Nombre de frères et sœurs',ylabel:'Effectif',alt:"Diagramme en barres : 4, 9, 5 et 2 élèves"}}),
+ Q("Quelle est la médiane du nombre de frères et sœurs ?",["1","9","1,5","2"],"20 élèves : la médiane est entre la 10e et la 11e valeur. Les valeurs de la 5e à la 13e valent 1, donc la médiane est 1.",{fig:{kind:'bars',labels:['0','1','2','3'],values:[4,9,5,2],ymax:10,xlabel:'Nombre de frères et sœurs',ylabel:'Effectif',alt:"Diagramme en barres : 4, 9, 5 et 2 élèves"}}),
+]},
+{id:'proba',dom:'Données et fonctions',title:'Probabilités',sub:'Expériences aléatoires, événements',time:25,questions:[
+ Q("On lance un dé équilibré à 6 faces. Probabilité d'obtenir 5 ?",["1/6","1/5","5/6","1/2"],"Une issue favorable sur six issues équiprobables.",{time:20}),
+ Q("Avec ce même dé, probabilité d'obtenir un nombre pair ?",["1/2","1/3","1/6","2/3"],"Issues favorables : 2, 4 et 6, soit 3 sur 6 = 1/2."),
+ Q("Une urne contient 3 boules rouges et 5 bleues. Probabilité de tirer une rouge ?",["3/8","3/5","5/8","1/3"],"3 boules rouges sur 8 boules au total : 3/8."),
+ Q("Une probabilité est toujours…",["comprise entre 0 et 1","comprise entre 0 et 100","supérieure à 1","négative ou nulle"],"0 pour un événement impossible, 1 pour un événement certain, et toutes les valeurs entre les deux.",{time:20}),
+ Q("P(A) = 0,3. Quelle est la probabilité de l'événement contraire « non A » ?",["0,7","0,3","−0,3","1,3"],"P(non A) = 1 − P(A) = 1 − 0,3 = 0,7."),
+ Q("On lance deux fois une pièce équilibrée. Probabilité d'obtenir deux fois Pile ?",["1/4","1/2","1/3","2"],"Issues : PP, PF, FP, FF. Une seule est favorable sur 4."),
+ Q("Un événement impossible a pour probabilité…",["0","1","0,5","−1"],"Il ne se réalise jamais : sa probabilité est 0.",{time:15}),
+ Q("Un sac contient 4 jetons verts, 6 jaunes et 10 rouges. Probabilité de ne PAS tirer un rouge ?",["1/2","3/10","1/5","2"],"10 jetons ne sont pas rouges sur 20 : 10/20 = 1/2."),
+ Q("Une pièce est tombée 5 fois de suite sur Pile. Au 6e lancer, la probabilité de Pile est…",["1/2","plus petite que 1/2","plus grande que 1/2","0"],"La pièce n'a pas de mémoire : chaque lancer est indépendant des précédents."),
+ Q("On tire une carte dans un jeu de 32 cartes. Probabilité de tirer un as ?",["1/8","1/32","1/4","4/52"],"Il y a 4 as sur 32 cartes : 4/32 = 1/8."),
+]},
+{id:'grand',dom:'Grandeurs et mesures',title:'Grandeurs et mesures',sub:'Vitesses, conversions, durées, débits',time:30,questions:[
+ Q("Une voiture parcourt 150 km en 2 h. Quelle est sa vitesse moyenne ?",["75 km/h","300 km/h","152 km/h","50 km/h"],"v = d ÷ t = 150 ÷ 2 = 75 km/h.",{time:20}),
+ Q("90 km/h, c'est combien en m/s ?",["25 m/s","90 000 m/s","324 m/s","1,5 m/s"],"90 km/h = 90 000 m en 3 600 s, soit 90 000 ÷ 3 600 = 25 m/s."),
+ Q("1 m³ = ? L",["1 000 L","100 L","10 L","1 000 000 L"],"1 m³ = 1 000 dm³ et 1 dm³ = 1 L.",{time:20}),
+ Q("2 h 30 min = ? h",["2,5 h","2,3 h","2,03 h","150 h"],"30 min, c'est une demi-heure : 0,5 h. Donc 2,5 h, et non 2,3 h."),
+ Q("Combien de temps faut-il pour parcourir 45 km à 30 km/h ?",["1 h 30 min","1 h 50 min","1,5 min","15 min"],"t = d ÷ v = 45 ÷ 30 = 1,5 h = 1 h 30 min."),
+ Q("3,5 dm² = ? cm²",["350 cm²","35 cm²","3 500 cm²","0,35 cm²"],"1 dm² = 100 cm², donc 3,5 dm² = 350 cm²."),
+ Q("Un robinet débite 12 L par minute. Combien de temps pour remplir 300 L ?",["25 min","3 600 min","288 min","36 min"],"300 ÷ 12 = 25 minutes."),
+ Q("250 cm³ = ? L",["0,25 L","2,5 L","25 L","250 L"],"1 L = 1 000 cm³, donc 250 cm³ = 0,25 L."),
+ Q("1 L d'eau a une masse de 1 kg. Quelle est la masse de 2,5 m³ d'eau ?",["2 500 kg","2,5 kg","250 kg","25 000 kg"],"2,5 m³ = 2 500 L, donc 2 500 kg."),
+]},
+{id:'pyth',dom:'Espace et géométrie',title:'Théorème de Pythagore',sub:'Calculer une longueur, prouver un angle droit',time:30,questions:[
+ Q("ABC est rectangle en A. Quelle est l'égalité de Pythagore ?",["BC² = AB² + AC²","AB² = BC² + AC²","AC² = AB² + BC²","BC = AB + AC"],"L'hypoténuse est le côté opposé à l'angle droit : ici [BC].",{time:20}),
+ Q("Quelle est la longueur de l'hypoténuse ?",["10 cm","14 cm","100 cm","48 cm"],"6² + 8² = 36 + 64 = 100, et √100 = 10 cm.",{fig:pythFig}),
+ Q("ABC est rectangle en C, AB = 13 cm et BC = 5 cm. Combien mesure AC ?",["12 cm","8 cm","18 cm","√194 cm"],"AB est l'hypoténuse : AC² = 13² − 5² = 169 − 25 = 144, donc AC = 12 cm."),
+ Q("Un triangle de côtés 5 cm, 12 cm et 13 cm est-il rectangle ?",["Oui","Non","On ne peut pas savoir","Seulement s'il est isocèle"],"13² = 169 et 5² + 12² = 25 + 144 = 169. D'après la réciproque de Pythagore, il est rectangle."),
+ Q("Un triangle de côtés 6 cm, 7 cm et 9 cm est-il rectangle ?",["Non","Oui","On ne peut pas savoir","Seulement si 9 est le plus grand côté"],"9² = 81 mais 6² + 7² = 85. Les deux nombres sont différents : il n'est pas rectangle."),
+ Q("Diagonale d'un carré de côté 4 cm, arrondie au dixième ?",["5,7 cm","8 cm","5,6 cm","16 cm"],"d² = 4² + 4² = 32, donc d = √32 ≈ 5,66, soit 5,7 cm au dixième."),
+ Q("Une échelle de 5 m est posée à 3 m du pied d'un mur vertical. À quelle hauteur touche-t-elle le mur ?",["4 m","2 m","8 m","5,8 m"],"L'échelle est l'hypoténuse : h² = 5² − 3² = 16, donc h = 4 m."),
+ Q("Dans un triangle ABC, [BC] est le plus grand côté et BC² ≠ AB² + AC². Que peut-on conclure ?",["ABC n'est pas rectangle","ABC est rectangle en A","ABC est rectangle en B","ABC est isocèle"],"Si ABC était rectangle, ce serait en A (face au plus grand côté) et on aurait BC² = AB² + AC². L'égalité est fausse, donc ABC n'est pas rectangle.",{time:25}),
+]},
+{id:'thales',dom:'Espace et géométrie',title:'Théorème de Thalès',sub:'Calculer une longueur, prouver un parallélisme',time:30,questions:[
+ Q("(MN) est parallèle à (BC). Quelle égalité donne le théorème de Thalès ?",["AM/AB = AN/AC = MN/BC","AM/MB = AN/AC = MN/BC","AB/AM = AC/NC = BC/MN","AM/AB = AC/AN = MN/BC"],"On compare les longueurs du petit triangle AMN à celles du grand triangle ABC, dans le même ordre.",{fig:thalesFig(.45)}),
+ Q("(MN) est parallèle à (BC). Combien mesure BC ?",["5 cm","1,25 cm","3 cm","8,5 cm"],"AM/AB = MN/BC, soit 3/6 = 2,5/BC. Donc BC = 2,5 × 6 ÷ 3 = 5 cm.",{fig:thalesFig(.5,"AM = 3 cm · AB = 6 cm · MN = 2,5 cm")}),
+ Q("(MN) est parallèle à (BC). Combien mesure AC ?",["15 cm","2,4 cm","12 cm","20 cm"],"AM/AB = AN/AC, soit 4/10 = 6/AC. Donc AC = 6 × 10 ÷ 4 = 15 cm.",{fig:thalesFig(.4,"AM = 4 cm · AB = 10 cm · AN = 6 cm")}),
+ Q("Pour démontrer que deux droites sont parallèles, on utilise…",["la réciproque du théorème de Thalès","le théorème de Thalès","le théorème de Pythagore","la trigonométrie"],"Le théorème de Thalès suppose le parallélisme ; c'est sa réciproque qui permet de le démontrer.",{time:20}),
+ Q("M ∈ [AB], N ∈ [AC], AM/AB = 3/5 et AN/AC = 4/7. Les droites (MN) et (BC) sont…",["non parallèles","parallèles","perpendiculaires","confondues"],"3/5 = 0,6 et 4/7 ≈ 0,571 : les rapports sont différents, donc les droites ne sont pas parallèles."),
+ Q("A, M, B et A, N, C sont alignés dans le même ordre. AM = 2, AB = 5, AN = 3, AC = 7,5. (MN) et (BC) sont-elles parallèles ?",["Oui","Non","On ne peut pas savoir","Seulement si ABC est rectangle"],"AM/AB = 2/5 = 0,4 et AN/AC = 3/7,5 = 0,4. Les rapports sont égaux : d'après la réciproque de Thalès, (MN) // (BC)."),
+ Q("Un bâton de 1 m a une ombre de 1,5 m. Au même moment, l'ombre d'un arbre mesure 12 m. Hauteur de l'arbre ?",["8 m","18 m","13,5 m","10,5 m"],"Les rayons du soleil sont parallèles : hauteur / ombre est le même rapport. 12 ÷ 1,5 = 8 m."),
+ Q("Pour appliquer le théorème de Thalès, les deux droites (MN) et (BC) doivent être…",["parallèles","perpendiculaires","sécantes en A","de même longueur"],"Le théorème de Thalès s'applique dans une configuration avec deux droites parallèles.",{time:20}),
+]},
+{id:'trigo',dom:'Espace et géométrie',title:'Trigonométrie',sub:'Cosinus, sinus, tangente',time:30,questions:[
+ Q("Dans un triangle rectangle, le cosinus d'un angle aigu est égal à…",["⟦côté adjacent|hypoténuse⟧","⟦côté opposé|hypoténuse⟧","⟦côté opposé|côté adjacent⟧","⟦hypoténuse|côté adjacent⟧"],"Moyen mnémotechnique : CAH-SOH-TOA. Cosinus = ⟦côté adjacent|hypoténuse⟧.",{time:20}),
+ Q("Dans un triangle rectangle, la tangente d'un angle aigu est égale à…",["⟦côté opposé|côté adjacent⟧","⟦côté adjacent|côté opposé⟧","⟦côté opposé|hypoténuse⟧","⟦côté adjacent|hypoténuse⟧"],"TOA : Tangente = ⟦côté opposé|côté adjacent⟧.",{time:20}),
+ Q("Que vaut sin(Â) ?",["3/5","4/5","3/4","4/3"],"Le côté opposé à Â est [BC] = 3 cm, l'hypoténuse est [AC] = 5 cm : sin(Â) = 3/5.",{fig:trigFig()}),
+ Q("Que vaut cos(Â) ?",["4/5","3/5","3/4","5/4"],"Le côté adjacent à Â est [AB] = 4 cm, l'hypoténuse est [AC] = 5 cm : cos(Â) = 4/5.",{fig:trigFig()}),
+ Q("ABC est rectangle en B, Â = 30° et l'hypoténuse AC = 10 cm. Combien mesure BC ?",["5 cm","8,7 cm","20 cm","17,3 cm"],"[BC] est opposé à Â : BC = AC × sin(30°) = 10 × 0,5 = 5 cm."),
+ Q("cos(x) = 0,5. Quelle est la mesure de l'angle aigu x ?",["60°","30°","45°","0,5°"],"Avec la calculatrice : arccos(0,5) = 60°."),
+ Q("ABC est rectangle en C, on connaît AC et Â. Pour calculer BC, on utilise…",["tan(Â) = BC/AC","cos(Â) = BC/AC","sin(Â) = BC/AC","tan(Â) = AC/BC"],"Par rapport à Â, [BC] est le côté opposé et [AC] le côté adjacent : c'est la tangente."),
+ Q("Pourquoi le cosinus d'un angle aigu d'un triangle rectangle est-il inférieur à 1 ?",["L'hypoténuse est le plus grand côté","Parce que l'angle est aigu","Parce que le cosinus est un pourcentage","Ce n'est pas toujours vrai"],"cos = ⟦côté adjacent|hypoténuse⟧ : le numérateur est plus petit que le dénominateur."),
+ Q("tan(45°) = ?",["1","0,5","√2","45"],"Dans un triangle rectangle isocèle, les deux côtés de l'angle droit sont égaux : opposé ÷ adjacent = 1.",{time:20}),
+]},
+{id:'semb',dom:'Espace et géométrie',title:'Triangles semblables',sub:'Angles égaux, côtés proportionnels',time:30,questions:[
+ Q("Deux triangles sont semblables si…",["leurs angles sont deux à deux égaux","ils ont la même aire","ils ont un côté en commun","ils sont tous deux rectangles"],"Triangles semblables : mêmes angles, et donc côtés proportionnels.",{time:20}),
+ Q("Un triangle de côtés 3, 4, 5 et un triangle de côtés 6, 8, 10 sont…",["semblables (rapport 2)","égaux","non semblables","semblables (rapport 3)"],"6/3 = 8/4 = 10/5 = 2 : les côtés sont proportionnels."),
+ Q("Deux triangles sont semblables avec un rapport d'agrandissement 3. Un côté de 4 cm devient…",["12 cm","7 cm","4/3 cm","36 cm"],"Les longueurs sont multipliées par 3 : 4 × 3 = 12 cm."),
+ Q("Un triangle a deux angles de 50° et 60°, un autre deux angles de 50° et 70°. Sont-ils semblables ?",["Oui","Non","On ne peut pas savoir","Seulement s'ils ont la même taille"],"Le troisième angle du premier mesure 70°, celui du second 60° : les deux ont des angles de 50°, 60° et 70°."),
+ Q("Un triangle de côtés 4, 6, 7 et un triangle de côtés 8, 12, 15 sont-ils semblables ?",["Non","Oui, de rapport 2","Oui, de rapport 4","On ne peut pas savoir"],"8/4 = 2 et 12/6 = 2, mais 15/7 ≈ 2,14 : les côtés ne sont pas proportionnels."),
+ Q("Deux triangles sont semblables de rapport k. Leurs aires sont dans le rapport…",["k²","k","2k","k³"],"Les longueurs sont multipliées par k, donc les aires par k × k = k².",{time:20}),
+ Q("Deux triangles égaux sont…",["semblables de rapport 1","jamais semblables","semblables de rapport 2","forcément rectangles"],"Ils ont les mêmes angles et les mêmes longueurs : le rapport vaut 1.",{time:20}),
+ Q("Dans deux triangles semblables, deux côtés homologues mesurent 5 cm et 15 cm. Quel est le rapport d'agrandissement ?",["3","10","1/3","20"],"15 ÷ 5 = 3. (1/3 serait le rapport de réduction, du grand vers le petit.)"),
+]},
+{id:'transfo',dom:'Espace et géométrie',title:'Transformations',sub:'Symétries, translation, rotation, homothétie',time:25,questions:QUESTIONS},
+{id:'espace',dom:'Espace et géométrie',title:'Géométrie dans l’espace',sub:'Sphère, sections, volumes, repérage',time:30,questions:[
+ Q("Volume d'une boule de rayon r ?",["4/3 × π × r³","4 × π × r²","π × r² × h","1/3 × π × r² × h"],"V = 4/3 π r³. La formule 4 π r² est l'aire de la sphère.",{time:20}),
+ Q("Aire d'une sphère de rayon r ?",["4 × π × r²","4/3 × π × r³","2 × π × r","π × r²"],"A = 4 π r² : c'est quatre fois l'aire d'un disque de même rayon.",{time:20}),
+ Q("La section d'une sphère par un plan est…",["un cercle","un carré","un rectangle","un triangle"],"C'est toujours un cercle (ou un point si le plan est tangent).",{time:20}),
+ Q("Section d'un pavé droit par un plan parallèle à une face ?",["un rectangle de mêmes dimensions que cette face","un triangle","un cercle","un trapèze"],"Le plan coupe le pavé comme une « tranche » identique à la face qui lui est parallèle.",{time:20}),
+ Q("Section d'un cylindre par un plan perpendiculaire à son axe ?",["un disque","un rectangle","un triangle","un carré"],"On obtient un disque de même rayon que la base. Un plan parallèle à l'axe donnerait un rectangle.",{time:20}),
+ Q("Volume exact d'un cône de rayon 3 cm et de hauteur 5 cm ?",["15π cm³","45π cm³","5π cm³","30π cm³"],"V = 1/3 × π × 3² × 5 = 1/3 × 45π = 15π cm³."),
+ Q("Volume d'une pyramide de base 12 cm² et de hauteur 5 cm ?",["20 cm³","60 cm³","17 cm³","30 cm³"],"V = 1/3 × aire de la base × hauteur = 1/3 × 12 × 5 = 20 cm³."),
+ Q("On coupe une pyramide par un plan parallèle à sa base. La petite pyramide obtenue est…",["une réduction de la grande","égale à la grande","un prisme","un cylindre"],"Toutes ses longueurs sont multipliées par un même coefficient compris entre 0 et 1.",{time:20}),
+ Q("Sur la Terre, un point est repéré par…",["sa latitude et sa longitude","son abscisse seulement","son rayon et son diamètre","son altitude seulement"],"La latitude se mesure par rapport à l'équateur, la longitude par rapport au méridien de Greenwich.",{time:20}),
+ Q("On agrandit un solide avec un rapport 2. Son volume est multiplié par…",["8","2","4","6"],"Les volumes sont multipliés par k³ = 2³ = 8."),
+]},
+{id:'algo',dom:'Algorithmique',title:'Algorithmique et programmation',sub:'Programmes de calcul, boucles, variables',time:30,questions:[
+ Q("Programme : choisir un nombre ; le multiplier par 3 ; ajouter 5. Avec 4, on obtient…",["17","27","12","32"],"4 × 3 = 12, puis 12 + 5 = 17. Il faut respecter l'ordre des étapes."),
+ Q("Avec ce même programme, on obtient 20. Quel était le nombre de départ ?",["5","65","15","25/3"],"On remonte le programme : 20 − 5 = 15, puis 15 ÷ 3 = 5."),
+ Q("Dans Scratch : « répéter 4 fois : avancer de 50, tourner de 90° ». On dessine…",["un carré","un triangle","un rectangle non carré","un cercle"],"4 côtés de même longueur et 4 angles droits : un carré.",{time:20}),
+ Q("Pour tracer un triangle équilatéral, on répète 3 fois : avancer, puis tourner de…",["120°","60°","90°","180°"],"Le lutin tourne de l'angle extérieur : 180° − 60° = 120°. Trois rotations font un tour complet de 360°."),
+ Q("x prend la valeur 2 ; répéter 3 fois : x prend la valeur x × 2. Valeur finale de x ?",["16","8","12","64"],"2 → 4 → 8 → 16."),
+ Q("En programmation, une variable est…",["une case mémoire qui contient une valeur","une instruction de déplacement","une boucle","un lutin"],"Une variable a un nom et contient une valeur qui peut changer pendant l'exécution.",{time:20}),
+ Q("Programme : choisir x ; calculer (x + 1)² − x². Avec x = 10, on obtient…",["21","1","121","20"],"11² − 10² = 121 − 100 = 21."),
+ Q("Ce programme (x + 1)² − x² donne toujours…",["2x + 1","1","x² + 1","2x"],"C'est une différence de deux carrés : a² − b² = (a − b)(a + b) avec a = x + 1 et b = x, soit 1 × (2x + 1) = 2x + 1. Avec x = 10 : 21."),
+ Q("« Si x > 10 alors dire Grand sinon dire Petit ». Avec x = 10, le lutin dit…",["Petit","Grand","Rien","Les deux"],"10 > 10 est faux (10 n'est pas strictement plus grand que 10), donc on exécute le « sinon ».",{time:20}),
+]},
+];
+CHAPTERS.forEach(ch=>ch.questions.forEach(q=>{q.time=q.time||ch.time;if(!q.opts)q.opts=[null,null,null,null]}));
+const DOMAINS=[...new Set(CHAPTERS.map(c=>c.dom))];
+
+
+/* ================= État ================= */
+const HOST_PREFIX='arenemaths-v1-';
+const st={mode:'live',teams:['Équipe 1','Équipe 2','Équipe 3','Équipe 4'],players:[],count:20,timeMul:1,sound:true,
+  order:[],i:0,phase:'idle',t0:0,limit:20,raf:0,lastSec:null,solo:{score:0,streak:0,right:0,log:[]},pressed:new Set(),sel:new Set(['transfo']),
+  peer:null,pin:'',banned:new Set(),autoT:0};
+const $=s=>document.querySelector(s);
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.hidden=s.id!==id);window.scrollTo(0,0)}
+const fr=n=>n.toLocaleString('fr-FR');
+const cleanName=s=>String(s||'').replace(/[\u0000-\u001f<>]/g,'').replace(/\s+/g,' ').trim().slice(0,16);
+const optText=(q,oi,p)=>q.opts[oi]??`${q.pick} ${LET[p]}`;
+
+/* ================= Son ================= */
+let ac=null;
+function initAudio(){try{ac=ac||new(window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume()}catch(e){ac=null}}
+function tone(f,d,type='sine',v=.07,w=0){if(!ac||!st.sound)return;try{const t=ac.currentTime+w,o=ac.createOscillator(),g=ac.createGain();o.type=type;o.frequency.value=f;g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g).connect(ac.destination);o.start(t);o.stop(t+d+.05)}catch(e){}}
+const sfx={tick:()=>tone(980,.07,'square',.03),good:()=>{tone(523,.18);tone(659,.18,'sine',.07,.09);tone(784,.3,'sine',.07,.18)},
+  bad:()=>{tone(220,.25,'sawtooth',.04);tone(175,.35,'sawtooth',.04,.15)},reveal:()=>tone(660,.15,'triangle',.06),
+  join:()=>tone(880,.09,'triangle',.05),
+  fanfare:()=>[523,659,784,1047].forEach((f,i)=>tone(f,.35,'triangle',.07,i*.14))};
+
+/* ================= Accueil ================= */
+function drawTeams(){
+  const el=$('#teamList');
+  el.innerHTML=st.teams.map((n,i)=>`<input id="team-${i}" value="${esc(n)}" maxlength="22" aria-label="Nom de l'équipe ${i+1}">`).join('');
+  el.querySelectorAll('input').forEach((inp,i)=>inp.addEventListener('input',()=>st.teams[i]=inp.value));
+}
+function saveSel(){try{localStorage.setItem('arene-sel',JSON.stringify([...st.sel]))}catch(e){}}
+function drawChapters(){
+  const box=$('#domains');
+  box.innerHTML=DOMAINS.map(dm=>{const chs=CHAPTERS.filter(c=>c.dom===dm);const allOn=chs.every(c=>st.sel.has(c.id));
+    return `<div class="dom"><div class="dom-h"><h3>${esc(dm)}</h3><button type="button" data-dom="${esc(dm)}">${allOn?'Décocher':'Tout'}</button></div>`+
+    chs.map(c=>`<button class="ch" type="button" id="ch-${c.id}" data-id="${c.id}" aria-pressed="${st.sel.has(c.id)}"><span class="box"></span><span class="t"><b>${esc(c.title)}</b><small>${esc(c.sub)}</small></span><span class="n">${c.questions.length} q.</span></button>`).join('')+`</div>`}).join('');
+  box.querySelectorAll('.ch').forEach(b=>b.onclick=()=>{const id=b.dataset.id;st.sel.has(id)?st.sel.delete(id):st.sel.add(id);saveSel();drawChapters()});
+  box.querySelectorAll('.dom-h button').forEach(b=>b.onclick=()=>{const chs=CHAPTERS.filter(c=>c.dom===b.dataset.dom);const allOn=chs.every(c=>st.sel.has(c.id));
+    chs.forEach(c=>allOn?st.sel.delete(c.id):st.sel.add(c.id));saveSel();drawChapters()});
+  const nCh=st.sel.size,nQ=CHAPTERS.filter(c=>st.sel.has(c.id)).reduce((a,c)=>a+c.questions.length,0);
+  $('#selInfo').textContent=nCh?`${nCh} chapitre${nCh>1?'s':''} · ${nQ} questions`:'Aucun chapitre choisi';
+  $('#start').disabled=nCh===0;
+}
+function initHome(){
+  try{const s=JSON.parse(localStorage.getItem('arene-sel')||'null');if(Array.isArray(s)){const ok=s.filter(id=>CHAPTERS.some(c=>c.id===id));if(ok.length)st.sel=new Set(ok)}}catch(e){}
+  drawChapters();
+  $('#selAll').onclick=()=>{CHAPTERS.forEach(c=>st.sel.add(c.id));saveSel();drawChapters()};
+  $('#selNone').onclick=()=>{st.sel.clear();saveSel();drawChapters()};
+  drawTeams();
+  $('#tPlus').onclick=()=>{if(st.teams.length<8){st.teams.push('Équipe '+(st.teams.length+1));drawTeams()}};
+  $('#tMinus').onclick=()=>{if(st.teams.length>2){st.teams.pop();drawTeams()}};
+  const lbl={live:'Ouvrir la salle',classe:'Lancer la partie',solo:'Lancer la partie'};
+  document.querySelectorAll('input[name=mode]').forEach(r=>r.addEventListener('change',()=>{st.mode=r.value;$('#teamCfg').hidden=st.mode!=='classe';$('#start').textContent=lbl[st.mode]}));
+  document.querySelectorAll('input[name=len]').forEach(r=>r.addEventListener('change',()=>st.count=+r.value));
+  document.querySelectorAll('input[name=tm]').forEach(r=>r.addEventListener('change',()=>st.timeMul=+r.value));
+  $('#start').onclick=()=>{if(!st.sel.size)return;initAudio();st.mode==='live'?openRoom():startGame()};
+}
+
+/* ================= Salle en direct (hôte) ================= */
+const online=()=>st.players.filter(p=>p.online);
+function send(pl,msg){if(pl&&pl.conn&&pl.online){try{pl.conn.send(msg)}catch(e){}}}
+function broadcast(msg){online().forEach(p=>send(p,msg))}
+function setStatus(t,cls=''){const s=$('#netStatus');s.textContent=t;s.className='status '+cls}
+
+function openRoom(){
+  st.players=[];st.banned=new Set();st.phase='lobby';
+  show('lobby');drawRoster();
+  if(typeof Peer==='undefined'){setStatus('Bibliothèque de connexion non chargée. Vérifiez la connexion internet puis rechargez la page.','ko');return}
+  const tryOpen=(attempt=0)=>{
+    st.pin=String(Math.floor(100000+Math.random()*900000));
+    $('#pin').textContent='······';setStatus('Ouverture de la salle…');
+    const peer=new Peer(HOST_PREFIX+st.pin,{debug:0});st.peer=peer;
+    let opened=false;
+    const guard=setTimeout(()=>{if(!opened&&st.peer===peer)noNetwork()},8000);
+    peer.on('open',()=>{opened=true;clearTimeout(guard);$('#pin').hidden=false;showJoinInfo();setStatus('Salle ouverte','ok')});
+    peer.on('connection',conn=>{
+      conn.on('data',d=>hostMsg(conn,d));
+      conn.on('close',()=>{const pl=st.players.find(p=>p.conn===conn);if(pl){pl.online=false;pl.conn=null;refreshCounts()}});
+    });
+    peer.on('disconnected',()=>{if(!opened){clearTimeout(guard);noNetwork();return}setStatus('Connexion au service perdue, reconnexion…','ko');setTimeout(()=>{try{if(st.peer===peer&&!peer.destroyed)peer.reconnect()}catch(e){}},1500)});
+    peer.on('error',e=>{
+      if(e.type==='unavailable-id'&&attempt<4){peer.destroy();tryOpen(attempt+1);return}
+      if(e.type==='peer-unavailable')return;
+      setStatus('Problème réseau ('+e.type+'). Vérifiez internet ; les élèves peuvent passer en données mobiles.','ko');
+    });
+  };
+  tryOpen();
+}
+function noNetwork(){
+  try{st.peer&&st.peer.destroy()}catch(e){}
+  const inSandbox=/claude\.ai|claudeusercontent|anthropic/i.test(location.hostname)||window.self!==window.top;
+  setStatus('Le service de connexion est injoignable','ko');
+  $('#qr').hidden=true;$('#pin').hidden=true;$('#joinUrl').textContent='';
+  const w=$('#fileWarn');w.hidden=false;
+  w.textContent=inSandbox
+    ?"Ici, la page est affichée dans claude.ai, qui bloque les connexions vers l'extérieur : le mode téléphones ne peut pas marcher. Hébergez le fichier (Netlify, GitHub Pages) et ouvrez-le depuis son adresse https. Les modes « Équipes · cartons » et « Solo » fonctionnent ici."
+    :"Impossible de joindre le service de connexion. Vérifiez la connexion internet de l'ordinateur (certains réseaux d'établissement le bloquent : essayez un partage de connexion), puis rouvrez la salle.";
+}
+function showJoinInfo(){
+  $('#pin').textContent=st.pin.slice(0,3)+' '+st.pin.slice(3);
+  const base=location.origin+location.pathname;
+  const url=base+'?pin='+st.pin;
+  const isFile=location.protocol==='file:';
+  $('#fileWarn').hidden=!isFile;
+  $('#joinUrl').textContent=isFile?'':base.replace(/^https?:\/\//,'');
+  const box=$('#qr');box.innerHTML='';
+  if(!isFile&&typeof QRCode!=='undefined'){try{new QRCode(box,{text:url,width:300,height:300,colorDark:'#10162f',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M})}catch(e){}}
+  box.hidden=isFile||typeof QRCode==='undefined';
+}
+function closeRoom(){
+  broadcast({t:'closed'});
+  try{st.peer&&st.peer.destroy()}catch(e){}
+  st.peer=null;st.players=[];st.phase='idle';cancelAnimationFrame(st.raf);clearTimeout(st.autoT);
+}
+function drawRoster(){
+  const ps=st.players;const n=online().length;
+  $('#nPl').textContent=n;$('#nPlW').textContent=n>1?'joueurs':'joueur';
+  $('#roster').innerHTML=ps.map((p,i)=>`<button class="pchip${p.online?'':' off'}" type="button" data-i="${i}" title="Retirer ${esc(p.name)}">${esc(p.name)}</button>`).join('');
+  $('#roster').querySelectorAll('.pchip').forEach(b=>b.onclick=()=>kick(+b.dataset.i));
+  $('#liveStart').disabled=n<1;
+}
+function kick(i){
+  const pl=st.players[i];if(!pl)return;
+  send(pl,{t:'kick'});st.banned.add(pl.key);
+  setTimeout(()=>{try{pl.conn&&pl.conn.close()}catch(e){}},300);
+  st.players.splice(i,1);drawRoster();
+}
+function refreshCounts(){
+  if(st.phase==='lobby')drawRoster();
+  if(st.phase==='ask'&&st.mode==='live')updateAnswered();
+}
+function qPayload(){
+  const {q,perm}=cur();
+  return {t:'q',n:st.i,total:st.order.length,time:st.limit,tiles:perm.map((oi,p)=>({L:LET[p],text:optText(q,oi,p)}))};
+}
+function hostMsg(conn,d){
+  if(!d||typeof d!=='object')return;
+  if(d.t==='join'){
+    let name=cleanName(d.name);if(!name)return;
+    let key=name.toLowerCase();
+    if(st.banned.has(key)){try{conn.send({t:'kick'})}catch(e){}return}
+    let pl=st.players.find(p=>p.key===key);
+    if(pl&&pl.online&&pl.conn!==conn&&d.rejoin!==true){
+      let k=2;while(st.players.some(p=>p.key===(key+' '+k)))k++;
+      name=(name.slice(0,13)+' '+k);key=name.toLowerCase();pl=null;
+    }
+    if(!pl){
+      if(st.phase!=='lobby'&&st.phase!=='ask'&&st.phase!=='reveal'&&st.phase!=='rank'){}
+      pl={name,key,score:0,streak:0,delta:0,online:true,conn,ans:null,right:0};st.players.push(pl);sfx.join();
+    }else{if(pl.conn&&pl.conn!==conn){try{pl.conn.close()}catch(e){}}pl.conn=conn;pl.online=true}
+    send(pl,{t:'welcome',name:pl.name,score:pl.score});
+    if(st.phase==='ask'&&!pl.ans){const m=qPayload();m.time=Math.max(1,st.limit-(performance.now()-st.t0)/1000);send(pl,m)}
+    refreshCounts();return;
+  }
+  if(d.t==='ans'){
+    const pl=st.players.find(p=>p.conn===conn);
+    if(!pl||st.phase!=='ask'||d.n!==st.i||pl.ans)return;
+    const p=Number(d.p);if(!(p>=0&&p<=3))return;
+    pl.ans={p,t:(performance.now()-st.t0)/1000};
+    updateAnswered();
+    const on=online();
+    if(on.length&&on.every(x=>x.ans)){clearTimeout(st.autoT);st.autoT=setTimeout(()=>reveal(null),700)}
+  }
+}
+function updateAnswered(){
+  const on=online(),a=on.filter(p=>p.ans).length;
+  $('#answered').innerHTML=`${a} / ${on.length}<small>réponses reçues</small>`;
+}
+
+/* ================= Partie ================= */
+function startGame(){
+  initAudio();
+  const chs=CHAPTERS.filter(c=>st.sel.has(c.id));
+  const pools=chs.map(c=>shuffle(c.questions).map(q=>({q,ch:c})));
+  const total=pools.reduce((a,p)=>a+p.length,0),want=Math.min(st.count,total);
+  let picked=[];
+  while(picked.length<want){for(const p of shuffle(pools)){if(p.length&&picked.length<want)picked.push(p.shift())}}
+  picked=shuffle(picked);
+  st.order=picked.map(x=>({q:x.q,ch:x.ch,perm:shuffle([0,1,2,3])}));
+  if(st.mode==='classe')st.players=st.teams.map((n,i)=>({name:(n||'').trim()||('Équipe '+(i+1)),score:0,streak:0,delta:0}));
+  if(st.mode==='live')st.players=st.players.filter(p=>p.online).map(p=>Object.assign(p,{score:0,streak:0,delta:0,ans:null,right:0}));
+  st.solo={score:0,streak:0,right:0,log:[]};
+  st.i=0;
+  $('#soloScore').hidden=st.mode!=='solo';$('#soloScore').textContent='0';
+  $('#dots').innerHTML=st.order.map(()=>'<i></i>').join('');
+  show('quiz');ask();
+}
+
+const cur=()=>st.order[st.i];
+const RING=2*Math.PI*52;
+function ask(){
+  const {q,perm,ch}=cur();const posOf=i=>perm.indexOf(i);
+  $('#chap').textContent=ch?ch.title:'';
+  st.phase='ask';st.pressed=new Set();clearTimeout(st.autoT);
+  $('#qn').textContent=`${st.i+1} / ${st.order.length}`;
+  [...$('#dots').children].forEach((d,k)=>d.className=k<st.i?'done':k===st.i?'now':'');
+  const area=$('#boardArea');
+  if(q.fig){
+    $('#prompt').hidden=false;$('#prompt').innerHTML=fmt(q.prompt);
+    const svg=q.fig.kind==='graph'?renderGraph(q.fig):q.fig.kind==='bars'?renderBars(q.fig):q.fig.kind==='table'?renderTable(q.fig):renderFig(q.fig,posOf);
+    area.innerHTML=`<div class="paper"><div class="figbox">${svg}</div>${q.fig.caption?`<p class="caption">${esc(q.fig.caption)}</p>`:''}</div>`;
+  }else{
+    $('#prompt').hidden=true;
+    area.innerHTML=`<div class="bigq"><p>${fmt(q.prompt)}</p></div>`;
+  }
+  const solo=st.mode==='solo';
+  $('#tiles').innerHTML=perm.map((oi,p)=>{const t=optText(q,oi,p);
+    return solo?`<button class="tile" type="button" data-p="${p}"><span class="k">${LET[p]}</span><span class="tx">${fmt(t)}</span></button>`
+               :`<div class="tile" data-p="${p}"><span class="k">${LET[p]}</span><span class="tx">${fmt(t)}</span></div>`}).join('');
+  if(solo)$('#tiles').querySelectorAll('button').forEach(b=>b.onclick=()=>answer(+b.dataset.p));
+  $('#clock').hidden=false;$('#after').hidden=true;$('#nextBtn').hidden=true;
+  $('#revealBtn').hidden=solo;
+  $('#answered').hidden=st.mode!=='live';
+  st.limit=q.time*st.timeMul;st.t0=performance.now();st.lastSec=null;
+  if(st.mode==='live'){st.players.forEach(p=>p.ans=null);broadcast(qPayload());updateAnswered()}
+  cancelAnimationFrame(st.raf);loop();
+}
+function loop(){
+  const rem=Math.max(0,st.limit-(performance.now()-st.t0)/1000);
+  const sec=Math.ceil(rem);
+  $('#secs').textContent=sec;
+  $('#ring').style.strokeDasharray=RING;$('#ring').style.strokeDashoffset=RING*(1-rem/st.limit);
+  $('#clock').classList.toggle('hurry',rem<=5);
+  if(sec!==st.lastSec){if(sec<=5&&sec>0&&st.lastSec!==null)sfx.tick();st.lastSec=sec}
+  if(rem<=0){reveal(null);return}
+  st.raf=requestAnimationFrame(loop);
+}
+function answer(p){if(st.phase==='ask')reveal(p)}
+function reveal(p){
+  if(st.phase!=='ask')return;
+  cancelAnimationFrame(st.raf);clearTimeout(st.autoT);st.phase='reveal';
+  const {q,perm}=cur();const okP=perm.indexOf(q.ok);
+  const elapsed=(performance.now()-st.t0)/1000;
+  let counts=[0,0,0,0];
+  if(st.mode==='live')st.players.forEach(pl=>{if(pl.ans)counts[pl.ans.p]++});
+  document.querySelectorAll('#tiles .tile').forEach(t=>{const k=+t.dataset.p;t.classList.add(k===okP?'ok':'off');if(k===p)t.classList.add('picked');
+    if(st.mode==='live')t.insertAdjacentHTML('beforeend',`<span class="cnt">${counts[k]}</span>`);
+    if(k===okP)t.insertAdjacentHTML('beforeend','<span class="mark" aria-label="bonne réponse">✓</span>')});
+  document.querySelectorAll('.fig-svg [data-opt]').forEach(g=>g.classList.add(+g.dataset.opt===q.ok?'is-ok':'is-off'));
+  $('#explain').innerHTML=fmt(q.exp.replace(/\{(\d)\}/g,(m,d)=>LET[perm.indexOf(+d)]));
+  $('#clock').hidden=true;$('#answered').hidden=true;$('#after').hidden=false;$('#revealBtn').hidden=true;
+  const v=$('#verdict');
+  if(st.mode==='solo'){
+    if(p===okP){
+      const s=st.solo;s.streak++;s.right++;
+      const pts=Math.round(1000*(1-.5*Math.min(1,elapsed/st.limit)))+Math.min(500,100*(s.streak-1));
+      s.score+=pts;$('#soloScore').textContent=fr(s.score);
+      v.className='verdict ok';v.innerHTML=`Bonne réponse · +${pts}<small>${s.streak>1?`Série de ${s.streak} bonnes réponses`:`Réponse en ${elapsed.toFixed(1).replace('.',',')} s`}</small>`;sfx.good();
+    }else{
+      st.solo.streak=0;st.solo.log.push(st.i);
+      v.className='verdict ko';v.innerHTML=(p==null?'Temps écoulé':'Raté')+`<small>La bonne réponse était ${LET[okP]}</small>`;sfx.bad();
+    }
+    $('#who').hidden=true;
+    $('#nextBtn').textContent=st.i+1<st.order.length?'Question suivante':'Voir mon résultat';
+  }else if(st.mode==='live'){
+    st.players.forEach(pl=>{
+      if(pl.ans&&pl.ans.p===okP){pl.streak++;pl.right++;pl.delta=Math.round(1000*(1-.5*Math.min(1,pl.ans.t/st.limit)))+Math.min(500,100*(pl.streak-1));pl.score+=pl.delta}
+      else{pl.streak=0;pl.delta=0}
+    });
+    const sorted=st.players.slice().sort((a,b)=>b.score-a.score);
+    st.players.forEach(pl=>send(pl,{t:'res',ok:!!(pl.ans&&pl.ans.p===okP),answered:!!pl.ans,pts:pl.delta,score:pl.score,streak:pl.streak,rank:sorted.indexOf(pl)+1,count:sorted.length,okL:LET[okP]}));
+    const nOk=counts[okP],nAns=counts.reduce((a,b)=>a+b,0);
+    v.className='verdict neutral';v.innerHTML=`Réponse ${LET[okP]}<small>${nOk} élève${nOk>1?'s':''} sur ${nAns} répondant${nAns>1?'s':''} ${nOk>1?'ont':'a'} trouvé</small>`;
+    $('#who').hidden=true;$('#nextBtn').textContent='Voir le classement';sfx.reveal();
+  }else{
+    v.className='verdict neutral';v.innerHTML=`Réponse ${LET[okP]}<small>${fmt(optText(q,q.ok,okP))}</small>`;
+    $('#who').hidden=false;
+    $('#chips').innerHTML=st.players.map((pl,i)=>`<button class="chip" type="button" id="chip-${i}" aria-pressed="false">${esc(pl.name)}</button>`).join('');
+    $('#chips').querySelectorAll('.chip').forEach((c,i)=>c.onclick=()=>{const on=c.getAttribute('aria-pressed')!=='true';c.setAttribute('aria-pressed',on);on?st.pressed.add(i):st.pressed.delete(i)});
+    $('#nextBtn').textContent='Voir le classement';sfx.reveal();
+  }
+  $('#nextBtn').hidden=false;$('#nextBtn').focus({preventScroll:true});
+}
+function next(){
+  if(st.phase!=='reveal')return;
+  if(st.mode==='solo'){st.i++;st.i<st.order.length?ask():finish();return}
+  if(st.mode==='classe')st.players.forEach((pl,i)=>{if(st.pressed.has(i)){pl.streak++;pl.delta=1000+Math.min(500,100*(pl.streak-1));pl.score+=pl.delta}else{pl.streak=0;pl.delta=0}});
+  st.phase='rank';showRank();
+}
+
+/* ================= Classement ================= */
+function showRank(){
+  show('rank');
+  const last=st.i+1>=st.order.length;
+  const sorted=st.players.slice().sort((a,b)=>b.score-a.score);const max=Math.max(1,sorted[0]?sorted[0].score:1);
+  const shown=st.mode==='live'?sorted.slice(0,8):sorted;
+  $('#rankInfo').textContent=`Après la question ${st.i+1} / ${st.order.length}`+(st.mode==='live'?` · ${sorted.length} joueurs`:'');
+  $('#lb').innerHTML=shown.map((p,k)=>`<div class="lbrow"><div class="pos">${k+1}</div><div class="nm">${esc(p.name)}</div><div class="pts">${fr(p.score)}${p.delta?`<small>+${fr(p.delta)}${p.streak>1?` · série ${p.streak}`:''}</small>`:'<small> </small>'}</div><div class="bar2"><i data-w="${(p.score/max*100).toFixed(1)}"></i></div></div>`).join('');
+  requestAnimationFrame(()=>requestAnimationFrame(()=>document.querySelectorAll('#lb .bar2 i').forEach(i=>i.style.width=i.dataset.w+'%')));
+  $('#rankNext').textContent=last?'Voir le podium':'Question suivante';
+  $('#rankNext').focus({preventScroll:true});
+}
+
+/* ================= Fin ================= */
+function finish(){
+  st.phase='end';show('end');sfx.fanfare();confetti();
+  const body=$('#endBody');
+  if(st.mode!=='solo'){
+    $('#endTitle').textContent='Podium';
+    const s=st.players.slice().sort((a,b)=>b.score-a.score);
+    if(st.mode==='live')st.players.forEach(pl=>send(pl,{t:'end',rank:s.indexOf(pl)+1,count:s.length,score:pl.score,right:pl.right,total:st.order.length}));
+    const step=(p,cls,n)=>p?`<div class="step ${cls}"><div class="nm">${esc(p.name)}</div><div class="blk"><span>${n}</span><small>${fr(p.score)} pts</small></div></div>`:'';
+    body.innerHTML=`<div class="podium" style="flex:1">${step(s[1],'p2',2)}${step(s[0],'p1',1)}${step(s[2],'p3',3)}</div>`+
+      (s.length>3?`<p class="hint" style="text-align:center;margin-top:12px">${s.slice(3,10).map((p,k)=>`${k+4}. ${esc(p.name)} · ${fr(p.score)} pts`).join('   ')}</p>`:'');
+  }else{
+    $('#endTitle').textContent='Ton résultat';
+    const n=st.order.length,r=st.solo.right;
+    const miss=st.solo.log.map(i=>{const {q,perm}=st.order[i];return `<div><b>Q${i+1} · ${esc(st.order[i].ch.title)}.</b> ${fmt(q.prompt)}<br>${fmt(q.exp.replace(/\{(\d)\}/g,(m,d)=>LET[perm.indexOf(+d)]))}</div>`}).join('');
+    body.innerHTML=`<div class="solo-sum"><div><div class="bignum">${fr(st.solo.score)}</div><p class="lede" style="margin:6px 0 0">${r} bonne${r>1?'s':''} réponse${r>1?'s':''} sur ${n}</p></div>${miss?`<div><h2 class="eyebrow" style="margin:0 0 8px">À revoir</h2><div class="review">${miss}</div></div>`:'<p class="lede">Sans faute. Bravo !</p>'}</div>`;
+  }
+  $('#again').textContent=st.mode==='live'?'Rejouer avec la même salle':'Rejouer';
+}
+
+function confetti(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  const c=$('#confetti'),x=c.getContext('2d');c.hidden=false;
+  const W=c.width=innerWidth,H=c.height=innerHeight;const cs=getComputedStyle(document.documentElement);
+  const cols=['--o0','--o1','--o2','--o3','--gold'].map(v=>cs.getPropertyValue(v).trim());
+  const ps=Array.from({length:160},()=>({x:Math.random()*W,y:-20-Math.random()*H*.5,vx:(Math.random()-.5)*2,vy:2+Math.random()*3,r:Math.random()*6.28,vr:(Math.random()-.5)*.2,s:6+Math.random()*7,c:cols[Math.floor(Math.random()*cols.length)],k:Math.random()<.5}));
+  const t0=performance.now();
+  (function frm(t){x.clearRect(0,0,W,H);ps.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;x.save();x.translate(p.x,p.y);x.rotate(p.r);x.fillStyle=p.c;
+    if(p.k){x.beginPath();x.moveTo(0,-p.s/1.4);x.lineTo(p.s/1.4,p.s/1.4);x.lineTo(-p.s/1.4,p.s/1.4);x.fill()}else x.fillRect(-p.s/2,-p.s/4,p.s,p.s/2);x.restore()});
+    if(t-t0<4200)requestAnimationFrame(frm);else{x.clearRect(0,0,W,H);c.hidden=true}})(t0);
+}
+
+/* ================= Commandes (prof) ================= */
+function toggleFs(){try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen().catch(()=>{})}catch(e){}}
+function initHostControls(){
+  $('#revealBtn').onclick=()=>reveal(null);
+  $('#nextBtn').onclick=next;
+  $('#rankNext').onclick=()=>{if(st.phase!=='rank')return;st.i++;if(st.i<st.order.length){show('quiz');ask()}else finish()};
+  $('#again').onclick=()=>{if(st.mode==='live'){st.phase='lobby';broadcast({t:'lobby'});st.players=st.players.filter(p=>p.online);show('lobby');drawRoster()}else startGame()};
+  $('#home2').onclick=()=>{if(st.mode==='live')closeRoom();st.phase='idle';show('home')};
+  $('#liveStart').onclick=()=>{if(online().length)startGame()};
+  $('#closeRoom').onclick=()=>{closeRoom();show('home')};
+  $('#snd').onclick=()=>{st.sound=!st.sound;$('#snd').textContent='Son : '+(st.sound?'oui':'non');$('#snd').setAttribute('aria-pressed',st.sound)};
+  $('#fs').onclick=toggleFs;$('#fs2').onclick=toggleFs;
+  let quitArm=0;
+  $('#quit').onclick=()=>{const b=$('#quit');
+    if(Date.now()-quitArm<3000){cancelAnimationFrame(st.raf);if(st.mode==='live')closeRoom();st.phase='idle';b.textContent='Quitter';show('home');return}
+    quitArm=Date.now();b.textContent='Confirmer ?';setTimeout(()=>{b.textContent='Quitter'},3000)};
+  document.addEventListener('keydown',e=>{
+    if(e.target.tagName==='INPUT')return;
+    if(e.key==='f'||e.key==='F'){toggleFs();return}
+    if(e.key===' '||e.key==='Enter'){
+      if(document.activeElement&&document.activeElement.tagName==='BUTTON'&&e.key==='Enter')return;
+      e.preventDefault();
+      if(st.phase==='ask'&&st.mode!=='solo')reveal(null);
+      else if(st.phase==='reveal')next();
+      else if(st.phase==='rank')$('#rankNext').click();
+      return}
+    if(st.phase==='ask'&&st.mode==='solo'){const k='1234'.indexOf(e.key)>=0?'1234'.indexOf(e.key):'abcd'.indexOf(e.key.toLowerCase());if(k>=0)answer(k)}
+  });
+  window.addEventListener('beforeunload',()=>{try{st.peer&&st.peer.destroy()}catch(e){}});
+}
+
+/* ================= Téléphone élève ================= */
+function playerApp(pin0){
+  show('player');document.body.classList.add('is-player');
+  const P={pin:(pin0||'').replace(/\D/g,'').slice(0,6),name:'',state:'join',err:'',peer:null,conn:null,q:null,res:null,end:null,score:0,joined:false,timer:0};
+  try{P.name=localStorage.getItem('arene-name')||''}catch(e){}
+  const root=$('#player');
+  const top=()=>`<div class="ptop"><span class="brand">Arène Maths</span>${P.joined?`<span class="me">${esc(P.name)} · ${fr(P.score)} pts</span>`:''}</div>`;
+  function render(){
+    let h=top();
+    if(P.state==='join'){
+      h+=`<div class="pcenter"><form class="pcard pform" id="pjoin" novalidate>
+        <h2>Rejoindre la partie</h2>
+        <label for="p-pin">Code de la partie<input id="p-pin" inputmode="numeric" autocomplete="off" maxlength="7" value="${esc(P.pin)}" placeholder="123456"></label>
+        <label for="p-name">Ton prénom ou pseudo<input id="p-name" maxlength="16" autocomplete="off" value="${esc(P.name)}" placeholder="Ex. Yasmine"></label>
+        <p class="perr" id="perr">${esc(P.err)}</p>
+        <button class="go" type="submit">Entrer</button></form></div>`;
+    }else if(P.state==='connecting'){
+      h+=`<div class="pcenter"><div class="pcard"><div class="spin"></div><h2>Connexion…</h2><p>Code ${esc(P.pin)}</p></div></div>`;
+    }else if(P.state==='wait'){
+      h+=`<div class="pcenter"><div class="pcard"><h2>Tu es dans la partie !</h2><p>Regarde le tableau. Les boutons de réponse apparaîtront ici à chaque question.</p></div></div>`;
+    }else if(P.state==='play'){
+      h+=`<div class="pq">Question ${P.q.n+1} / ${P.q.total}</div><div class="pbtns">${P.q.tiles.map((t,p)=>`<button class="pbtn" type="button" data-p="${p}"><b>${t.L}</b><small>${fmt(t.text)}</small></button>`).join('')}</div>`;
+    }else if(P.state==='sent'){
+      const t=P.q.tiles[P.sent];
+      h+=`<div class="pcenter"><div class="pcard"><div class="pbig" style="color:var(--o${P.sent})">${t.L}</div><h2>Réponse envoyée</h2><p>Attends que le prof révèle la bonne réponse.</p></div></div>`;
+    }else if(P.state==='res'){
+      const r=P.res;
+      h+=`<div class="pcenter"><div class="pcard ${r.ok?'ok':'ko'}"><h2>${r.ok?'Bonne réponse !':r.answered?'Raté…':'Temps écoulé'}</h2>
+        ${r.ok?`<div class="pbig">+${fr(r.pts)}</div>${r.streak>1?`<p>Série de ${r.streak}</p>`:''}`:`<p>La bonne réponse était ${esc(r.okL)}.</p>`}
+        </div><div class="pcard"><p>Tu es</p><div class="pbig">${r.rank}<sup style="font-size:.4em">${r.rank===1?'er':'e'}</sup></div><p>sur ${r.count} · ${fr(r.score)} pts</p></div></div>`;
+    }else if(P.state==='end'){
+      const e=P.end;
+      h+=`<div class="pcenter"><div class="pcard"><p>Classement final</p><div class="pbig">${e.rank}<sup style="font-size:.4em">${e.rank===1?'er':'e'}</sup></div><p>sur ${e.count}</p><h2>${fr(e.score)} pts</h2><p>${e.right} bonne${e.right>1?'s':''} réponse${e.right>1?'s':''} sur ${e.total}</p></div></div>`;
+    }else if(P.state==='kicked'){
+      h+=`<div class="pcenter"><div class="pcard ko"><h2>Tu as été retiré de la partie</h2><p>Demande au prof si tu peux revenir.</p></div></div>`;
+    }else if(P.state==='lost'){
+      h+=`<div class="pcenter"><div class="pcard"><h2>Connexion perdue</h2><p>${esc(P.err||'La partie est peut-être terminée.')}</p><button class="go" type="button" id="prejoin">Se reconnecter</button></div></div>`;
+    }
+    root.innerHTML=h;
+    const f=$('#pjoin');
+    if(f){
+      const pi=$('#p-pin');pi.addEventListener('input',()=>{pi.value=pi.value.replace(/\D/g,'').slice(0,6)});
+      f.onsubmit=e=>{e.preventDefault();P.pin=pi.value.replace(/\D/g,'');P.name=cleanName($('#p-name').value);
+        if(P.pin.length!==6){P.err='Le code a 6 chiffres.';render();return}
+        if(!P.name){P.err='Écris ton prénom ou un pseudo.';render();return}
+        P.err='';connect(false)};
+      (P.pin.length===6?$('#p-name'):pi).focus();
+    }
+    root.querySelectorAll('.pbtn').forEach(b=>b.onclick=()=>{if(P.state!=='play')return;P.sent=+b.dataset.p;try{P.conn.send({t:'ans',n:P.q.n,p:P.sent})}catch(e){}
+      try{navigator.vibrate&&navigator.vibrate(30)}catch(e){};P.state='sent';render()});
+    const rj=$('#prejoin');if(rj)rj.onclick=()=>connect(true);
+  }
+  function fail(msg){P.state=P.joined?'lost':'join';P.err=msg;try{P.peer&&P.peer.destroy()}catch(e){};render()}
+  function connect(rejoin){
+    if(typeof Peer==='undefined'){P.err='Connexion impossible : vérifie internet puis recharge la page.';P.state='join';render();return}
+    try{P.peer&&P.peer.destroy()}catch(e){}
+    P.state='connecting';render();
+    clearTimeout(P.timer);P.timer=setTimeout(()=>{if(P.state==='connecting')fail('Pas de réponse. Vérifie le code, ou essaie avec les données mobiles.')},15000);
+    const peer=new Peer({debug:0});P.peer=peer;
+    peer.on('open',()=>{
+      const conn=peer.connect(HOST_PREFIX+P.pin,{reliable:true});P.conn=conn;
+      conn.on('open',()=>conn.send({t:'join',name:P.name,rejoin:!!rejoin}));
+      conn.on('data',onMsg);
+      conn.on('close',()=>{if(P.state!=='kicked'&&P.state!=='end')fail('La connexion avec le tableau a été coupée.')});
+    });
+    peer.on('error',e=>{if(e.type==='peer-unavailable')fail('Aucune partie ouverte avec ce code.');else if(P.state==='connecting')fail('Connexion impossible ('+e.type+').')});
+  }
+  function onMsg(d){
+    if(!d||typeof d!=='object')return;
+    if(d.t==='welcome'){clearTimeout(P.timer);P.joined=true;P.name=d.name;P.score=d.score||0;try{localStorage.setItem('arene-name',P.name)}catch(e){}
+      if(P.state==='connecting')P.state='wait';render();return}
+    if(d.t==='q'){P.q=d;P.sent=null;P.state='play';render();return}
+    if(d.t==='res'){P.res=d;P.score=d.score;P.state='res';try{navigator.vibrate&&navigator.vibrate(d.ok?[40,60,40]:200)}catch(e){};render();return}
+    if(d.t==='end'){P.end=d;P.score=d.score;P.state='end';render();return}
+    if(d.t==='lobby'){P.score=0;P.state='wait';render();return}
+    if(d.t==='kick'){P.state='kicked';render();try{P.peer.destroy()}catch(e){};return}
+    if(d.t==='closed'){P.state='lost';P.err='Le prof a fermé la salle.';render()}
+  }
+  render();
+}
+
+/* ================= Démarrage ================= */
+(function boot(){
+  const pin=new URLSearchParams(location.search).get('pin');
+  if(pin!==null||new URLSearchParams(location.search).has('join'))playerApp(pin||'');
+  else{initHome();initHostControls();show('home')}
+})();
+
+</script>
+</body>
+</html>
