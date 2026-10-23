@@ -193,10 +193,12 @@ div.tile{cursor:default}
 /* Jauge projetée */
 .gauge{background:var(--card);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--sh);padding:18px 26px 14px}
 .gtrack{position:relative;height:64px;margin:10px 4px 6px}
-.gtrack .bar0{position:absolute;left:0;right:0;top:26px;height:14px;border-radius:7px;background:linear-gradient(90deg,var(--o1),var(--grape),var(--pink));border:3px solid var(--ink)}
-.gtrack .tk{position:absolute;top:44px;transform:translateX(-50%);font-weight:800;font-size:.9rem;color:var(--ink-2)}
-.gtrack .tk::before{content:"";position:absolute;left:50%;top:-6px;width:2px;height:6px;background:var(--ink)}
-.gtrack .dot{position:absolute;top:18px;width:16px;height:16px;margin-left:-8px;border-radius:50%;background:var(--gold);border:2px solid var(--ink);opacity:.9}
+.gtrack .bar0{position:absolute;left:0;right:-14px;top:31px;height:4px;border-radius:2px;background:var(--ink)}
+.gtrack .bar0::after{content:"";position:absolute;right:-12px;top:-7px;border:9px solid transparent;border-left:13px solid var(--ink)}
+.gtrack .tk{position:absolute;top:46px;transform:translateX(-50%);font-family:var(--display);font-weight:700;font-size:clamp(1rem,1.6vw,1.35rem);color:var(--ink);white-space:nowrap}
+.gtrack .tk::before{content:"";position:absolute;left:50%;top:-20px;width:2px;height:14px;margin-left:-1px;background:var(--ink)}
+.gtrack .tk.lab::before{top:-24px;height:22px;width:3px;margin-left:-1.5px}
+.gtrack .dot{position:absolute;top:25px;width:16px;height:16px;margin-left:-8px;border-radius:50%;background:var(--gold);border:2px solid var(--ink);opacity:.9}
 .gtrack .target{position:absolute;top:-6px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;animation:drop .5s cubic-bezier(.3,1.6,.5,1)}
 .gtrack .target b{background:var(--good);color:#fff;border:3px solid var(--ink);border-radius:12px;padding:2px 10px;font-family:var(--display);font-size:1.3rem;white-space:nowrap}
 .gtrack .target i{width:4px;height:30px;background:var(--ink)}
@@ -209,6 +211,17 @@ div.tile{cursor:default}
 .ord{display:flex;align-items:center;gap:10px;background:var(--card);border:3px solid var(--ink);border-radius:16px;padding:12px;font-weight:800;font-size:clamp(1.05rem,1.7vw,1.5rem);box-shadow:0 5px 0 var(--ink)}
 .ord .k{flex:none;width:1.8em;height:1.8em;border-radius:50%;background:var(--grape);color:#fff;display:grid;place-items:center;font-family:var(--display);border:2.5px solid var(--ink)}
 .ord.good .k{background:var(--good)}
+.nl{position:relative;height:92px;margin:4px 22px 0 14px;touch-action:none;cursor:pointer;outline:none;user-select:none;-webkit-user-select:none}
+.nl:focus-visible{outline:4px solid var(--grape);outline-offset:6px;border-radius:12px}
+.nl-axis{position:absolute;left:0;right:0;top:46px;height:4px;background:var(--ink);border-radius:2px}
+.nl-axis::after{content:"";position:absolute;right:-16px;top:-7px;border:9px solid transparent;border-left:13px solid var(--ink)}
+.nl-axis i{position:absolute;top:-6px;width:2px;height:16px;margin-left:-1px;background:var(--ink)}
+.nl-axis i.M{top:-10px;height:24px;width:3px;margin-left:-1.5px}
+.nl-axis b{position:absolute;top:20px;transform:translateX(-50%);font-family:var(--display);font-weight:700;font-size:1.15rem;white-space:nowrap}
+.nl-cur{position:absolute;top:0;width:34px;height:34px;margin-left:-17px;border-radius:50%;background:var(--gold);border:3px solid var(--ink);box-shadow:0 3px 0 var(--ink);pointer-events:none;transition:left .09s ease-out}
+.nl-cur::after{content:"";position:absolute;left:50%;top:31px;width:3px;height:16px;margin-left:-1.5px;background:var(--ink)}
+.nl-hint{margin:0;text-align:center;font-weight:800;color:var(--ink-2)}
+.nlpanel{max-width:760px;margin:0 auto}
 .soloin{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap}
 .soloin input[type=text]{font:inherit;font-family:var(--display);font-size:2rem;width:min(320px,70vw);text-align:center;border:3px solid var(--ink);border-radius:16px;padding:8px}
 .soloin input[type=range]{width:min(640px,80vw)}
@@ -486,6 +499,19 @@ input::placeholder{color:var(--paper-mute);opacity:1}
 .ibtn:hover,.banknav button:not([aria-current="true"]):hover,.seg label:not(:has(input:checked)):hover{background:var(--soft)}
 .ibtn[aria-pressed="false"]{color:var(--ink-2);text-decoration:line-through;text-decoration-thickness:2px}
 .pill.boss{background:var(--ink);color:var(--gold)}
+.how{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;counter-reset:how}
+.how li{counter-increment:how;background:var(--card);border:2.5px solid var(--ink);border-radius:14px;padding:8px 10px 8px 44px;position:relative;font-weight:700;line-height:1.3;font-size:.95rem}
+.how li::before{content:counter(how);position:absolute;left:8px;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:50%;background:var(--o1);color:#fff;display:grid;place-items:center;font-family:var(--display);font-weight:700;border:2.5px solid var(--ink)}
+.how b{font-weight:900}
+.homefoot{grid-column:1/-1;display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 16px;color:var(--ink-2);font-weight:700;font-size:.9rem;padding:4px 2px 0}
+@media (max-width:560px){.how{grid-template-columns:1fr}}
+.ch .n small{font-weight:800;font-size:.72rem;color:var(--grape)}
+.banksec{font-size:1.25rem;margin:10px 0 0;display:grid;gap:2px}
+.banksec .hint{font-family:var(--body);font-weight:700;font-size:.92rem}
+.gcard{border-style:dashed}
+.genpill{background:var(--grape);color:#fff}
+.gname{margin:6px 0 0;font-weight:900;color:var(--grape)}
+.gcard .btn{margin-top:10px}
 .opt-note{margin:4px 0 0 32px}
 
 /* ---------- Tension : dernières secondes ---------- */
@@ -572,10 +598,11 @@ body.hurry #tension{opacity:1;animation:vign .5s ease-in-out infinite alternate}
 <section class="screen" id="home" hidden>
   <div class="hero">
     <div class="logo"><span class="mark" id="logoMark"></span><h1>Arène<br><b>Maths</b></h1></div>
-    <p class="tag">Le quiz de maths du collège, de la 6ème à la 3ème, où toute la classe joue en même temps, sur téléphone ou en équipes. Questions au tableau, réponses en direct, podium à la fin.</p>
+    <p class="tag">Le quiz de maths du collège, de la 6e à la 3e : toute la classe joue en même temps, sur téléphone ou en équipes. Plus de 1 500 questions relues et de nouvelles variantes générées à chaque partie.</p>
+    <ol class="how" aria-label="Comment ça marche"><li><b>Choisissez</b> le niveau et les chapitres</li><li><b>Ouvrez la salle</b> au tableau</li><li><b>Les élèves scannent</b> le QR code et jouent</li></ol>
     <div class="parade" id="parade" aria-hidden="true"></div>
     <div class="features">
-      <span class="pill">QCM</span><span class="pill">Jauge</span><span class="pill">Vrai ou faux</span><span class="pill">Réponse à taper</span><span class="pill">Remettre dans l'ordre</span><span class="pill">Rédaction à glisser</span><span class="pill" style="background:var(--pink);color:#fff">Compte double ×2</span><span class="pill boss">Mode Boss</span>
+      <span class="pill">QCM</span><span class="pill">Droite graduée</span><span class="pill">Vrai ou faux</span><span class="pill">Réponse à taper</span><span class="pill">Remettre dans l'ordre</span><span class="pill">Rédaction à glisser</span><span class="pill" style="background:var(--pink);color:#fff">Compte double ×2</span><span class="pill boss">Mode Boss</span>
     </div>
   </div>
 
@@ -619,7 +646,7 @@ body.hurry #tension{opacity:1;animation:vign .5s ease-in-out infinite alternate}
       <h2>Options</h2>
       <div style="display:grid;gap:8px">
         <label class="switch"><input type="checkbox" id="optBonus" checked>Comptes double ×2 et finale triple ×3</label>
-        <label class="switch"><input type="checkbox" id="optMix" checked>Varier les mécaniques (jauge, vrai/faux, saisie, ordre)</label>
+        <label class="switch"><input type="checkbox" id="optMix" checked>Varier les mécaniques (droite graduée, vrai/faux, saisie, ordre)</label>
         <label class="switch"><input type="checkbox" id="optBoss">Mode Boss : toute la classe affronte un monstre</label>
         <p class="hint opt-note">Chaque bonne réponse lui retire des points de vie. Il faut environ 60 % de réussite pour le mettre K.O.</p>
       </div>
@@ -638,6 +665,7 @@ body.hurry #tension{opacity:1;animation:vign .5s ease-in-out infinite alternate}
     <p class="hint" id="progNote"></p>
     <div class="domains" id="domains"></div>
   </div>
+  <footer class="homefoot"><span><b>Arène Maths</b> · version 2026.10</span><span>Aucun compte, aucune donnée personnelle conservée : les élèves jouent sous un pseudo choisi en classe.</span></footer>
 </section>
 
 <!-- ============ BANQUE DE QUESTIONS ============ -->
@@ -986,7 +1014,7 @@ function renderGraph(f){
   return o+'</svg>';
 }
 function renderBars(f){
-  const n=f.values.length,bw=70,gap=40,C=28,L=56,B=58,T=24;
+  const n=f.values.length,bw=70,gap=40,C=28,L=56,B=58,T=38;
   const W=L+n*(bw+gap)+gap/2,H=T+f.ymax*C+B;
   const Y=v=>T+(f.ymax-v)*C;
   let o=`<svg class="fig-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${esc(f.alt||'Diagramme')}">`;
@@ -1240,7 +1268,7 @@ calc:[
  QS("Calcule : 3 − 5 × 2",-7,"La multiplication d'abord : 5 × 2 = 10, puis 3 − 10 = −7."),
  O("Range du plus petit au plus grand",["−3","−1/2","0,4","3/4"],"−3 < −0,5 < 0,4 < 0,75."),
  VF("2/3 + 1/3 = 3/6",false,"2/3 + 1/3 = 3/3 = 1. On n'additionne pas les dénominateurs."),
- J("Place la fraction 3/4 sur la jauge",{min:0,max:2,step:0.05,ans:0.75,tol:0.05,spread:0.4},"3/4 = 3 ÷ 4 = 0,75 : entre 0 et 1, plus près de 1."),
+ J("Place la fraction 3/4 sur la jauge",{min:0,max:2,step:0.25,ans:0.75,tol:0,spread:0.5},"3/4 = 3 ÷ 4 = 0,75 : entre 0 et 1, plus près de 1."),
 ],
 arith:[
  VF("91 est un nombre premier.",false,"91 = 7 × 13 : il a d'autres diviseurs que 1 et lui-même."),
@@ -1332,10 +1360,10 @@ CHAPTERS.forEach(ch=>{(MORE[ch.id]||[]).forEach(q=>ch.questions.push(q))});
 /* ================= Niveaux 6ème, 5ème, 4ème + compléments 3ème ================= */
 CHAPTERS.forEach(c=>c.lvl=c.lvl||'3e');
 const LEVELS=[
- {id:'6e',name:'6ème',prog:'Programme de cycle 3 (2025)'},
- {id:'5e',name:'5ème',prog:'Nouveau programme de cycle 4 (2026)'},
- {id:'4e',name:'4ème',prog:'Programme de cycle 4 (2019)'},
- {id:'3e',name:'3ème',prog:'Programme de cycle 4 (2019)'}];
+ {id:'6e',name:'6e',prog:'Programme de cycle 3 (2025)'},
+ {id:'5e',name:'5e',prog:'Nouveau programme de cycle 4 (2026)'},
+ {id:'4e',name:'4e',prog:'Programme de cycle 4 (2019)'},
+ {id:'3e',name:'3e',prog:'Programme de cycle 4 (2019)'}];
 const NONE=[null,null,null,null];
 
 /* --- Figures --- */
@@ -1397,7 +1425,7 @@ ch('6e','n6-ent','Nombres et calculs','Nombres entiers et décimaux','Valeur des
  Q("Quel encadrement de 6,78 à l'unité est correct ?",["6 < 6,78 < 7","6,7 < 6,78 < 6,8","7 < 6,78 < 8","6 < 6,78 < 6,8"],"À l'unité, on encadre entre deux entiers qui se suivent : 6 et 7. (6,7 et 6,8 est l'encadrement au dixième.)"),
  Q("Quel nombre s'écrit avec 5 dizaines, 3 unités et 2 dixièmes ?",["53,2","5,32","532","50,32"],"5 dizaines = 50, 3 unités = 3 et 2 dixièmes = 0,2 : 53,2."),
  O("Range du plus petit au plus grand",["0,8","1,09","1,25","1,3"],"On compare d'abord les unités, puis les dixièmes : 0,8 < 1,09 < 1,25 < 1,3."),
- J("Place 2,5 sur la droite graduée",{min:0,max:5,step:0.1,ans:2.5,tol:0.1,spread:0.5},"2,5 est exactement au milieu entre 2 et 3."),
+ J("Place 2,5 sur la droite graduée",{min:0,max:5,step:0.5,ans:2.5,tol:0,spread:0.5},"2,5 est exactement au milieu entre 2 et 3."),
  VF("2,50 est plus grand que 2,5.",false,"2,50 = 2,5 : ajouter un zéro à la fin de la partie décimale ne change pas le nombre."),
  QS("Combien de dixièmes y a-t-il dans 3 unités ?",30,"1 unité = 10 dixièmes, donc 3 unités = 30 dixièmes."),
 ]),
@@ -1538,7 +1566,7 @@ ch('6e','n6-mes','Grandeurs et mesures','Longueurs, aires, volumes et durées','
  Q("Quelle unité choisir pour l'aire d'une chambre ?",["m²","m","cm³","km²"],"Une aire de quelques mètres carrés s'exprime en m²."),
  VF("Deux figures qui ont le même périmètre ont forcément la même aire.",false,"Un rectangle de 1 sur 5 et un carré de 3 sur 3 ont tous les deux un périmètre de 12, mais des aires de 5 et de 9."),
  QS("Combien de mm dans 4,5 cm ?",45,"1 cm = 10 mm, donc 4,5 cm = 45 mm.",{unit:'mm'}),
- J("Une baguette mesure 65 cm. Place sa longueur en mètres.",{min:0,max:2,step:0.05,ans:0.65,tol:0,spread:0.25,unit:'m'},"1 m = 100 cm, donc 65 cm = 0,65 m."),
+ J("Une baguette mesure 65 cm. Place sa longueur en mètres.",{min:0,max:1,step:0.05,ans:0.65,tol:0,spread:0.25,unit:'m'},"1 m = 100 cm, donc 65 cm = 0,65 m."),
 ]),
 ch('6e','n6-algo','Pensée informatique','Pensée informatique','Séquences d’instructions et boucles',25,[
  Q("« Répéter 4 fois : avancer de 10, tourner à droite de 90° ». Quelle figure est tracée ?",["Un carré","Un triangle","Une ligne droite","Un cercle"],"4 côtés égaux et 4 angles droits."),
@@ -2067,7 +2095,7 @@ const ADD={
  VF("Dans 305, le chiffre des dizaines est 0.",true,"3 centaines, 0 dizaine et 5 unités."),
  QS("Combien de centièmes y a-t-il dans 1 unité ?",100,"1 unité = 100 centièmes."),
  O("Range du plus grand au plus petit",["9,1","9,09","9,01","8,99"],"On compare les unités, puis les dixièmes, puis les centièmes."),
- J("Place 0,3 sur la droite graduée",{min:0,max:1,step:0.05,ans:0.3,tol:0.05,spread:0.2},"0,3 = 3 dixièmes."),
+ J("Place 0,3 sur la droite graduée",{min:0,max:1,step:0.1,ans:0.3,tol:0,spread:0.2},"0,3 = 3 dixièmes."),
 ],
 'n6-frac':[
  Q("Quelle fraction d'un mois de 30 jours représentent 10 jours ?",["1/3","1/10","3/10","10/3"],"10 jours sur 30 : un tiers du mois."),
@@ -2083,7 +2111,7 @@ const ADD={
  VF("1/2 + 1/2 = 1",true,"Deux moitiés font une unité."),
  VF("2/3 = 3/2",false,"2/3 est plus petit que 1, alors que 3/2 est plus grand que 1."),
  QS("Combien vaut 3/4 de 40 ?",30,"40 ÷ 4 = 10, puis 3 × 10 = 30."),
- J("Place 1/4 sur la jauge",{min:0,max:1,step:0.05,ans:0.25,tol:0,spread:0.15},"1/4 = 0,25."),
+ J("Place 1/4 sur la jauge",{min:0,max:1,step:0.25,ans:0.25,tol:0,spread:0.25},"1/4 = 0,25."),
 ],
 'n6-ops':[
  Q("63 ÷ 100 = ?",["0,63","6 300","6,3","0,063"],"Diviser par 100 décale les chiffres de deux rangs vers la droite."),
@@ -3339,6 +3367,87 @@ CHAPTERS.forEach(ch=>ch.questions.forEach(q=>{
 }));
 }
 
+/* ================= Révision pédagogique (jauges, distracteurs) ================= */
+// La jauge est réservée aux questions où placer un nombre sur une droite graduée est la compétence travaillée
+// (fractions, décimaux, relatifs, échelle des probabilités, encadrement d'une racine, cosinus entre 0 et 1).
+// Les calculs passent en réponse à taper ; l'estimation d'angle « à l'œil » devient une question de nature ou d'ordre de grandeur.
+{
+const S=(p,u)=>({to:'saisie',p,u});
+const JFIX={
+ "puis|0,000 07 = 7 × 10ⁿ. Choisis n sur la jauge.":S("0,000 07 = 7 × 10ⁿ. Combien vaut n ?"),
+ "puis|Choisis l'exposant n tel que 0,001 = 10ⁿ":S("0,001 = 10ⁿ. Combien vaut n ?"),
+ "prop|Un article à 50 € augmente de 30 %. Nouveau prix ?":S("Un article à 50 € augmente de 30 %. Quel est son nouveau prix ?",'€'),
+ "prop|Un prix passe de 50 € à 40 €. Pourcentage de baisse ?":S("Un prix passe de 50 € à 40 €. De quel pourcentage a-t-il baissé ?",'%'),
+ "fonc|D'après le graphique, quelle est l'image de −3 par f ?":S(),
+ "fonc|D'après le graphique, quelle est l'image de 3 par f ?":S(),
+ "aff|Quel est le coefficient directeur de cette droite ?":S(),
+ "aff|Quelle est l'ordonnée à l'origine de cette droite ?":S(),
+ "stat|Étendue de la série 3 ; 18 ; 7 ; 11 ; 25 ?":S(),
+ "stat|Médiane de 1 ; 4 ; 6 ; 9 ?":S(),
+ "grand|Un train roule à 300 km/h pendant 1 h 30. Distance parcourue ?":S(),
+ "grand|Un marcheur avance à 5 km/h. Distance en 2 h 30 ?":S(),
+ "pyth|Combien mesure la diagonale d'un rectangle de 3 cm sur 4 cm ?":S(),
+ "thales|M ∈ [AB], N ∈ [AC] et (MN) // (BC). Combien mesure BC ?":S(),
+ "thales|M ∈ [AB], N ∈ [AC] et (MN) // (BC). Combien mesure AC ?":S(),
+ "thales-pap|(BM) et (CN) se coupent en A et (MN) // (BC). Combien mesure MN ?":S(),
+ "semb|Rapport d'agrandissement qui transforme un côté de 4 cm en un côté de 10 cm ?":S(),
+ "transfo|Une homothétie de rapport k > 0 transforme un segment de 4 cm en un segment de 10 cm. Place k.":S("Une homothétie de rapport k > 0 transforme un segment de 4 cm en un segment de 10 cm. Combien vaut k ?"),
+ "transfo|Rapport positif de l'homothétie qui transforme un segment de 6 cm en un segment de 3 cm ?":S(),
+ "espace|Latitude de l'équateur ?":S("Quelle est la latitude d'un point situé sur l'équateur ?",'°'),
+ "n6-ops|Où se trouve le résultat de 99 × 3 ?":S("Calcule 99 × 3"),
+ "n6-alg|Combien pèse le melon ? (melon + 300 g = 1 200 g)":S("Sur une balance équilibrée : un melon + 300 g = 1 200 g. Combien pèse le melon ?"),
+ "n6-prop|Une voiture consomme 6 L pour 100 km. Combien pour 50 km ?":S(),
+ "n6-prop|1 L de jus coûte 2 €. Combien coûtent 3,5 L ?":S(),
+ "n5-ops|Où se trouve 2,5 × 4 − 3 ?":S("Calcule 2,5 × 4 − 3"),
+ "n5-prop|À 60 km/h, quelle distance parcourt-on en 30 minutes ?":S(),
+ "n5-prop|Un train roule à 100 km/h. Quelle distance en 1 h 30 ?":S(),
+ "n5-fonc|Sur la courbe, quelle valeur de y correspond à x = 6 ?":S(),
+ "n5-stat|Moyenne de 10 ; 14 ; 18 ?":S(),
+ "n5-ang|Dans un triangle rectangle, un angle aigu mesure 25°. Place la mesure de l'autre angle aigu.":S("Dans un triangle rectangle, un angle aigu mesure 25°. Combien mesure l'autre angle aigu ?"),
+ "n5-tri|Aire d'un triangle rectangle dont les côtés de l'angle droit mesurent 6 cm et 10 cm ?":S(),
+ "n5-esp|Un aquarium de 50 cm × 20 cm × 30 cm contient combien de litres une fois plein ?":S(),
+ "n5-esp|Contenance d'une brique de 10 cm × 10 cm × 15 cm (en L) ?":S(),
+ "n4-rel|Où se trouve (−2) × 3 + 10 ?":S("Calcule (−2) × 3 + 10"),
+ "n4-equa|Solution de 4x + 2 = 12 ?":S("Résous 4x + 2 = 12. Combien vaut x ?"),
+ "n4-prop|Un randonneur marche à 4 km/h. Combien de km parcourt-il en 1 h 30 ?":S(),
+ "n4-prop|Un cycliste roule à 20 km/h. Combien de temps (en h) pour 50 km ?":S(),
+ "n4-stat|Médiane de 4 ; 9 ; 2 ; 7 ; 5 ?":S(),
+ "n4-thal|M ∈ [AB], N ∈ [AC] et (MN) // (BC). Combien mesure BC ?":S(),
+};
+const near="Sans rapporteur, quelle mesure est la plus proche de celle de l'angle AÔB ?",nat="Quelle est la nature de l'angle AÔB ?";
+const ANG={
+ 45:Q(near,["45°","90°","135°","10°"],"L'angle est plus petit qu'un angle droit et en vaut à peu près la moitié : environ 45°. Pour une mesure précise, on utilise le rapporteur.",{fig:angFig(45)}),
+ 130:Q(near,["130°","50°","90°","175°"],"L'angle est plus grand qu'un angle droit sans être presque plat : environ 130°. Lire 50° est l'erreur classique : on a pris la mauvaise graduation du rapporteur.",{fig:angFig(130)}),
+ 90:Q(nat,["Aigu","Obtus","Droit","Plat"],"Il est nettement plus petit qu'un angle droit : c'est un angle aigu.",{fig:angFig(25)}),
+ 160:Q(nat,["Obtus","Aigu","Droit","Plat"],"Il est plus grand qu'un angle droit mais ses deux côtés ne sont pas dans le prolongement l'un de l'autre : c'est un angle obtus.",{fig:angFig(160)}),
+};
+// Bonne réponse visiblement plus longue que les autres : distracteurs réécrits à longueur comparable
+const LFIX={
+ "thales-pap|Pour utiliser la réciproque du théorème de Thalès en papillon, il faut des rapports égaux et…":["des points alignés dans le même ordre","des droites (MN) et (BC) de même longueur","un angle droit en A dans les deux triangles","des segments [AM] et [AN] de même longueur"],
+ "espace|La longitude d'un point se mesure par rapport…":["au méridien de Greenwich","à l'équateur terrestre","à l'axe des pôles","au tropique du Cancer"],
+ "algo|Dans Scratch, le bloc « quand je reçois message1 » permet…":["de lancer un script quand ce message est reçu","d'envoyer ce message à tous les lutins","d'arrêter tous les scripts du programme","de créer une variable appelée message1"],
+ "algo|Quel bloc permet d'attendre une réponse de l'utilisateur ?":["demander … et attendre","dire … pendant 2 secondes","répéter jusqu'à …","attendre 1 seconde"],
+ "n6-sym|Combien d'axes de symétrie a un cercle ?":["Une infinité","Exactement 1","Exactement 2","Exactement 4"],
+ "n5-tri|Dans un triangle rectangle, le centre du cercle circonscrit est…":["le milieu du côté opposé à l'angle droit","le sommet de l'angle droit du triangle","le centre de gravité du triangle","le milieu du plus petit des trois côtés"],
+ "n5-sym|Quelle figure n'a PAS de centre de symétrie ?":["Un triangle équilatéral","Un parallélogramme","Un cercle de rayon 3 cm","Un losange non carré"],
+ "n5-algo|« Répéter 3 fois : avancer de 50, tourner de 120° » trace…":["un triangle équilatéral","un carré de côté 50","un hexagone régulier","un segment de 150 pas"],
+ "n5-algo|Quelle est la sortie du programme « demander x ; dire x × 2 » ?":["Le double du nombre saisi","Le nombre saisi lui-même","Le nombre 2, toujours","La lettre x, en texte"],
+ "n5-algo|On veut afficher 5 fois « Bravo ». Le plus simple est…":["répéter 5 fois : dire Bravo","écrire 5 programmes différents","attendre 5 secondes, dire Bravo","dire Bravo une seule fois"],
+};
+CHAPTERS.forEach(c=>{c.questions=c.questions.map(q=>{
+  const k=c.id+'|'+q.prompt;
+  if(c.id==='n6-ang'&&q.type==='jauge'&&ANG[q.ans])return ANG[q.ans];
+  const f=JFIX[k];
+  if(f&&q.type==='jauge'){q.type='saisie';if(f.p)q.prompt=f.p;if(f.u)q.unit=f.u;['min','max','step','tol','spread'].forEach(p=>delete q[p]);q.opts=[null,null,null,null]}
+  if(LFIX[k])q.opts=LFIX[k];
+  if(q.type==='jauge'){
+    if(q.prompt==='Où se trouve (−12) ÷ 4 ?')q.prompt='Place (−12) ÷ 4 sur la droite graduée';
+    if(q.prompt==='Fréquence des poissons (en décimal) ?')q.prompt='Place la fréquence des poissons sur la droite graduée';
+    q.prompt=q.prompt.replace(/ sur la jauge(?: \(entre quels entiers(?: est-il)? \?\))?/,' sur la droite graduée');
+  }
+  return q})});
+}
+
 // Type par défaut, identifiant stable
 const qHash=s=>{let h=5381;for(const c of s)h=((h<<5)+h+c.charCodeAt(0))|0;return (h>>>0).toString(36)};
 CHAPTERS.forEach(ch=>ch.questions.forEach(q=>{q.type=q.type||'qcm';q.time=q.time||ch.time;q.id=ch.id+'-'+qHash(q.prompt+'|'+JSON.stringify(q.opts||q.items||q.ans))}));
@@ -3353,9 +3462,466 @@ CHAPTERS.forEach(ch=>ch.questions.forEach(q=>{q.type=q.type||'qcm';q.time=q.time
     q.time=Math.min(60,Math.max(q.time,r5(est)));
   }));
 }
-const TYPE_LABEL={qcm:'QCM',vf:'Vrai ou faux',jauge:'Jauge',saisie:'Réponse à taper',ordre:'Remets dans l’ordre',redac:'Rédaction'};
+const TYPE_LABEL={qcm:'QCM',vf:'Vrai ou faux',jauge:'Droite graduée',saisie:'Réponse à taper',ordre:'Remets dans l’ordre',redac:'Rédaction'};
 const typeKey=q=>q.redac?'redac':q.type;
 const typeLabel=q=>TYPE_LABEL[typeKey(q)];
+
+/* ================= Générateurs : questions à valeurs aléatoires =================
+   Chaque modèle produit une nouvelle question à chaque partie : valeurs tirées au hasard, bonne réponse calculée,
+   distracteurs construits à partir des erreurs typiques des élèves, explication détaillée. */
+const GR={
+  i:(a,b)=>a+Math.floor(Math.random()*(b-a+1)),
+  p:a=>a[Math.floor(Math.random()*a.length)],
+  s:a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a},
+  nz:(a,b)=>{let x;do x=GR.i(a,b);while(x===0);return x},
+  coin:()=>Math.random()<.5};
+const gcd=(a,b)=>{a=Math.abs(a);b=Math.abs(b);while(b)[a,b]=[b,a%b];return a||1};
+/* Nombre au format français : virgule décimale, signe −, espaces entre groupes de trois chiffres */
+const F=x=>{let v=Math.round(x*1e6)/1e6;if(Object.is(v,-0))v=0;const neg=v<0;let [i,d]=String(Math.abs(v)).split('.');
+  if(i.length>3)i=i.replace(/\B(?=(\d{3})+(?!\d))/g,' ');if(d&&d.length>3)d=d.replace(/(\d{3})(?=\d)/g,'$1 ');return (neg?'−':'')+i+(d?','+d:'')};
+const FR=(n,d)=>(n*d<0?'−':'')+Math.abs(n)+'/'+Math.abs(d);                       // fraction écrite telle quelle
+const FQ=(n,d)=>{const g=gcd(n,d);n/=g;d/=g;if(d<0){n=-n;d=-d}return d===1?F(n):FR(n,d)};  // fraction irréductible
+const PAR=n=>n<0?'('+F(n)+')':F(n);                                                    // relatif entre parenthèses
+const SUP=n=>String(n).split('').map(c=>({'-':'⁻','0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹'})[c]).join('');
+const POLY=(cs,v='x')=>{const deg=cs.length-1;let out='';cs.forEach((c,k)=>{if(!c)return;const p=deg-k,a=Math.abs(c);
+  const t=p===0?String(a):(a===1?'':a)+v+(p===2?'²':'');out+=out?(c<0?' − ':' + ')+t:(c<0?'−':'')+t});return out||'0'};
+const PT=(x,y)=>`(${F(x)} ; ${F(y)})`;
+const PI=n=>(n===1?'':F(n))+'π';
+/* Clé de comparaison : deux options de même valeur (2/4 et 1/2, 0,5) ne peuvent pas coexister */
+const GK=s=>{const t=String(s).replace(/−/g,'-').replace(/[\s ]/g,'').replace(/,/g,'.');
+  const um=t.match(/(cm³|cm²|m²|m³|km\/h|m\/s|cm|mm|km|kg|min|°|€|%|L|g|h|m|s)$/),u=um?um[1]:'',b=u?t.slice(0,-u.length):t;
+  let m=b.match(/^(-?\d+(?:\.\d+)?)\/(-?\d+(?:\.\d+)?)$/);if(m&&+m[2])return 'v'+Math.round(+m[1]/+m[2]*1e9)+u;
+  if(/^-?\d+(\.\d+)?$/.test(b))return 'v'+Math.round(+b*1e9)+u;return 's'+t.toLowerCase()};
+/* Quatre options distinctes, la bonne en premier. strict : comparer l'écriture (ex. fraction non simplifiée) plutôt que la valeur */
+function O4(c,ds,alt,strict){const T=x=>typeof x==='number'?F(x):String(x);c=T(c);const key=strict?(s=>String(s).replace(/\s/g,'')):GK,out=[c],seen=new Set([key(c)]);
+  const add=x=>{if(x==null||out.length>=4)return;const s=T(x);if(/NaN|undefined|Infinity/.test(s))return;const k=key(s);if(!seen.has(k)){seen.add(k);out.push(s)}};
+  ds.forEach(add);let t=0;while(out.length<4&&alt&&t++<80)add(alt());if(out.length<4)throw new Error('options');return out}
+const GENS={};
+const gen=(chs,id,label,make)=>[].concat(chs).forEach(ch=>(GENS[ch]=GENS[ch]||[]).push({id:'g-'+ch+'-'+id,ch,label,make}));
+/* Triangle rectangle en r (sommets nommés) avec les longueurs des côtés écrites sur la figure */
+function rtG(r,a,b,la,lb,lh){return {w:11.5,h:8,grid:false,alt:`Triangle ${r}${a}${b} rectangle en ${r}`,items:[
+  {t:'line',a:[2,1],b:[10,1]},{t:'line',a:[2,1],b:[2,7]},{t:'line',a:[10,1],b:[2,7],c:'acc'},{t:'right',v:[2,1],p:[10,1],q:[2,7]},
+  {t:'lbl',p:[10,1],s:a,dx:8,dy:18},{t:'lbl',p:[2,1],s:r,dx:-22,dy:18},{t:'lbl',p:[2,7],s:b,dx:-22,dy:-2},
+  {t:'lbl',p:[6,1],s:la,dx:-18,dy:24,big:la==='?'},{t:'lbl',p:[2,4],s:lb,dx:-54,dy:6,big:lb==='?'},{t:'lbl',p:[6,4],s:lh,dx:12,dy:-4,big:lh==='?'}]}}
+const LETTERS=[['A','B','C'],['E','F','G'],['M','N','P'],['R','S','T'],['I','J','K']];
+const TRIPLES=[[3,4,5],[5,12,13],[8,15,17],[7,24,25],[20,21,29],[9,40,41]];
+const tri=()=>{const t=GR.p(TRIPLES),k=t[2]<=17?GR.p([1,1,2,3]):1;return t.map(x=>x*k)};
+
+/* ---------- 6e ---------- */
+gen('n6-ent','cmp','Comparer des nombres décimaux',()=>{
+  const u=GR.i(0,9),a=GR.i(2,9),A=u+a/10,B=u+(a-1)/10+GR.i(1,9)/100,C=u+GR.i(0,a-2)/10+GR.i(11,99)/1000,D=u+(a-1)/10+GR.i(1,9)/1000;
+  return GR.coin()
+    ?Q("Quel nombre est le plus grand ?",O4(F(A),[F(B),F(C),F(D)]),`Les unités sont égales, on compare les dixièmes : ${F(A)} en a ${a}, les autres moins. Avoir plus de chiffres après la virgule ne rend pas un nombre plus grand.`)
+    :Q("Quel nombre est le plus petit ?",O4(F(C),[F(A),F(B),F(D)]),`Les unités sont égales, on compare les dixièmes : ${F(C)} en a le moins. Le nombre de chiffres après la virgule ne compte pas.`)});
+gen('n6-ent','chiffre','Valeur d’un chiffre',()=>{
+  const d=GR.s([1,2,3,4,5,6,7,8,9]).slice(0,6),N=['milliers','centaines','dizaines','unités','dixièmes','centièmes'],k=GR.i(0,5);
+  const n=`${d[0]} ${d[1]}${d[2]}${d[3]},${d[4]}${d[5]}`,mir={2:4,4:2,1:5,5:1}[k];
+  return Q(`Dans ${n}, quel est le chiffre des ${N[k]} ?`,O4(d[k],[mir!=null?d[mir]:null,d[(k+1)%6],d[(k+5)%6]],()=>GR.p(d)),
+    `${n} : ${d[0]} milliers, ${d[1]} centaines, ${d[2]} dizaines, ${d[3]} unités, ${d[4]} dixièmes et ${d[5]} centièmes.`+(mir===2||mir===4?' Les dizaines sont à gauche de la virgule, les dixièmes à droite.':''))});
+gen('n6-ent','droite','Placer un décimal sur une droite graduée',()=>{
+  const u=GR.i(0,4),k=GR.i(1,9),v=u+k/10;
+  return J(`Place ${F(v)} sur la droite graduée`,{min:u,max:u+1,step:0.1,ans:v,tol:0,spread:0.25},`Entre ${u} et ${u+1}, l'unité est partagée en 10 dixièmes : ${F(v)} est à la ${k}e graduation après ${u}.`)});
+gen('n6-frac','part','Fraction d’une quantité',()=>{
+  const b=GR.p([2,3,4,5,6,8,10]),a=GR.i(1,b-1),N=b*GR.i(2,12);
+  return QS(`Combien vaut ${a}/${b} de ${N} ?`,N/b*a,a===1?`${N} ÷ ${b} = ${N/b}.`:`On partage ${N} en ${b} : ${N} ÷ ${b} = ${N/b}, puis on prend ${a} parts : ${a} × ${N/b} = ${N/b*a}.`)});
+gen('n6-frac','droite','Placer une fraction sur une droite graduée',()=>{
+  const b=GR.p([2,4,5,10]),M=GR.p([1,2,2,3]);let a;do a=GR.i(1,M*b-1);while(a%b===0);
+  const nm={2:'demi',4:'quart',5:'cinquième',10:'dixième'}[b];
+  return J(`Place ${a}/${b} sur la droite graduée`,{min:0,max:M,step:1/b,ans:a/b,tol:0,spread:Math.max(1/b,0.25)},`L'unité est partagée en ${b} parts égales : ${a}/${b}, c'est ${a} fois un ${nm}, soit ${F(a/b)}.`)});
+gen('n6-frac','somme','Additionner des fractions de même dénominateur',()=>{
+  const d=GR.i(3,9),a=GR.i(1,d-1),b=GR.i(1,d-1);
+  return Q(`${a}/${d} + ${b}/${d} = ?`,O4(FR(a+b,d),[FR(a+b,2*d),FR(a*b,d),FR(a+b,d*d)],()=>FR(a+b+GR.i(1,3),d)),
+    `Même dénominateur : on additionne seulement les numérateurs, ${a} + ${b} = ${a+b}, et le dénominateur ${d} ne change pas. Additionner aussi les dénominateurs est l'erreur classique.`)});
+gen('n6-ops','x10','Multiplier et diviser par 10, 100, 1 000',()=>{
+  const m=GR.i(11,999),x=m/GR.p([10,100]),p=GR.p([10,100,1000]),mul=GR.coin(),n=String(p).length-1,r=mul?x*p:x/p;if((String(Math.round(r*1e6)/1e6).split('.')[1]||'').length>4)throw 0;
+  return QS(`Calcule ${F(x)} ${mul?'×':'÷'} ${F(p)}`,Math.round(r*1e6)/1e6,`${mul?'Multiplier':'Diviser'} par ${F(p)}, c'est décaler chaque chiffre de ${n} rang${n>1?'s':''} vers la ${mul?'gauche':'droite'} : ${F(x)} ${mul?'×':'÷'} ${F(p)} = ${F(r)}.`)});
+gen('n6-ops','diveucl','Division euclidienne',()=>{
+  const b=GR.i(3,9),q=GR.i(4,15),r=GR.i(1,b-1),a=b*q+r,w=GR.coin()?'quotient':'reste';
+  return QS(`Dans la division euclidienne de ${a} par ${b}, quel est le ${w} ?`,w==='quotient'?q:r,`${a} = ${b} × ${q} + ${r}, avec ${r} < ${b} : le quotient est ${q} et le reste ${r}.`)});
+gen('n6-ops','mental','Calcul mental astucieux',()=>{
+  const [A,B]=GR.p([[25,4],[5,2],[50,2],[125,8],[20,5]]),k=GR.i(3,19);
+  return QS(`Calcule ${A} × ${k} × ${B}`,A*B*k,`On regroupe astucieusement : ${A} × ${B} = ${A*B}, puis ${A*B} × ${k} = ${F(A*B*k)}.`)});
+gen('n6-mult','crit','Critères de divisibilité par 2, 5 et 10',()=>{
+  const d=GR.p([2,5,10]),good=d*GR.i(Math.ceil(101/d),Math.floor(999/d));
+  const bad=()=>{let n;do n=GR.i(101,999);while(n%d===0||(d===10&&n%5!==0&&GR.coin()));return n};
+  return Q(`Lequel de ces nombres est divisible par ${d} ?`,O4(F(good),[F(bad()),F(bad()),F(bad())],()=>F(bad())),
+    {2:'Un nombre est divisible par 2 s\'il se termine par 0, 2, 4, 6 ou 8.',5:'Un nombre est divisible par 5 s\'il se termine par 0 ou par 5.',10:'Un nombre est divisible par 10 s\'il se termine par 0 (finir par 5 ne suffit pas).'}[d]+` ${F(good)} = ${d} × ${good/d}.`)});
+gen('n6-mult','multVF','Multiple ou non ?',()=>{
+  const a=GR.i(3,12),k=GR.i(4,15),ok=GR.coin(),r=GR.i(1,a-1),n=ok?a*k:a*k+r;
+  return VF(`${n} est un multiple de ${a}.`,ok,ok?`${n} = ${a} × ${k} : c'est un multiple de ${a}.`:`${n} = ${a} × ${k} + ${r} : la division ne tombe pas juste, ce n'est pas un multiple de ${a}.`)});
+gen('n6-alg','balance','Balance équilibrée',()=>{
+  const n=GR.i(2,6),w=GR.i(2,15),c=GR.i(1,10),t=n*w+c;
+  return QS(`Sur une balance équilibrée : ${n} cubes identiques + ${c} kg = ${t} kg. Combien pèse un cube ?`,w,`On retire ${c} kg des deux côtés : ${n} cubes pèsent ${t-c} kg, donc un cube pèse ${t-c} ÷ ${n} = ${w} kg.`,{unit:'kg'})});
+gen('n6-alg','suite','Suite de nombres',()=>{
+  const s=GR.i(1,20),r=GR.i(2,9),t=[0,1,2,3].map(k=>s+k*r);
+  return QS(`Suite : ${t.join(' ; ')} ; … On ajoute toujours le même nombre. Quel est le 6e terme ?`,s+5*r,`On ajoute ${r} à chaque fois : 5e terme ${s+4*r}, 6e terme ${s+5*r}.`)});
+gen('n6-prop','unite','Retour à l’unité',()=>{
+  const u=GR.p([0.5,1.2,1.5,2,2.5,3,4]),a=GR.i(2,5),b=GR.i(3,12),it=GR.p(['cahiers','stylos','croissants','tickets']);if(a===b)throw 0;
+  return QS(`${a} ${it} coûtent ${F(a*u)} €. Combien coûtent ${b} ${it} ?`,Math.round(b*u*100)/100,`Un seul coûte ${F(a*u)} ÷ ${a} = ${F(u)} €, donc ${b} coûtent ${b} × ${F(u)} = ${F(b*u)} €.`,{unit:'€'})});
+gen('n6-prop','pct','Pourcentages simples',()=>{
+  const p=GR.p([10,25,50,75,20]),N=GR.p({10:[30,50,80,120,250,400],25:[20,40,60,80,120,200],50:[18,34,46,70,90,150],75:[20,40,80,100,120],20:[30,40,60,150,250]}[p]);
+  return QS(`Combien font ${p} % de ${N} ?`,N*p/100,{10:`10 %, c'est un dixième : ${N} ÷ 10 = ${F(N/10)}.`,25:`25 %, c'est un quart : ${N} ÷ 4 = ${F(N/4)}.`,50:`50 %, c'est la moitié : ${N} ÷ 2 = ${F(N/2)}.`,75:`75 %, ce sont les trois quarts : ${N} ÷ 4 × 3 = ${F(N*3/4)}.`,20:`10 % de ${N} = ${F(N/10)}, donc 20 % = ${F(N/5)}.`}[p])});
+gen('n6-don','echelle','Échelle des probabilités',()=>{
+  const k=GR.i(0,10);
+  return J(`Un sac contient 10 billes${k?` dont ${k} rouge${k>1?'s':''}`:', aucune n\'est rouge'}. Place sur l'échelle la probabilité de tirer une bille rouge.`,{min:0,max:1,step:0.1,ans:k/10,tol:0,spread:0.2},
+    `${k} chance${k>1?'s':''} sur 10 : ${k}/10 = ${F(k/10)}.`+(k===0?' L\'événement est impossible.':k===10?' L\'événement est certain.':''))});
+gen('n6-don','vocab','Certain, impossible ou possible ?',()=>{
+  const e=GR.p([['obtenir 7','impossible'],['obtenir 0','impossible'],['obtenir un nombre inférieur à 7','certain'],['obtenir un nombre entier','certain'],['obtenir 6','possible mais pas certain'],['obtenir un nombre pair','possible mais pas certain'],['obtenir plus de 4','possible mais pas certain']]);
+  return Q(`On lance un dé à 6 faces numérotées de 1 à 6. L'événement « ${e[0]} » est…`,O4(e[1],['impossible','certain','possible mais pas certain','sûr de se produire deux fois']),
+    {impossible:'Aucune face ne le réalise : sa probabilité est 0.',certain:'Toutes les faces le réalisent : sa probabilité est 1.','possible mais pas certain':'Certaines faces le réalisent, d\'autres non : sa probabilité est entre 0 et 1.'}[e[1]])});
+gen('n6-ang','tri3','Troisième angle d’un triangle',()=>{
+  const a=GR.i(20,100),b=GR.i(20,Math.min(150-a,110));
+  return QS(`Dans un triangle, deux angles mesurent ${a}° et ${b}°. Combien mesure le troisième ?`,180-a-b,`La somme des angles d'un triangle vaut 180° : 180 − ${a} − ${b} = ${180-a-b}°.`,{unit:'°'})});
+gen('n6-ang','nature','Nature d’un angle',()=>{
+  const t=GR.p(['aigu','aigu','obtus','obtus','droit','plat']),m={aigu:GR.i(5,85),obtus:GR.i(95,175),droit:90,plat:180}[t];
+  return Q(`Un angle mesure ${m}°. Il est…`,O4(t,['aigu','obtus','droit','plat']),`Aigu : moins de 90° ; droit : 90° ; obtus : entre 90° et 180° ; plat : 180°. Ici ${m}°, donc ${t}.`)});
+gen('n6-ang','biss','Bissectrice',()=>{
+  const a=2*GR.i(15,85);
+  return QS(`La bissectrice d'un angle de ${a}° le partage en deux angles de combien de degrés ?`,a/2,`La bissectrice partage l'angle en deux angles égaux : ${a} ÷ 2 = ${a/2}°.`,{unit:'°'})});
+gen('n6-geo','rayon','Rayon et diamètre',()=>{
+  const r=GR.i(2,30)/(GR.coin()?1:2),rd=GR.coin();
+  return rd?QS(`Le rayon d'un cercle mesure ${F(r)} cm. Combien mesure son diamètre ?`,2*r,`Le diamètre vaut deux rayons : 2 × ${F(r)} = ${F(2*r)} cm.`,{unit:'cm'})
+    :QS(`Le diamètre d'un cercle mesure ${F(2*r)} cm. Combien mesure son rayon ?`,r,`Le rayon est la moitié du diamètre : ${F(2*r)} ÷ 2 = ${F(r)} cm.`,{unit:'cm'})});
+gen('n6-geo','carre','Périmètre d’un carré',()=>{
+  const c=GR.i(2,25);
+  return GR.coin()?QS(`Un carré a un périmètre de ${4*c} cm. Combien mesure son côté ?`,c,`Le carré a 4 côtés égaux : ${4*c} ÷ 4 = ${c} cm.`,{unit:'cm'})
+    :QS(`Un carré a des côtés de ${c} cm. Quel est son périmètre ?`,4*c,`4 côtés égaux : 4 × ${c} = ${4*c} cm.`,{unit:'cm'})});
+gen('n6-mes','conv','Conversions de longueurs',()=>{
+  const C=GR.p([['km','m',1000],['m','cm',100],['cm','mm',10],['m','mm',1000],['m','km',0.001],['cm','m',0.01],['mm','cm',0.1]]),x=GR.i(12,999)/GR.p([1,10,100]),r=x*C[2];
+  if(r>=1e6||r<0.001||(String(Math.round(r*1e6)/1e6).split('.')[1]||'').length>3)throw 0;const big=C[2]>1?C[0]:C[1],small=C[2]>1?C[1]:C[0],f=C[2]>1?C[2]:1/C[2];
+  return QS(`Convertis ${F(x)} ${C[0]} en ${C[1]}.`,Math.round(r*1e6)/1e6,`1 ${big} = ${F(f)} ${small}, donc ${F(x)} ${C[0]} = ${F(r)} ${C[1]}.`,{unit:C[1]})});
+gen('n6-mes','duree','Calcul d’horaires',()=>{
+  const h=GR.i(8,16),m=5*GR.i(6,11),dh=GR.i(1,2),dm=5*GR.i(3,10),tot=h*60+m+dh*60+dm,p=n=>String(n).padStart(2,'0'),H=x=>`${Math.floor(x/60)} h ${p(x%60)}`;
+  if(m+dm<60)throw 0;
+  return Q(`Un film commence à ${h} h ${p(m)} et dure ${dh} h ${p(dm)}. À quelle heure se termine-t-il ?`,O4(H(tot),[`${h+dh} h ${m+dm}`,`${h+dh} h ${p((m+dm)%60)}`,H(tot+60)],()=>H(tot+5*GR.nz(-6,6))),
+    `${h} h ${p(m)} + ${dh} h = ${h+dh} h ${p(m)}, puis + ${dm} min : ${m} + ${dm} = ${m+dm} min, soit 1 h ${p(m+dm-60)}. Le film finit à ${H(tot)}.`)});
+gen('n6-mes','perim','Périmètre ou aire d’un rectangle',()=>{
+  const L=GR.i(4,15),l=GR.i(2,L-1);
+  return GR.coin()?Q(`Un rectangle mesure ${L} cm sur ${l} cm. Quel est son périmètre ?`,O4(`${2*(L+l)} cm`,[`${L*l} cm²`,`${L+l} cm`,`${L*l} cm`]),`Périmètre = 2 × (${L} + ${l}) = ${2*(L+l)} cm. ${L*l} cm² serait son aire.`)
+    :Q(`Un rectangle mesure ${L} cm sur ${l} cm. Quelle est son aire ?`,O4(`${L*l} cm²`,[`${2*(L+l)} cm`,`${L*l} cm`,`${L+l} cm²`]),`Aire = ${L} × ${l} = ${L*l} cm². Une aire s'exprime en cm², pas en cm.`)});
+gen('n6-algo','prog','Programme de calcul',()=>{
+  const n=GR.i(1,12),a=GR.i(2,9),b=GR.i(2,5),first=GR.coin(),r=first?(n+a)*b:n*b+a;
+  return QS(`Programme : choisir ${n} ; ${first?`ajouter ${a} ; multiplier par ${b}`:`multiplier par ${b} ; ajouter ${a}`}. Quel résultat ?`,r,
+    first?`${n} + ${a} = ${n+a}, puis ${n+a} × ${b} = ${r}.`:`${n} × ${b} = ${n*b}, puis ${n*b} + ${a} = ${r}.`)});
+gen('n6-algo','poly','Boucle et polygone',()=>{
+  const k=GR.p([3,4,5,6,8]),d=GR.p([10,20,25,30,40,50]),nm={3:'un triangle équilatéral',4:'un carré',5:'un pentagone régulier',6:'un hexagone régulier',8:'un octogone régulier'}[k];
+  return QS(`« Répéter ${k} fois : avancer de ${d}, tourner de ${360/k}° ». Quel est le périmètre de la figure tracée ?`,k*d,`Le lutin trace ${nm} : ${k} côtés de ${d}, soit ${k} × ${d} = ${k*d}.`)});
+
+/* ---------- 5e ---------- */
+gen('n5-ops','prio1','Priorités : addition et multiplication',()=>{
+  const a=GR.i(2,20),b=GR.i(2,9),c=GR.i(2,9);
+  return Q(`${a} + ${b} × ${c} = ?`,O4(a+b*c,[(a+b)*c,a+b+c,a*b+c],()=>a+b*c+GR.nz(-5,5)),`La multiplication est prioritaire : ${b} × ${c} = ${b*c}, puis ${a} + ${b*c} = ${a+b*c}. Calculer (${a} + ${b}) × ${c} = ${(a+b)*c} est l'erreur classique.`)});
+gen('n5-ops','prio2','Priorités : soustraction et division',()=>{
+  const c=GR.i(2,6),q=GR.i(2,9),b=c*q,a=b+c*GR.i(1,6);
+  return Q(`${a} − ${b} ÷ ${c} = ?`,O4(a-q,[(a-b)/c,a-b-c,a/c-b],()=>a-q+GR.nz(-4,4)),`La division est prioritaire : ${b} ÷ ${c} = ${q}, puis ${a} − ${q} = ${a-q}.`)});
+gen('n5-ops','paren','Calcul avec parenthèses',()=>{
+  const k=GR.i(2,9),a=GR.i(2,15),b=GR.i(2,15),c=GR.i(1,20);
+  return QS(`Calcule ${k} × (${a} + ${b}) − ${c}`,k*(a+b)-c,`Les parenthèses d'abord : ${a} + ${b} = ${a+b}, puis ${k} × ${a+b} = ${k*(a+b)}, enfin ${k*(a+b)} − ${c} = ${k*(a+b)-c}.`)});
+gen('n5-div','crit','Critères de divisibilité par 3 et 9',()=>{
+  const d=GR.p([3,9]),ds=n=>String(n).split('').reduce((s,c)=>s+ +c,0);let good;do good=d*GR.i(Math.ceil(102/d),Math.floor(9999/d));while(good<100);
+  const bad=()=>{let n;do n=GR.i(102,9999);while(n%d===0||(d===9&&GR.coin()&&n%3!==0));return n};
+  return Q(`Lequel de ces nombres est divisible par ${d} ?`,O4(F(good),[F(bad()),F(bad()),F(bad())],()=>F(bad())),
+    `La somme des chiffres de ${F(good)} vaut ${ds(good)}, qui est un multiple de ${d}.`+(d===9?' Être divisible par 3 ne suffit pas : il faut une somme multiple de 9.':''))});
+gen('n5-div','chiffre','Chiffre manquant (divisibilité par 9)',()=>{
+  const a=GR.i(1,9),c=GR.i(0,9),x=(18-(a+c)%9)%9;if(x===0)throw 0;
+  return QS(`Quel chiffre mettre à la place du ? pour que ${a}?${c} soit divisible par 9 ?`,x,`${a} + ? + ${c} doit être un multiple de 9 : ${a} + ${x} + ${c} = ${a+x+c}.`)});
+gen('n5-rel','somme','Additionner et soustraire des relatifs',()=>{
+  const a=GR.nz(-15,15),b=GR.nz(-15,15),sub=GR.coin(),r=sub?a-b:a+b;
+  return QS(`Calcule ${F(a)} ${sub?'−':'+'} ${PAR(b)}`,r,sub?(b<0?`Soustraire ${F(b)}, c'est ajouter ${F(-b)} : ${F(a)} + ${F(-b)} = ${F(r)}.`:`On part de ${F(a)} et on recule de ${b} : ${F(r)}.`)
+    :(b<0?`Ajouter ${F(b)}, c'est reculer de ${-b} : ${F(r)}.`:`On part de ${F(a)} et on avance de ${b} : ${F(r)}.`))});
+gen('n5-rel','droite','Placer un relatif sur une droite graduée',()=>{
+  const x=GR.nz(-9,9);
+  return J(`Place ${F(x)} sur la droite graduée`,{min:-10,max:10,step:1,ans:x,tol:0,spread:3},`${F(x)} est à ${Math.abs(x)} graduation${Math.abs(x)>1?'s':''} ${x<0?'à gauche':'à droite'} de 0.`)});
+gen('n5-rel','cmp','Comparer des relatifs',()=>{
+  const v=GR.s([-15,-12,-9,-8,-7,-5,-4,-3,-2,-1,1,2,4,6]).slice(0,4),m=Math.min(...v),M=Math.max(...v);
+  return GR.coin()||M>0?Q(`Quel nombre est le plus petit ?`,O4(F(m),v.filter(x=>x!==m).map(F)),`Sur une droite graduée, le plus petit est le plus à gauche. Parmi les négatifs, c'est le plus éloigné de 0 : ${F(m)}.`)
+    :Q(`Quel nombre est le plus grand ?`,O4(F(M),v.filter(x=>x!==M).map(F)),`Parmi des nombres négatifs, le plus grand est le plus proche de 0 : ${F(M)}.`)});
+gen('n5-frac','egal','Fractions égales',()=>{
+  const b=GR.i(2,9),a=GR.i(1,b+3),k=GR.i(2,6);
+  return QS(`Complète : ${a}/${b} = …/${b*k}`,a*k,`On a multiplié le dénominateur par ${k} : on multiplie aussi le numérateur par ${k}, ${a} × ${k} = ${a*k}.`)});
+gen('n5-frac','somme','Additionner des fractions',()=>{
+  const b=GR.i(2,6),k=GR.i(2,4),a=GR.i(1,b-1),c=GR.i(1,b*k-1),n=a*k+c,d=b*k,g=gcd(n,d);
+  return Q(`${a}/${b} + ${c}/${d} = ?`,O4(FR(n,d),[FR(a+c,b+d),FR(a+c,d),FR(a*c,d)],()=>FR(n+GR.nz(-2,2),d)),
+    `${a}/${b} = ${a*k}/${d} (on multiplie en haut et en bas par ${k}), donc ${a*k}/${d} + ${c}/${d} = ${n}/${d}.`+(g>1?` Cette fraction se simplifie en ${FQ(n,d)}.`:''))});
+gen('n5-frac','droite','Placer une fraction sur une droite graduée',()=>{
+  const b=GR.p([2,4,5]);let a;do a=GR.i(1,3*b-1);while(a%b===0);
+  return J(`Place ${a}/${b} sur la droite graduée`,{min:0,max:3,step:1/b,ans:a/b,tol:0,spread:Math.max(1/b,0.3)},a<b?`L'unité est partagée en ${b} parts égales : à partir de 0, on compte ${a} graduation${a>1?'s':''}. ${a}/${b} = ${F(a/b)}.`:`${a}/${b} = ${Math.floor(a/b)} + ${a%b}/${b} : on va jusqu'à ${Math.floor(a/b)}, puis on compte ${a%b} graduation${a%b>1?'s':''} de 1/${b}. ${a}/${b} = ${F(a/b)}.`)});
+gen('n5-puis','carre','Carrés et cubes',()=>{
+  const c=GR.coin(),n=c?GR.i(2,15):GR.p([2,3,4,5,10]);
+  return c?QS(`Calcule ${n}²`,n*n,`${n}² = ${n} × ${n} = ${n*n}. Ce n'est pas ${n} × 2.`):QS(`Calcule ${n}³`,n**3,`${n}³ = ${n} × ${n} × ${n} = ${F(n**3)}.`)});
+gen('n5-puis','prio','Priorité de la puissance',()=>{
+  const a=GR.i(2,9),b=GR.i(2,6);
+  return Q(`${a} + ${b}² = ?`,O4(a+b*b,[(a+b)**2,a+2*b,(a+b)*2],()=>a+b*b+GR.nz(-3,3)),`La puissance d'abord : ${b}² = ${b*b}, puis ${a} + ${b*b} = ${a+b*b}.`)});
+gen('n5-litt','subst','Calculer une expression',()=>{
+  const a=GR.i(2,9),b=GR.i(1,12),x=GR.i(1,9),m=GR.coin();
+  return QS(`Pour x = ${x}, calcule ${a}x ${m?'−':'+'} ${b}`,m?a*x-b:a*x+b,`${a}x signifie ${a} × x : ${a} × ${x} ${m?'−':'+'} ${b} = ${a*x} ${m?'−':'+'} ${b} = ${m?a*x-b:a*x+b}.`)});
+gen('n5-litt','dev','Développer k(a + b)',()=>{
+  const k=GR.i(2,9),a=GR.i(1,9),m=GR.coin();
+  return m?Q(`Développer ${k}(x − ${a})`,O4(`${k}x − ${k*a}`,[`${k}x − ${a}`,`${k}x + ${k*a}`,`x − ${k*a}`]),`Le ${k} multiplie les deux termes : ${k} × x − ${k} × ${a} = ${k}x − ${k*a}.`)
+    :Q(`Développer ${k}(x + ${a})`,O4(`${k}x + ${k*a}`,[`${k}x + ${a}`,`x + ${k*a}`,`${k+a}x`]),`Le ${k} multiplie les deux termes : ${k} × x + ${k} × ${a} = ${k}x + ${k*a}.`)});
+gen('n5-litt','eq','Résoudre ax = b ou x + b = c',()=>{
+  const s=GR.i(2,12),a=GR.i(2,9),b=GR.i(3,20);
+  return GR.coin()?QS(`Résous ${a}x = ${a*s}. Combien vaut x ?`,s,`On divise par ${a} : x = ${a*s} ÷ ${a} = ${s}. Vérification : ${a} × ${s} = ${a*s}.`)
+    :QS(`Résous x + ${b} = ${s+b}. Combien vaut x ?`,s,`On soustrait ${b} : x = ${s+b} − ${b} = ${s}.`)});
+gen('n5-litt','red','Réduire une expression',()=>{
+  const a=GR.i(2,9),b=GR.i(2,9);
+  return Q(`Réduire ${a}x + ${b}x`,O4(`${a+b}x`,[`${a+b}x²`,`${a*b}x`,`${a+b}`]),`${a} fois x plus ${b} fois x, c'est ${a+b} fois x : ${a+b}x. On n'obtient pas de x².`)});
+gen('n5-prop','tab','Tableau de proportionnalité',()=>{
+  const k=GR.p([2,3,4,5,1.5,2.5]),x1=GR.i(2,8),x2=GR.i(3,12);if(x1===x2)throw 0;const y1=x1*k,y2=x2*k;if(y1%1||y2%1)throw 0;
+  return QS(`Tableau de proportionnalité : ${x1} → ${F(y1)} et ${x2} → ? Quelle valeur manque ?`,y2,`Le coefficient vaut ${F(y1)} ÷ ${x1} = ${F(k)}, donc ${x2} × ${F(k)} = ${F(y2)}.`)});
+gen('n5-prop','pct','Calculer un pourcentage',()=>{
+  const p=GR.p([5,10,15,20,30,40,60]),N=20*GR.i(1,15);
+  return QS(`Combien font ${p} % de ${N} ?`,N*p/100,`10 % de ${N} = ${F(N/10)}, donc ${p} % = ${F(N/10)} × ${F(p/10)} = ${F(N*p/100)}.`)});
+gen('n5-prop','vitesse','Distance parcourue',()=>{
+  const v=GR.p([30,40,50,60,80,90,100,120]),[t,ts]=GR.p([[15,'15 minutes'],[30,'30 minutes'],[45,'45 minutes'],[90,'1 h 30'],[120,'2 h']]),d=v*t/60;if(d%1)throw 0;
+  return QS(`À ${v} km/h, quelle distance parcourt-on en ${ts} ?`,d,`${ts} = ${F(t/60)} h, donc d = ${v} × ${F(t/60)} = ${d} km.`,{unit:'km'})});
+gen('n5-fonc','formule','Utiliser une formule',()=>{
+  const f=GR.p([5,8,10,12,15,20]),u=GR.i(2,9),n=GR.i(3,15),[s,w]=GR.p([['Un abonnement coûte','séance'],['Une location de vélo coûte','heure'],['Un taxi coûte','kilomètre']]);
+  return QS(`${s} ${f} € plus ${u} € par ${w}. Combien paie-t-on pour ${n} ${w}s ?`,f+u*n,`${f} + ${u} × ${n} = ${f} + ${u*n} = ${f+u*n} €. On multiplie avant d'additionner.`,{unit:'€'})});
+gen('n5-stat','moy','Calculer une moyenne',()=>{
+  const n=GR.p([3,4,5]),m=GR.i(8,16),v=Array.from({length:n-1},()=>GR.i(m-6,m+6));v.push(n*m-v.reduce((s,x)=>s+x,0));if(v[n-1]<0||v[n-1]>20)throw 0;
+  return QS(`Quelle est la moyenne de la série ${v.join(' ; ')} ?`,m,`Somme : ${v.join(' + ')} = ${n*m}. Moyenne : ${n*m} ÷ ${n} = ${m}.`)});
+gen('n5-stat','freq','Fréquence en pourcentage',()=>{
+  const N=GR.p([20,25,40,50]),k=GR.i(1,N-1),f=k/N*100;if(f%1)throw 0;
+  return QS(`Sur ${N} élèves, ${k} ont un animal. Quelle est la fréquence de ces élèves, en pourcentage ?`,f,`Fréquence = ${k} ÷ ${N} = ${F(k/N)}, soit ${F(f)} %.`,{unit:'%'})});
+gen('n5-proba','urne','Probabilité dans une urne',()=>{
+  const r=GR.i(1,8),v=GR.i(1,8),b=GR.i(1,8),t=r+v+b,[c,k]=GR.p([['rouge',r],['verte',v],['bleue',b]]);
+  return Q(`Une urne contient ${r} boule${r>1?'s':''} rouge${r>1?'s':''}, ${v} verte${v>1?'s':''} et ${b} bleue${b>1?'s':''}. Probabilité de tirer une boule ${c} ?`,O4(FR(k,t),[FR(k,t-k),FR(t-k,t),FR(1,k+1)],()=>FR(GR.i(1,t-1),t)),
+    `${k} boule${k>1?'s':''} ${c}${k>1?'s':''} sur ${t} boules au total : ${k}/${t}. Diviser par le nombre des autres boules (${t-k}) est une erreur fréquente.`)});
+gen('n5-proba','echelle','Placer une probabilité',()=>{
+  const t=GR.p([4,5,10,20]),k=GR.i(1,t-1);
+  return J(`Un jeu a ${t} issues équiprobables, dont ${k} gagnante${k>1?'s':''}. Place la probabilité de gagner.`,{min:0,max:1,step:1/t,ans:k/t,tol:0,spread:0.2},`${k} issue${k>1?'s':''} favorable${k>1?'s':''} sur ${t} : ${k}/${t} = ${F(k/t)}.`)});
+gen('n5-ang','iso','Angles d’un triangle isocèle',()=>{
+  const a=2*GR.i(10,70),b=(180-a)/2;
+  return GR.coin()?QS(`Un triangle isocèle a un angle au sommet de ${a}°. Combien mesure chacun des angles à la base ?`,b,`Les angles à la base sont égaux : (180 − ${a}) ÷ 2 = ${b}°.`,{unit:'°'})
+    :QS(`Les angles à la base d'un triangle isocèle mesurent ${b}°. Combien mesure l'angle au sommet ?`,a,`180 − 2 × ${b} = ${a}°.`,{unit:'°'})});
+gen('n5-ang','compl','Angles complémentaires et supplémentaires',()=>{
+  const s=GR.coin(),a=s?GR.i(15,165):GR.i(10,80);
+  return QS(`Un angle mesure ${a}°. Combien mesure son ${s?'supplémentaire':'complémentaire'} ?`,(s?180:90)-a,`Deux angles ${s?'supplémentaires ont une somme de 180°':'complémentaires ont une somme de 90°'} : ${s?180:90} − ${a} = ${(s?180:90)-a}°.`,{unit:'°'})});
+gen('n5-tri','aire','Aire d’un triangle',()=>{
+  const b=GR.i(3,16),h=GR.i(2,12);if((b*h)%2)throw 0;
+  return QS(`Aire d'un triangle de base ${b} cm et de hauteur ${h} cm ?`,b*h/2,`Aire = base × hauteur ÷ 2 = ${b} × ${h} ÷ 2 = ${b*h/2} cm². Sans le « ÷ 2 », on obtiendrait l'aire du rectangle.`,{unit:'cm²'})});
+gen('n5-tri','inegal','Inégalité triangulaire',()=>{
+  const a=GR.i(2,9),b=GR.i(2,9),ok=GR.coin(),c=ok?GR.i(Math.abs(a-b)+1,a+b-1):a+b+GR.i(0,3),s=[a,b,c],M=Math.max(...s),o=a+b+c-M;
+  const t=GR.s(s);
+  return VF(`On peut construire un triangle dont les côtés mesurent ${t[0]} cm, ${t[1]} cm et ${t[2]} cm.`,M<o,
+    `Le plus grand côté (${M} cm) doit être strictement plus petit que la somme des deux autres (${o} cm). ${M<o?'C\'est le cas.':M===o?'Il y a égalité : les trois points seraient alignés.':'Ce n\'est pas le cas.'}`)});
+gen('n5-para','angles','Angles d’un parallélogramme',()=>{
+  const a=GR.i(35,145);if(a===90)throw 0;const opp=GR.coin();
+  return QS(`ABCD est un parallélogramme et Â = ${a}°. Combien mesure ${opp?'Ĉ':'B̂'} ?`,opp?a:180-a,opp?'Dans un parallélogramme, les angles opposés ont la même mesure.':`Deux angles consécutifs d'un parallélogramme ont une somme de 180° : 180 − ${a} = ${180-a}°.`,{unit:'°'})});
+gen('n5-para','aire','Aire d’un parallélogramme',()=>{
+  const b=GR.i(3,15),h=GR.i(2,12);
+  return QS(`Aire d'un parallélogramme de base ${b} cm et de hauteur ${h} cm ?`,b*h,`Aire = base × hauteur = ${b} × ${h} = ${b*h} cm² (pas de « ÷ 2 » : ce n'est pas un triangle).`,{unit:'cm²'})});
+gen('n5-sym','coord','Symétrique par rapport à l’origine',()=>{
+  const x=GR.nz(-8,8),y=GR.nz(-8,8);if(Math.abs(x)===Math.abs(y))throw 0;
+  return Q(`Dans un repère, quel est le symétrique du point ${PT(x,y)} par rapport à l'origine ?`,O4(PT(-x,-y),[PT(x,-y),PT(-x,y),PT(y,x)],null,1),`Un demi-tour autour de l'origine change le signe des deux coordonnées : ${PT(-x,-y)}.`)});
+gen('n5-esp','pave','Volume d’un pavé droit',()=>{
+  const L=GR.i(2,12),l=GR.i(2,10),h=GR.i(2,10);
+  return QS(`Volume d'un pavé droit de ${L} cm × ${l} cm × ${h} cm ?`,L*l*h,`V = longueur × largeur × hauteur = ${L} × ${l} × ${h} = ${F(L*l*h)} cm³.`,{unit:'cm³'})});
+gen('n5-esp','litres','Volumes et contenances',()=>{
+  const V=GR.p([250,500,750,1500,2000,2500,3500,330,1250]);
+  return QS(`Combien de litres font ${F(V)} cm³ ?`,V/1000,`1 L = 1 dm³ = 1 000 cm³, donc ${F(V)} cm³ = ${F(V/1000)} L.`,{unit:'L'})});
+gen('n5-esp','cyl','Volume d’un cylindre (valeur exacte)',()=>{
+  const r=GR.i(1,6),h=GR.i(2,10);
+  return Q(`Volume exact d'un cylindre de rayon ${r} cm et de hauteur ${h} cm ?`,O4(`${PI(r*r*h)} cm³`,[`${PI(2*r*h)} cm³`,`${PI(r*h)} cm³`,`${r*r*h} cm³`],()=>`${PI(r*r*h+GR.i(1,9))} cm³`),
+    `V = π × r² × h = π × ${r}² × ${h} = ${PI(r*r*h)} cm³. Attention : r² et non 2 × r.`)});
+gen('n5-algo','prog','Programme : entrée et sortie',()=>{
+  const a=GR.i(2,9),b=GR.nz(-9,9),x=GR.i(1,9);
+  return QS(`Programme : demander x ; dire ${a} × x ${b<0?'−':'+'} ${Math.abs(b)}. On saisit ${x}. Quel nombre est affiché ?`,a*x+b,`${a} × ${x} ${b<0?'−':'+'} ${Math.abs(b)} = ${a*x} ${b<0?'−':'+'} ${Math.abs(b)} = ${a*x+b}.`)});
+gen('n5-algo','var','Variable modifiée deux fois',()=>{
+  const x=GR.i(1,9),b=GR.i(2,9),c=GR.i(2,5);
+  return QS(`x vaut ${x}. On exécute : x prend la valeur x + ${b}, puis x prend la valeur x × ${c}. Combien vaut x ?`,(x+b)*c,`${x} + ${b} = ${x+b}, puis ${x+b} × ${c} = ${(x+b)*c}. La deuxième instruction utilise la nouvelle valeur de x.`)});
+
+/* ---------- 4e ---------- */
+gen('n4-rel','prod','Multiplier des relatifs',()=>{
+  const a=GR.nz(-12,12),b=GR.nz(-12,12);if(a>0&&b>0)throw 0;
+  return QS(`Calcule ${PAR(a)} × ${PAR(b)}`,a*b,`${a*b>0?'Deux facteurs de même signe : le produit est positif.':'Deux facteurs de signes contraires : le produit est négatif.'} ${Math.abs(a)} × ${Math.abs(b)} = ${Math.abs(a*b)}.`)});
+gen('n4-rel','quot','Diviser des relatifs',()=>{
+  const b=GR.nz(-9,9),q=GR.nz(-12,12),a=b*q;if(a>0&&b>0)throw 0;
+  return QS(`Calcule ${PAR(a)} ÷ ${PAR(b)}`,q,`${q>0?'Même signe : quotient positif.':'Signes contraires : quotient négatif.'} ${Math.abs(a)} ÷ ${Math.abs(b)} = ${Math.abs(q)}.`)});
+gen('n4-rel','signe','Signe d’un produit',()=>{
+  const n=GR.i(3,6),k=GR.i(1,n),f=GR.s(Array.from({length:n},(_,i)=>i<k?-GR.i(1,9):GR.i(1,9))),pos=k%2===0;
+  return VF(`Le produit ${f.map(PAR).join(' × ')} est positif.`,pos,`Il y a ${k} facteur${k>1?'s':''} négatif${k>1?'s':''}, un nombre ${pos?'pair : le produit est positif':'impair : le produit est négatif'}.`)});
+gen('n4-frac','mult','Multiplier des fractions',()=>{
+  const a=GR.i(1,7),b=GR.i(2,9),c=GR.i(1,7),d=GR.i(2,9);if(a===b||c===d)throw 0;
+  return Q(`${a}/${b} × ${c}/${d} = ?`,O4(FQ(a*c,b*d),[FQ(a*d,b*c),FR(a+c,b+d),FQ(a*c,b+d)],()=>FQ(a*c+GR.i(1,3),b*d)),`On multiplie les numérateurs entre eux et les dénominateurs entre eux : ${a*c}/${b*d}`+(gcd(a*c,b*d)>1?`, qui se simplifie en ${FQ(a*c,b*d)}.`:'.'))});
+gen('n4-frac','div','Diviser des fractions',()=>{
+  const a=GR.i(1,7),b=GR.i(2,9),c=GR.i(1,7),d=GR.i(2,9);if(a===b||c===d)throw 0;
+  return Q(`${a}/${b} ÷ ${c}/${d} = ?`,O4(FQ(a*d,b*c),[FQ(a*c,b*d),FQ(b*c,a*d),FR(a,b*c)],()=>FQ(a*d+GR.i(1,3),b*c)),`Diviser par ${c}/${d}, c'est multiplier par son inverse ${d}/${c} : ${a}/${b} × ${d}/${c} = ${a*d}/${b*c}`+(gcd(a*d,b*c)>1?` = ${FQ(a*d,b*c)}.`:'.'))});
+gen('n4-frac','add','Additionner des fractions',()=>{
+  const b=GR.p([2,3,4,5,6]),d=GR.p([3,4,5,6,7]);if(b===d)throw 0;const a=GR.i(1,b-1),c=GR.i(1,d-1),D=b*d/gcd(b,d),n=a*D/b+c*D/d;
+  return Q(`${a}/${b} + ${c}/${d} = ?`,O4(FQ(n,D),[FR(a+c,b+d),FQ(a+c,D),FQ(a*c,b*d)],()=>FQ(n+GR.nz(-2,2),D)),`On met au même dénominateur ${D} : ${a*D/b}/${D} + ${c*D/d}/${D} = ${n}/${D}`+(gcd(n,D)>1?` = ${FQ(n,D)}.`:'.')+' On n\'additionne jamais les dénominateurs.')});
+gen(['n4-puis','puis'],'sci','Notation scientifique',()=>{
+  const m=GR.i(11,99)/10,e=GR.coin()?GR.i(3,7):-GR.i(2,5),x=m*10**e;
+  return Q(`Quelle est la notation scientifique de ${F(x)} ?`,O4(`${F(m)} × 10${SUP(e)}`,[`${F(m*10)} × 10${SUP(e-1)}`,`${F(m)} × 10${SUP(e-1)}`,`${F(m)} × 10${SUP(-e)}`]),
+    `La mantisse doit être comprise entre 1 et 10 (10 exclu) : ${F(m)}. On décale la virgule de ${Math.abs(e)} rang${Math.abs(e)>1?'s':''}${e<0?' vers la droite, donc l\'exposant est négatif':''} : 10${SUP(e)}.`)});
+gen(['n4-puis','puis'],'expo','Règles de calcul sur les puissances de 10',()=>{
+  const a=GR.nz(-6,8),b=GR.nz(-5,6),t=GR.p(['×','÷','^']);
+  if(t==='^'){const p=GR.i(2,4),q=GR.i(2,3);return QS(`(10${SUP(p)})${SUP(q)} = 10ⁿ. Combien vaut n ?`,p*q,`(10${SUP(p)})${SUP(q)} : on multiplie les exposants, ${p} × ${q} = ${p*q}.`)}
+  return t==='×'?QS(`10${SUP(a)} × 10${SUP(b)} = 10ⁿ. Combien vaut n ?`,a+b,`On additionne les exposants : ${F(a)} + ${PAR(b)} = ${F(a+b)}.`)
+    :QS(`10${SUP(a)} ÷ 10${SUP(b)} = 10ⁿ. Combien vaut n ?`,a-b,`On soustrait les exposants : ${F(a)} − ${PAR(b)} = ${F(a-b)}.`)});
+gen('n4-puis','neg','Puissance de 10 à exposant négatif',()=>{
+  const n=GR.i(1,5),dec=x=>F(10**-x);
+  return Q(`10${SUP(-n)} = ?`,O4(dec(n),[F(-(10**n)),dec(n+1),n>1?dec(n-1):'1'],null),`10${SUP(-n)} = 1/10${SUP(n)} = ${dec(n)}. Un exposant négatif ne rend pas le nombre négatif.`)});
+gen('n4-litt','dd','Double distributivité',()=>{
+  const a=GR.nz(-7,7),b=GR.nz(-7,7);if(a+b===0)throw 0;
+  return Q(`Développer (x ${a<0?'−':'+'} ${Math.abs(a)})(x ${b<0?'−':'+'} ${Math.abs(b)})`,O4(POLY([1,a+b,a*b]),[POLY([1,0,a*b]),POLY([1,a*b,a+b]),POLY([1,a+b,a+b])],()=>POLY([1,a+b+GR.nz(-2,2),a*b])),
+    `x × x + x × ${PAR(b)} + ${PAR(a)} × x + ${PAR(a)} × ${PAR(b)} = ${POLY([1,a+b,a*b])}. On n'oublie pas les deux produits « croisés ».`)});
+gen('n4-litt','red','Réduire une expression',()=>{
+  const a=GR.nz(-9,9),b=GR.nz(-9,9),c=GR.nz(-9,9),d=GR.nz(-9,9);if(a+c===0)throw 0;
+  const e=`${POLY([a,b])} ${c<0?'−':'+'} ${POLY([Math.abs(c),0]).replace(/^1x$/,'x')} ${d<0?'−':'+'} ${Math.abs(d)}`;
+  return Q(`Réduire ${e}`,O4(POLY([a+c,b+d]),[POLY([a+b+c+d,0]),POLY([a+c,0,b+d]),POLY([a+c,-(b+d)])],()=>POLY([a+c+GR.nz(-2,2),b+d])),`On regroupe les x : ${F(a)} ${c<0?'−':'+'} ${Math.abs(c)} = ${F(a+c)}, puis les nombres : ${F(b)} ${d<0?'−':'+'} ${Math.abs(d)} = ${F(b+d)}. Résultat : ${POLY([a+c,b+d])}.`)});
+gen('n4-litt','subst','Calculer avec un nombre négatif',()=>{
+  const x=-GR.i(1,6),a=GR.nz(-6,6);
+  return QS(`Pour x = ${F(x)}, calcule ${POLY([1,a,0])}`,x*x+a*x,`x² = ${PAR(x)}² = ${x*x} (un carré est positif), puis ${F(a)} × ${PAR(x)} = ${F(a*x)}. Total : ${x*x} ${a*x<0?'−':'+'} ${Math.abs(a*x)} = ${F(x*x+a*x)}.`)});
+gen(['n4-equa','equa'],'eq1','Équation ax + b = c',()=>{
+  const a=GR.nz(-9,9),s=GR.nz(-10,10),b=GR.nz(-15,15),c=a*s+b;if(a===1)throw 0;
+  return QS(`Résous ${POLY([a,b])} = ${F(c)}. Combien vaut x ?`,s,`${POLY([a,0])} = ${F(c)} ${b<0?'+':'−'} ${Math.abs(b)} = ${F(c-b)}, donc x = ${F(c-b)} ÷ ${PAR(a)} = ${F(s)}.`)});
+gen(['n4-equa','equa'],'eq2','Équation ax + b = cx + d',()=>{
+  const a=GR.i(2,9),c=GR.i(1,8),s=GR.nz(-9,9),b=GR.nz(-12,12);if(a===c)throw 0;const d=(a-c)*s+b;
+  return QS(`Résous ${POLY([a,b])} = ${POLY([c,d])}. Combien vaut x ?`,s,`On regroupe : ${a}x − ${c===1?'':c}x = ${F(d)} ${b<0?'+':'−'} ${Math.abs(b)}, soit ${a-c===1?'':a-c}x = ${F(d-b)}, donc x = ${F(s)}.`)});
+gen('n4-prop','q4','Quatrième proportionnelle',()=>{
+  const k=GR.p([1.5,2.5,3,4,0.5,1.2]),a=GR.i(2,10)*2,b=GR.i(2,12)*2;if(a===b)throw 0;const ya=a*k,yb=b*k;if(ya%1||yb%1)throw 0;
+  return QS(`${a} objets pèsent ${F(ya)} kg. Combien pèsent ${b} objets identiques ?`,yb,`Un objet pèse ${F(ya)} ÷ ${a} = ${F(k)} kg, donc ${b} objets pèsent ${b} × ${F(k)} = ${F(yb)} kg (produit en croix : ${F(ya)} × ${b} ÷ ${a}).`,{unit:'kg'})});
+gen(['n4-prop','prop'],'coef','Coefficient multiplicateur',()=>{
+  const p=GR.p([2,3,5,8,12,15,20,25,30,40,60]),up=GR.coin(),c=up?1+p/100:1-p/100;
+  return Q(`${up?'Augmenter':'Diminuer'} une quantité de ${p} % revient à la multiplier par…`,O4(F(c),[F(p/100),F(up?1-p/100:1+p/100),F(up?100+p:100-p)]),`${up?`100 % + ${p} % = ${100+p} %`:`100 % − ${p} % = ${100-p} %`} = ${F(c)}.`)});
+gen(['n4-prop','grand'],'kmh','Convertir une vitesse',()=>{
+  const v=GR.p([5,10,15,20,25,30,35]),toK=GR.coin();
+  return toK?QS(`Convertis ${v} m/s en km/h.`,v*3.6,`En 1 h, il y a 3 600 s : ${v} × 3 600 = ${F(v*3600)} m = ${F(v*3.6)} km. On multiplie par 3,6.`,{unit:'km/h'})
+    :QS(`Convertis ${F(v*3.6)} km/h en m/s.`,v,`${F(v*3.6)} km/h = ${F(v*3600)} m en 3 600 s, soit ${F(v*3600)} ÷ 3 600 = ${v} m/s. On divise par 3,6.`,{unit:'m/s'})});
+gen(['n4-stat','stat'],'med','Médiane',()=>{
+  const n=GR.p([5,7,6]),v=Array.from({length:n},()=>GR.i(2,20)),s=v.slice().sort((x,y)=>x-y),m=n%2?s[(n-1)/2]:(s[n/2-1]+s[n/2])/2;
+  return QS(`Quelle est la médiane de la série ${v.join(' ; ')} ?`,m,`On range les ${n} valeurs : ${s.join(' ; ')}. `+(n%2?`La médiane est la ${(n+1)/2}e valeur : ${m}.`:`La médiane est entre la ${n/2}e et la ${n/2+1}e valeur : (${s[n/2-1]} + ${s[n/2]}) ÷ 2 = ${F(m)}.`)+' On oublie souvent de ranger la série d\'abord.')});
+gen('n4-stat','pond','Moyenne pondérée',()=>{
+  const a=GR.i(6,18),b=GR.i(6,18),ca=GR.i(1,3),cb=GR.i(1,3),m=(a*ca+b*cb)/(ca+cb);if(Math.round(m*10)!==m*10||ca===cb)throw 0;
+  return QS(`Notes : ${a} (coefficient ${ca}) et ${b} (coefficient ${cb}). Quelle est la moyenne ?`,m,`(${a} × ${ca} + ${b} × ${cb}) ÷ (${ca} + ${cb}) = ${a*ca+b*cb} ÷ ${ca+cb} = ${F(m)}.`)});
+gen(['n4-proba','proba'],'contraire','Événement contraire',()=>{
+  const p=GR.i(1,99)/100;
+  return QS(`P(A) = ${F(p)}. Quelle est la probabilité de l'événement contraire « non A » ?`,Math.round((1-p)*100)/100,`P(non A) = 1 − P(A) = 1 − ${F(p)} = ${F(1-p)}.`)});
+gen('n4-proba','urne','Probabilité (fraction irréductible)',()=>{
+  const k=GR.i(2,12),t=k+GR.i(2,14);
+  return Q(`Un sac contient ${t} jetons dont ${k} gagnants. Probabilité de tirer un jeton gagnant ?`,O4(FQ(k,t),[FQ(k,t-k),FQ(t-k,t),FQ(1,k)],()=>FQ(GR.i(1,t-1),t)),`${k} jetons gagnants sur ${t} : ${k}/${t}`+(gcd(k,t)>1?` = ${FQ(k,t)}.`:'.'))});
+const pythHyp=()=>{const [x,y,z]=tri(),[r,a,b]=GR.p(LETTERS);
+  return QS(`${a}${r}${b} est rectangle en ${r}, ${r}${a} = ${x} cm et ${r}${b} = ${y} cm. Combien mesure ${a}${b} ?`,z,`[${a}${b}] est l'hypoténuse : ${a}${b}² = ${x}² + ${y}² = ${x*x} + ${y*y} = ${z*z}, donc ${a}${b} = √${z*z} = ${z} cm.`,{unit:'cm',fig:rtG(r,a,b,x+' cm',y+' cm','?')})};
+const pythCote=()=>{const [x,y,z]=tri(),[r,a,b]=GR.p(LETTERS);
+  return QS(`${a}${r}${b} est rectangle en ${r}, ${a}${b} = ${z} cm et ${r}${a} = ${x} cm. Combien mesure ${r}${b} ?`,y,`[${a}${b}] est l'hypoténuse : ${r}${b}² = ${z}² − ${x}² = ${z*z} − ${x*x} = ${y*y}, donc ${r}${b} = ${y} cm. On soustrait : ${r}${b} est plus court que l'hypoténuse.`,{unit:'cm',fig:rtG(r,a,b,x+' cm','?',z+' cm')})};
+const pythRec=()=>{let [x,y,z]=tri();const ok=GR.coin();if(!ok)z+=GR.p([-1,1]);const s=GR.s([x,y,z]),eq=x*x+y*y===z*z;
+  return VF(`Un triangle de côtés ${s[0]} cm, ${s[1]} cm et ${s[2]} cm est rectangle.`,eq,`Le plus grand côté mesure ${z} cm : ${z}² = ${z*z} et ${x}² + ${y}² = ${x*x+y*y}. ${eq?'Égalité : d\'après la réciproque de Pythagore, il est rectangle.':'Les résultats sont différents : il n\'est pas rectangle.'}`)};
+gen(['n4-pyth','pyth'],'hyp','Calculer l’hypoténuse',pythHyp);
+gen(['n4-pyth','pyth'],'cote','Calculer un côté de l’angle droit',pythCote);
+gen(['n4-pyth','pyth'],'recip','Réciproque de Pythagore',pythRec);
+const thalNest=()=>{const k=GR.p([2,3,4,1.5,2.5]),AM=GR.i(2,6)*(k%1?2:1),AB=AM*k,v=GR.i(2,8)*(k%1?2:1),big=v*k,w=GR.p(['BC','MN','AC','AN']);
+  const [kn,kv]={BC:['MN',v],MN:['BC',big],AC:['AN',v],AN:['AC',big]}[w],ans={BC:big,MN:v,AC:big,AN:v}[w],cap=`AM = ${F(AM)} · AB = ${F(AB)} · ${kn} = ${F(kv)}`;
+  const small=w==='MN'||w==='AN';
+  return QS(`M ∈ [AB], N ∈ [AC] et (MN) // (BC). Combien mesure ${w} ?`,ans,`D'après le théorème de Thalès, AM/AB = AN/AC = MN/BC = ${F(AM)}/${F(AB)}. ${small?`${w} = ${F(kv)} × ${F(AM)} ÷ ${F(AB)}`:`${w} = ${F(kv)} × ${F(AB)} ÷ ${F(AM)}`} = ${F(ans)}.`,{fig:thalesFig(AM/AB,cap)})};
+gen(['n4-thal','thales'],'calc','Thalès : calculer une longueur',thalNest);
+gen('thales-pap','calc','Thalès papillon : calculer une longueur',()=>{const k=GR.p([2,3,1.5,2.5]),AM=GR.i(2,6)*(k%1?2:1),AB=AM*k,v=GR.i(2,6)*(k%1?2:1),big=v*k,small=GR.coin();
+  const cap=small?`AM = ${F(AM)} · AB = ${F(AB)} · BC = ${F(big)}`:`AM = ${F(AM)} · AB = ${F(AB)} · MN = ${F(v)}`;
+  return QS(`(BM) et (CN) se coupent en A et (MN) // (BC). Combien mesure ${small?'MN':'BC'} ?`,small?v:big,`D'après le théorème de Thalès, AM/AB = MN/BC = ${F(AM)}/${F(AB)}, donc ${small?`MN = ${F(big)} × ${F(AM)} ÷ ${F(AB)}`:`BC = ${F(v)} × ${F(AB)} ÷ ${F(AM)}`} = ${F(small?v:big)}.`,{fig:Object.assign({},papFig,{caption:cap})})});
+gen(['n4-thal','thales'],'recip','Réciproque de Thalès',()=>{const AB=GR.i(5,12),AM=GR.i(2,AB-2),k=GR.i(2,3),AC=AB*k,ok=GR.coin(),AN=ok?AM*k:AM*k+GR.p([-1,1]);
+  return Q(`M ∈ [AB], N ∈ [AC], AM = ${AM}, AB = ${AB}, AN = ${AN} et AC = ${AC}. Les droites (MN) et (BC) sont…`,O4(ok?'parallèles':'non parallèles',[ok?'non parallèles':'parallèles','perpendiculaires','confondues']),
+    `Produits en croix : AM × AC = ${AM*AC} et AB × AN = ${AB*AN}. ${ok?'Égalité : AM/AB = AN/AC, et d\'après la réciproque du théorème de Thalès, (MN) // (BC).':'Les rapports AM/AB et AN/AC sont différents : les droites ne sont pas parallèles.'}`,{fig:thalesFig(AM/AB,undefined,AN/AC)})});
+gen('n4-cos','adj','Cosinus : côté adjacent',()=>{const c=GR.p([0.2,0.4,0.5,0.6,0.8]),h=GR.i(2,15)*5,x=Math.round(h*c*10)/10;
+  return QS(`ABC est rectangle en B, AC = ${h} cm et cos(Â) = ${F(c)}. Combien mesure AB ?`,x,`[AB] est le côté adjacent à Â et [AC] l'hypoténuse : cos(Â) = AB/AC, donc AB = AC × cos(Â) = ${h} × ${F(c)} = ${F(x)} cm.`,{unit:'cm'})});
+gen('n4-cos','hyp','Cosinus : hypoténuse',()=>{const c=GR.p([0.5,0.8,0.6,0.4]),h=GR.i(2,12)*5,x=h*c;
+  return QS(`ABC est rectangle en B, AB = ${F(x)} cm et cos(Â) = ${F(c)}. Combien mesure AC ?`,h,`cos(Â) = AB/AC, donc AC = AB ÷ cos(Â) = ${F(x)} ÷ ${F(c)} = ${h} cm. L'hypoténuse est plus longue que AB.`,{unit:'cm'})});
+gen(['n4-cos','trigo'],'cotes','Repérer les côtés',()=>{const [r,a,b]=GR.p(LETTERS),ang=GR.coin()?a:b,o=ang===a?b:a,w=GR.p(['adjacent','opposé']);
+  const ans=w==='adjacent'?`[${r}${ang}]`:`[${r}${o}]`;
+  return Q(`${a}${r}${b} est rectangle en ${r}. Quel est le côté ${w} à l'angle de sommet ${ang} ?`,O4(ans,[w==='adjacent'?`[${r}${o}]`:`[${r}${ang}]`,`[${a}${b}]`,'Aucun des trois'],null,1),
+    `[${a}${b}] est l'hypoténuse (en face de l'angle droit). Le côté adjacent à l'angle ${ang} touche ce sommet : [${r}${ang}] ; le côté opposé ne le touche pas : [${r}${o}].`)});
+gen('n4-trans','point','Image d’un point par translation',()=>{const ax=GR.i(-5,5),ay=GR.i(-5,5),dx=GR.nz(-5,5),dy=GR.nz(-5,5),cx=GR.i(-5,5),cy=GR.i(-5,5);
+  return Q(`La translation qui transforme A${PT(ax,ay)} en B${PT(ax+dx,ay+dy)} transforme C${PT(cx,cy)} en…`,O4(PT(cx+dx,cy+dy),[PT(cx-dx,cy-dy),PT(cx+dx,cy),PT(ax+dx+cx,ay+dy+cy)],()=>PT(cx+dx+GR.nz(-1,1),cy+dy),1),
+    `De A à B, on se déplace de ${F(dx)} en abscisse et de ${F(dy)} en ordonnée. On applique le même déplacement à C : ${PT(cx+dx,cy+dy)}.`)});
+gen('n4-esp','pyr','Volume d’une pyramide',()=>{const B=GR.i(2,20)*3,h=GR.i(2,12);
+  return QS(`Volume d'une pyramide de base ${B} cm² et de hauteur ${h} cm ?`,B*h/3,`V = 1/3 × aire de la base × hauteur = ${B} × ${h} ÷ 3 = ${B*h/3} cm³. Sans le 1/3, on obtiendrait le volume du prisme.`,{unit:'cm³'})});
+gen('n4-esp','cone','Volume d’un cône (valeur exacte)',()=>{const r=GR.i(1,6),h=GR.i(1,4)*3;
+  return Q(`Volume exact d'un cône de rayon ${r} cm et de hauteur ${h} cm ?`,O4(`${PI(r*r*h/3)} cm³`,[`${PI(r*r*h)} cm³`,`${PI(r*h/3)} cm³`,`${PI(2*r*h/3)} cm³`],()=>`${PI(r*r*h/3+GR.i(1,5))} cm³`),
+    `V = 1/3 × π × r² × h = π × ${r}² × ${h} ÷ 3 = ${PI(r*r*h/3)} cm³.`)});
+gen(['n4-algo','algo'],'boucle','Boucle et variable',()=>{const n=GR.i(1,10),k=GR.i(2,4),t=GR.p(['+','×','−']),m=t==='×'?GR.i(2,3):GR.i(2,7);let v=n;const st=[n];
+  for(let i=0;i<k;i++){v=t==='+'?v+m:t==='×'?v*m:v-m;st.push(v)}
+  return QS(`n vaut ${n}. Répéter ${k} fois : n prend la valeur n ${t} ${m}. Valeur finale de n ?`,v,`${st.map(F).join(' → ')}.`)});
+gen('n4-algo','si','Test « si … alors … sinon »',()=>{const s=GR.i(3,15),x=GR.p([s,s+GR.i(1,5),s-GR.i(1,5)]),op=GR.p(['>','<']),t=op==='>'?x>s:x<s;
+  return Q(`« Si x ${op} ${s} alors dire Oui sinon dire Non ». Avec x = ${x}, le lutin dit…`,O4(t?'Oui':'Non',[t?'Non':'Oui','Rien','Oui puis Non']),`${x} ${op} ${s} est ${t?'vrai':'faux'}${x===s?' (l\'inégalité est stricte)':''} : le lutin dit ${t?'Oui':'Non'}.`)});
+
+/* ---------- 3e ---------- */
+gen('calc','frac','Opérations sur les fractions',()=>{const b=GR.p([2,3,4,5,6]),d=GR.p([3,4,6,8,9]);if(b===d)throw 0;const a=GR.nz(-5,5),c=GR.i(1,d-1),s=GR.coin();if(Math.abs(a)%b===0)throw 0;const D0=0,D=b*d/gcd(b,d),n=a*D/b+(s?-1:1)*c*D/d;
+  return Q(`${FR(a,b)} ${s?'−':'+'} ${c}/${d} = ?`,O4(FQ(n,D),[FQ(a+(s?-c:c),b+d),FQ(a+(s?-c:c),D),FQ(n,b*d+1)],()=>FQ(n+GR.nz(-3,3),D)),`Même dénominateur ${D} : ${FR(a*D/b,D)} ${s?'−':'+'} ${c*D/d}/${D} = ${FR(n,D)}`+(gcd(n,D)>1?` = ${FQ(n,D)}.`:'.'))});
+gen('calc','prio','Priorités avec des relatifs',()=>{const a=GR.nz(-9,9),b=GR.nz(-6,6),c=GR.nz(-6,6),d=GR.nz(-6,6);if(c===d)throw 0;
+  return QS(`Calcule ${F(a)} − ${PAR(b)} × (${F(c)} − ${PAR(d)})`,a-b*(c-d),`Parenthèses : ${F(c)} − ${PAR(d)} = ${F(c-d)}. Produit : ${PAR(b)} × ${PAR(c-d)} = ${F(b*(c-d))}. Enfin ${F(a)} − ${PAR(b*(c-d))} = ${F(a-b*(c-d))}.`)});
+gen('arith','decomp','Décomposition en facteurs premiers',()=>{const e=[GR.i(1,4),GR.i(0,2),GR.i(0,2),GR.i(0,1)],p=[2,3,5,7],N=p.reduce((s,q,i)=>s*q**e[i],1);if(N<24||N>800||e.filter(Boolean).length<2)throw 0;
+  const fmt=ex=>p.map((q,i)=>ex[i]?q+(ex[i]>1?SUP(ex[i]):''):'').filter(Boolean).join(' × ');
+  const i0=e.findIndex(x=>x>=2),wrong1=i0>=0?p.map((q,i)=>e[i]?(i===i0?String(q**e[i]):q+(e[i]>1?SUP(e[i]):'')):'').filter(Boolean).join(' × '):null;
+  const e2=e.slice(),j=e.findIndex(x=>x>0);e2[j]++;const e3=e.slice();e3[e.findIndex(x=>x>0)]--;if(e3.every(x=>!x))e3[1]++;
+  return Q(`Quelle est la décomposition de ${F(N)} en produit de facteurs premiers ?`,O4(fmt(e),[wrong1,fmt(e2),fmt(e3)],null,1),`${F(N)} = ${fmt(e)}. Tous les facteurs doivent être des nombres premiers : 4, 6, 9… ne le sont pas.`)});
+gen('arith','irred','Fraction irréductible',()=>{let a,b;do{a=GR.i(1,9);b=GR.i(2,11)}while(gcd(a,b)>1||a===b);const g=GR.p([6,12,15,18,14]),h=GR.p(g===14?[2,7]:[2,3]),n=a*g,d=b*g;
+  return Q(`Quelle est la forme irréductible de ${n}/${d} ?`,O4(FR(a,b),[FR(a*h,b*h),FR(a,b*h),FR(b,a)],()=>FR(a+GR.i(1,3),b),1),`${n} = ${g} × ${a} et ${d} = ${g} × ${b} : on simplifie par ${g}, le plus grand diviseur commun. ${FR(a*h,b*h)} n'est pas irréductible : on peut encore simplifier par ${h}.`)});
+gen('arith','premier','Nombre premier ?',()=>{const P=[53,59,61,67,71,73,79,83,89,97,101,103,107,109,113,127,131,137,139,149,151,157,163,167,173],C=[[7,13],[3,29],[3,17],[3,19],[7,17],[7,19],[11,13],[13,13],[7,23],[11,17],[3,37],[7,11],[17,7]];
+  const ok=GR.coin(),c=GR.p(C),n=ok?GR.p(P):c[0]*c[1];
+  return VF(`${n} est un nombre premier.`,ok,ok?`${n} n'est divisible par aucun nombre premier inférieur ou égal à √${n} (2, 3, 5, 7, 11) : il est premier.`:`${n} = ${c[0]} × ${c[1]} : il a d'autres diviseurs que 1 et lui-même.`)});
+gen('puis','prod','Produit en notation scientifique',()=>{const a=GR.i(1,4),b=GR.i(1,2),m=GR.i(2,9),n=GR.nz(-6,6);if(a*b>=10)throw 0;
+  return Q(`(${a} × 10${SUP(m)}) × (${b} × 10${SUP(n)}) = ?`,O4(`${a*b} × 10${SUP(m+n)}`,[`${a*b} × 10${SUP(m*n)}`,`${a+b} × 10${SUP(m+n)}`,`${a*b} × 10${SUP(m+n-1)}`]),`On multiplie les nombres entre eux : ${a} × ${b} = ${a*b}, et les puissances de 10 : 10${SUP(m)} × 10${SUP(n)} = 10${SUP(m+n)}.`)});
+gen('litt','id','Identité remarquable (a − b)(a + b)',()=>{const k=GR.p([1,1,2,3]),a=GR.i(1,9),x=k===1?'x':k+'x';
+  return Q(`Développer (${x} − ${a})(${x} + ${a})`,O4(POLY([k*k,0,-a*a]),[POLY([k*k,0,a*a]),POLY([k*k,-2*k*a,-a*a]),POLY([k*k,0,-2*a])]),`(a − b)(a + b) = a² − b² avec a = ${x} et b = ${a} : ${POLY([k*k,0,-a*a])}.`)});
+gen('litt','fact','Factoriser une différence de deux carrés',()=>{const k=GR.p([1,1,2,3]),a=GR.i(1,9),x=k===1?'x':k+'x';if(gcd(k,a)>1)throw 0;
+  return Q(`Factoriser ${POLY([k*k,0,-a*a])}`,O4(`(${x} − ${a})(${x} + ${a})`,[`(${x} − ${a})²`,`(${x} + ${a})²`,`(${x} − ${a*a})(${x} + ${a*a})`],null,1),`${POLY([k*k,0,-a*a])} = (${x})² − ${a}² : c'est a² − b² = (a − b)(a + b).`)});
+gen('litt','dd','Développer (ax + b)(x + c)',()=>{const a=GR.i(2,5),b=GR.nz(-7,7),c=GR.nz(-7,7);
+  return Q(`Développer (${a}x ${b<0?'−':'+'} ${Math.abs(b)})(x ${c<0?'−':'+'} ${Math.abs(c)})`,O4(POLY([a,a*c+b,b*c]),[POLY([a,0,b*c]),POLY([a,a*c,b*c]),POLY([a,b+c,b*c])],()=>POLY([a,a*c+b+GR.nz(-2,2),b*c])),`${a}x × x + ${a}x × ${PAR(c)} + ${PAR(b)} × x + ${PAR(b)} × ${PAR(c)} = ${POLY([a,a*c+b,b*c])}.`)});
+gen('equa','nul','Équation produit nul',()=>{const a=GR.nz(-9,9),b=GR.nz(-9,9);if(Math.abs(a)===Math.abs(b))throw 0;const f=v=>`x ${-v<0?'−':'+'} ${Math.abs(v)}`;
+  return Q(`Solutions de (${f(a)})(${f(b)}) = 0 ?`,O4(`${F(a)} et ${F(b)}`,[`${F(-a)} et ${F(-b)}`,`${F(a)} et ${F(-b)}`,`${F(-a)} et ${F(b)}`],null,1),`Un produit est nul si l'un des facteurs est nul : ${f(a)} = 0 donne x = ${F(a)} ; ${f(b)} = 0 donne x = ${F(b)}.`)});
+gen('equa','carre','Équation x² = a',()=>{const n=GR.i(2,12),neg=Math.random()<.25;
+  return neg?Q(`Solutions de x² = −${n*n} ?`,O4('Aucune',[`${n} et −${n}`,`−${n}`,`${n}`]),'Un carré est toujours positif ou nul : il ne peut pas être négatif.')
+    :Q(`Solutions de x² = ${n*n} ?`,O4(`${n} et −${n}`,[`${n}`,F(n*n/2),'Aucune']),`${n}² = ${n*n} et (−${n})² = ${n*n} : il y a deux solutions.`)});
+gen('prop','succ','Évolutions successives',()=>{const p=GR.p([10,20,25,30,50]),q=GR.p([10,20,25,40]),c=(1+p/100)*(1-q/100),r=Math.round((c-1)*1000)/10;
+  const txt=v=>v===0?'il ne change pas':v>0?`il augmente de ${F(v)} %`:`il baisse de ${F(-v)} %`;
+  return Q(`Un prix augmente de ${p} %, puis baisse de ${q} %. Au final…`,O4(txt(r),[txt(p-q),txt(-r),txt(r+GR.nz(-5,5))]),`On multiplie par ${F(1+p/100)} puis par ${F(1-q/100)} : ${F(1+p/100)} × ${F(1-q/100)} = ${F(c)}. Les pourcentages ne s'additionnent pas.`)});
+gen('prop','initial','Retrouver un prix initial',()=>{const p=GR.p([10,20,25,50]),P=GR.i(4,40)*10,V=P*(1+p/100);if(V%1)throw 0;
+  return QS(`Après une hausse de ${p} %, un prix vaut ${F(V)} €. Quel était le prix initial ?`,P,`Prix initial × ${F(1+p/100)} = ${F(V)}, donc prix initial = ${F(V)} ÷ ${F(1+p/100)} = ${P} €. Retirer ${p} % de ${F(V)} € serait une erreur.`,{unit:'€'})});
+gen('prop','ratio','Partage selon un ratio',()=>{const a=GR.i(1,5),b=GR.i(1,5);if(a===b)throw 0;const u=GR.i(2,20),N=(a+b)*u,first=GR.coin();
+  return QS(`On partage ${N} € dans le ratio ${a} : ${b}. Combien reçoit la ${first?'première':'seconde'} personne ?`,first?a*u:b*u,`${a} + ${b} = ${a+b} parts égales de ${N} ÷ ${a+b} = ${u} €. ${first?`La première reçoit ${a} × ${u} = ${a*u} €.`:`La seconde reçoit ${b} × ${u} = ${b*u} €.`}`,{unit:'€'})});
+gen('fonc','image','Image par une fonction',()=>{const a=GR.nz(-3,3),b=GR.nz(-9,9),x=GR.nz(-5,5),sq=GR.coin();
+  return sq?QS(`f(x) = ${POLY([a,0,b])}. Calcule f(${F(x)}).`,a*x*x+b,`f(${F(x)}) = ${F(a)} × ${PAR(x)}² ${b<0?'−':'+'} ${Math.abs(b)} = ${F(a)} × ${x*x} ${b<0?'−':'+'} ${Math.abs(b)} = ${F(a*x*x+b)}.`)
+    :QS(`f(x) = ${POLY([a,b])}. Calcule f(${F(x)}).`,a*x+b,`f(${F(x)}) = ${F(a)} × ${PAR(x)} ${b<0?'−':'+'} ${Math.abs(b)} = ${F(a*x+b)}.`)});
+gen(['fonc','aff'],'ante','Antécédent par une fonction affine',()=>{const a=GR.nz(-5,5),b=GR.nz(-9,9),x=GR.nz(-8,8),y=a*x+b;if(Math.abs(a)===1&&GR.coin())throw 0;
+  return QS(`f(x) = ${POLY([a,b])}. Quel est l'antécédent de ${F(y)} ?`,x,`On résout ${POLY([a,b])} = ${F(y)} : ${a}x = ${F(y-b)}, donc x = ${F(x)}. Calculer f(${F(y)}) donnerait l'image, pas l'antécédent.`)});
+gen('aff','coef','Coefficient directeur',()=>{const a=GR.nz(-4,4),b=GR.nz(-6,6),x1=GR.i(-3,2),x2=x1+GR.i(1,4);
+  return QS(`Une droite passe par A${PT(x1,a*x1+b)} et B${PT(x2,a*x2+b)}. Quel est son coefficient directeur ?`,a,`a = (yB − yA) ÷ (xB − xA) = (${F(a*x2+b)} − ${PAR(a*x1+b)}) ÷ (${F(x2)} − ${PAR(x1)}) = ${F(a*(x2-x1))} ÷ ${x2-x1} = ${F(a)}.`)});
+gen('aff','expr','Expression d’une fonction affine',()=>{const a=GR.nz(-5,5),b=GR.nz(-9,9),k=GR.i(1,4);
+  return Q(`f est affine, f(0) = ${F(b)} et f(${k}) = ${F(a*k+b)}. Quelle est son expression ?`,O4(`f(x) = ${POLY([a,b])}`,[`f(x) = ${POLY([b,a])}`,`f(x) = ${POLY([a*k,b])}`,`f(x) = ${POLY([a,a*k+b])}`],()=>`f(x) = ${POLY([a+GR.nz(-2,2),b])}`,1),`b = f(0) = ${F(b)} et a = (${F(a*k+b)} − ${PAR(b)}) ÷ ${k} = ${F(a)}.`)});
+gen('proba','deux','Deux tirages avec remise',()=>{const t=GR.i(3,10),r=GR.i(1,t-1);
+  return Q(`Une urne contient ${t} boules dont ${r} rouge${r>1?'s':''}. On tire une boule, on la remet, puis on en tire une seconde. Probabilité d'obtenir deux rouges ?`,O4(FQ(r*r,t*t),[FQ(r,t),FQ(2*r,t),FQ(r*r,2*t)],()=>FQ(r*r+GR.i(1,4),t*t)),
+    `On multiplie les probabilités le long du chemin : ${FR(r,t)} × ${FR(r,t)} = ${FR(r*r,t*t)}`+(gcd(r*r,t*t)>1?` = ${FQ(r*r,t*t)}.`:'.'))});
+gen('grand','duree','Durée d’un trajet',()=>{const v=GR.p([40,60,80,90,100,120]),t=GR.p([1.5,2.5,0.75,1.25,2.25]),d=v*t;if(d%1)throw 0;const hm=x=>{const h=Math.floor(x),m=Math.round((x-h)*60);return h?`${h} h${m?' '+String(m).padStart(2,'0')+' min':''}`:`${m} min`};
+  return Q(`Combien de temps faut-il pour parcourir ${d} km à ${v} km/h ?`,O4(hm(t),[`${Math.floor(t)} h ${Math.round((t%1)*100)} min`,hm(v/d),hm(t+0.5)]),`t = d ÷ v = ${d} ÷ ${v} = ${F(t)} h, soit ${hm(t)}. Attention : ${F(t)} h ne s'écrit pas « ${Math.floor(t)} h ${Math.round((t%1)*100)} ».`)});
+gen('trigo','choix','Choisir la bonne formule',()=>{const c=GR.p([['BC','AC','sin(Â) = BC/AC','le côté opposé et l\'hypoténuse : c\'est le sinus (SOH)'],['AB','AC','cos(Â) = AB/AC','le côté adjacent et l\'hypoténuse : c\'est le cosinus (CAH)'],['BC','AB','tan(Â) = BC/AB','le côté opposé et le côté adjacent : c\'est la tangente (TOA)']]);
+  const [k,w]=GR.coin()?[c[0],c[1]]:[c[1],c[0]];
+  return Q(`ABC est rectangle en B. On connaît ${k} et l'angle Â, on cherche ${w}. Quelle égalité utiliser ?`,O4(c[2],['sin(Â) = BC/AC','cos(Â) = AB/AC','tan(Â) = BC/AB','tan(Â) = AB/BC']),`Par rapport à Â, ${k} et ${w} sont ${c[3]}.`,{fig:trigFig()})});
+gen('trigo','calc','Calculer une longueur avec la tangente',()=>{const t=GR.p([0.5,0.75,1.5,2,1.25,0.4]),a=GR.i(2,12)*4,o=a*t;if(o%1)throw 0;
+  return QS(`ABC est rectangle en B, AB = ${a} cm et tan(Â) = ${F(t)}. Combien mesure BC ?`,o,`tan(Â) = BC/AB (opposé ÷ adjacent), donc BC = AB × tan(Â) = ${a} × ${F(t)} = ${F(o)} cm.`,{unit:'cm'})});
+gen(['semb','transfo'],'k2','Agrandissement et aires',()=>{const k=GR.p([2,3,4,1.5,0.5]),A=GR.i(2,12)*(k%1?4:1),w=GR.p(['longueur','aire']);
+  return w==='aire'?QS(`Une figure d'aire ${A} cm² est ${k>1?'agrandie':'réduite'} avec un rapport ${F(k)}. Quelle est l'aire de la nouvelle figure ?`,A*k*k,`Les longueurs sont multipliées par ${F(k)}, donc les aires par ${F(k)}² = ${F(k*k)} : ${A} × ${F(k*k)} = ${F(A*k*k)} cm². Multiplier par ${F(k)} seulement est l'erreur classique.`,{unit:'cm²'})
+    :QS(`Un segment de ${A} cm est ${k>1?'agrandi':'réduit'} avec un rapport ${F(k)}. Quelle est sa nouvelle longueur ?`,A*k,`Les longueurs sont multipliées par ${F(k)} : ${A} × ${F(k)} = ${F(A*k)} cm.`,{unit:'cm'})});
+gen('transfo','mult','Homothétie : longueurs, aires, volumes',()=>{const k=GR.p([2,3,4,5,10]),w=GR.p([['longueurs',1],['aires',2],['volumes',3]]);
+  return Q(`Une homothétie de rapport ${k} multiplie les ${w[0]} par…`,O4(F(k**w[1]),[F(k),F(k*k),F(k**3),F(2*k)]),`Longueurs × ${k}, aires × ${k}² = ${k*k}, volumes × ${k}³ = ${F(k**3)}.`)});
+gen('espace','boule','Volume d’une boule (valeur exacte)',()=>{const r=GR.p([3,6,9]);
+  return Q(`Volume exact d'une boule de rayon ${r} cm ?`,O4(`${PI(4*r**3/3)} cm³`,[`${PI(4*r*r)} cm²`,`${PI(4*r**3)} cm³`,`${PI(r**3)} cm³`,`${PI(4*r*r/3)} cm³`],()=>`${PI(4*r**3/3+3*GR.nz(-9,9))} cm³`),`V = 4/3 × π × r³ = 4/3 × π × ${r**3} = ${PI(4*r**3/3)} cm³. 4πr² est l'aire de la sphère, pas son volume.`)});
+gen('espace','echelle','Maquette et volume',()=>{const k=GR.p([2,3,5,10]);
+  return QS(`Une maquette est à l'échelle 1/${k}. Par combien faut-il multiplier son volume pour obtenir le volume réel ?`,k**3,`Les longueurs sont multipliées par ${k}, donc les volumes par ${k}³ = ${F(k**3)}.`)});
+gen('algo','inverse','Remonter un programme de calcul',()=>{const a=GR.i(2,6),b=GR.i(1,12),x=GR.i(1,12),r=a*x+b;
+  return QS(`Programme : choisir un nombre ; le multiplier par ${a} ; ajouter ${b}. On obtient ${r}. Quel était le nombre de départ ?`,x,`On remonte le programme : ${r} − ${b} = ${r-b}, puis ${r-b} ÷ ${a} = ${x}.`)});
+gen('stat','etendue','Étendue et moyenne',()=>{const v=Array.from({length:GR.i(5,7)},()=>GR.i(2,20)),mx=Math.max(...v),mn=Math.min(...v);if(mx===mn)throw 0;
+  return QS(`Quelle est l'étendue de la série ${v.join(' ; ')} ?`,mx-mn,`Étendue = plus grande valeur − plus petite valeur = ${mx} − ${mn} = ${mx-mn}.`)});
+
+gen('n6-sym','distance','Distance à l’axe',()=>{const n=GR.i(1,9),g=GR.coin(),[a,b]=g?['gauche','droite']:['droite','gauche'];
+  return Q(`Sur un quadrillage, le point A est à ${n} carreau${n>1?'x':''} à ${a} de l'axe (d). Où se trouve son symétrique A′ par rapport à (d) ?`,O4(`à ${n} carreau${n>1?'x':''} à ${b} de (d)`,[`à ${2*n} carreaux à ${b} de (d)`,`à ${n} carreau${n>1?'x':''} à ${a} de (d)`,'sur la droite (d)'],null,1),
+    `La symétrie axiale conserve les distances : A′ est de l'autre côté de (d), à la même distance, soit ${n} carreau${n>1?'x':''} à ${b}.`)});
+gen('n6-sym','conserve','Ce que conserve la symétrie',()=>{const x=GR.i(2,15),w=GR.p([['Un segment mesure',' cm','longueurs','combien mesure son image'],['Un angle mesure','°','angles','combien mesure son image'],['Une figure a une aire de',' cm²','aires','quelle est l\'aire de son image']]);
+  return QS(`${w[0]} ${x}${w[1]}. Par une symétrie axiale, ${w[3]} ?`,x,`La symétrie axiale conserve les ${w[2]} : l'image mesure aussi ${x}${w[1]}.`,{unit:w[1].trim()})});
+/* Prépare une question générée comme les questions fixes (type, temps, identifiant) */
+function genEstTime(q,base){const W=t=>String(t).replace(/⟦([^|]*)\|([^⟧]*)⟧/g,'$1 $2').split(/\s+/).filter(Boolean).length,r5=x=>Math.ceil(x/5)*5,b={qcm:14,vf:9,jauge:14,saisie:18,ordre:10};
+  const wo=q.type==='qcm'?W(q.opts.join(' ')):0;return Math.min(60,Math.max(q.time||base,r5((b[q.type]||14)+0.5*W(q.prompt)+0.4*wo+(q.fig?6:0))))}
+function genMake(g,ch){for(let k=0;k<40;k++){let q;try{q=g.make()}catch(e){continue}
+  q.type=q.type||'qcm';if(!q.opts)q.opts=[null,null,null,null];q.gen=g.id;q.time=genEstTime(q,ch.time||30);q.id=g.id+'~'+Math.random().toString(36).slice(2,8);return q}return null}
 
 /* ================= Utilitaires ================= */
 const HOST_PREFIX='arenemaths-salle-';
@@ -3612,7 +4178,7 @@ const BADGES={
  serie:{n:'Inarrêtable',c:'#FF8A3D',d:p=>`${p.bestStreak} bonnes réponses d’affilée`},
  remontada:{n:'Remontada',c:'#13B386',d:p=>`+${p.climb} places au classement`},
  cerveau:{n:'Cerveau',c:'#B565F2',d:p=>`${p.right} bonnes réponses`},
- lynx:{n:'Œil de lynx',c:'#12B5CB',d:p=>`${p.lynx} jauge${p.lynx>1?'s':''} au bon endroit`}};
+ lynx:{n:'Œil de lynx',c:'#12B5CB',d:p=>`${p.lynx} point${p.lynx>1?'s':''} placé${p.lynx>1?'s':''} pile au bon endroit`}};
 const BICON={
  parfait:'<path d="M5 12.5 L10 17.5 L19 6.5" fill="none" stroke-width="3.4"/>',
  fatal:'<path d="M18.5 3 L21 5.5 L10 16.5 L7.5 14 Z"/><path d="M5.5 12.5 L11.5 18.5" fill="none" stroke-width="2.8"/><path d="M7 17 L3.5 20.5" fill="none" stroke-width="3.2"/>',
@@ -3677,6 +4243,9 @@ const clearLater=()=>{st.timers.forEach(clearTimeout);st.timers=[]};
 
 /* ================= Accueil ================= */
 const activeQs=c=>c.questions.filter(q=>!st.off.has(q.id)&&(st.mix||q.type==='qcm'));
+const activeGens=c=>(GENS[c.id]||[]).filter(g=>!st.off.has(g.id));
+/* Cinq variantes par modèle actif, toutes différentes : environ un tiers des questions d'une partie */
+function genQs(c,n=5){const out=[];activeGens(c).forEach(g=>{const seen=new Set();for(let k=0;k<n*3&&seen.size<n;k++){const q=genMake(g,c);if(q&&!seen.has(q.prompt)&&(st.mix||q.type==='qcm')){seen.add(q.prompt);out.push(q)}}});return out}
 function drawTeams(){
   const el=$('#teamList');
   el.innerHTML=st.teams.map((n,i)=>`<input id="team-${i}" value="${esc(n)}" maxlength="22" aria-label="Nom de l'équipe ${i+1}">`).join('');
@@ -3694,13 +4263,13 @@ function drawChapters(){
   const doms=[...new Set(lvlChs().map(c=>c.dom))];
   box.innerHTML=doms.map(dm=>{const chs=lvlChs().filter(c=>c.dom===dm);const allOn=chs.every(c=>st.sel.has(c.id));
     return `<div class="dom"><div class="dom-h"><h3>${esc(dm)}</h3><button type="button" data-dom="${esc(dm)}">${allOn?'Tout décocher':'Tout cocher'}</button></div>`+
-    chs.map(c=>`<button class="ch" type="button" id="ch-${c.id}" data-id="${c.id}" aria-pressed="${st.sel.has(c.id)}"><span class="box"></span><span class="t"><b>${esc(c.title)}</b><small>${fmt(c.sub)}</small></span><span class="n">${activeQs(c).length} q.</span></button>`).join('')+`</div>`}).join('');
+    chs.map(c=>`<button class="ch" type="button" id="ch-${c.id}" data-id="${c.id}" aria-pressed="${st.sel.has(c.id)}"><span class="box"></span><span class="t"><b>${esc(c.title)}</b><small>${fmt(c.sub)}</small></span><span class="n">${activeQs(c).length} q.${activeGens(c).length?`<small>+${activeGens(c).length} modèles</small>`:''}</span></button>`).join('')+`</div>`}).join('');
   box.querySelectorAll('.ch').forEach(b=>b.onclick=()=>{const id=b.dataset.id;st.sel.has(id)?st.sel.delete(id):st.sel.add(id);store.set('arene-sel',[...st.sel]);drawChapters()});
   box.querySelectorAll('.dom-h button').forEach(b=>b.onclick=()=>{const chs=lvlChs().filter(c=>c.dom===b.dataset.dom);const allOn=chs.every(c=>st.sel.has(c.id));
     chs.forEach(c=>allOn?st.sel.delete(c.id):st.sel.add(c.id));store.set('arene-sel',[...st.sel]);drawChapters()});
-  const mine=lvlChs().filter(c=>st.sel.has(c.id)),nCh=mine.length,nQ=mine.reduce((a,c)=>a+activeQs(c).length,0);
-  $('#selInfo').textContent=nCh?`${nCh} chapitre${nCh>1?'s':''} · ${nQ} questions`:'Aucun chapitre choisi';
-  $('#start').disabled=nQ===0;
+  const mine=lvlChs().filter(c=>st.sel.has(c.id)),nCh=mine.length,nQ=mine.reduce((a,c)=>a+activeQs(c).length,0),nG=mine.reduce((a,c)=>a+activeGens(c).length,0);
+  $('#selInfo').textContent=nCh?`${nCh} chapitre${nCh>1?'s':''} · ${nQ} questions + ${nG} modèles de questions générées`:'Aucun chapitre choisi';
+  $('#start').disabled=nQ+nG===0;
 }
 function initHome(){
   const s=store.get('arene-sel',null);if(Array.isArray(s)){const ok=s.filter(id=>CHAPTERS.some(c=>c.id===id));if(ok.length)st.sel=new Set(ok)}
@@ -3742,8 +4311,9 @@ function openBank(chId){
   show('bank');
   const nav=$('#bankNav');
   const total=CHAPTERS.reduce((a,c)=>a+c.questions.length,0);
-  $('#bankInfo').textContent=`${total} questions · ${st.off.size} désactivée${st.off.size>1?'s':''}`;
-  nav.innerHTML=LEVELS.map(l=>`<h3 class="navlvl">${l.name}</h3>`+CHAPTERS.filter(c=>c.lvl===l.id).map(c=>`<button type="button" data-id="${c.id}" aria-current="${c.id===chId}"><span>${esc(c.title)}</span><span>${c.questions.filter(q=>!st.off.has(q.id)).length}/${c.questions.length}</span></button>`).join('')).join('');
+  const nGen=Object.values(GENS).reduce((a,l)=>a+l.length,0);
+  $('#bankInfo').textContent=`${F(total)} questions · ${nGen} modèles générés · ${st.off.size} désactivé${st.off.size>1?'s':''}`;
+  nav.innerHTML=LEVELS.map(l=>`<h3 class="navlvl">${l.name}</h3>`+CHAPTERS.filter(c=>c.lvl===l.id).map(c=>`<button type="button" data-id="${c.id}" aria-current="${c.id===chId}"><span>${esc(c.title)}</span><span>${c.questions.filter(q=>!st.off.has(q.id)).length}/${c.questions.length}${(GENS[c.id]||[]).length?` +${GENS[c.id].length}`:''}</span></button>`).join('')).join('');
   nav.querySelectorAll('button').forEach(b=>b.onclick=()=>openBank(b.dataset.id));
   const curB=nav.querySelector('[aria-current="true"]');if(curB&&curB.scrollIntoView)curB.scrollIntoView({block:'nearest'});
   const ch=CHAPTERS.find(c=>c.id===chId);
@@ -3756,7 +4326,19 @@ function openBank(chId){
   $('#bankList').querySelectorAll('input[data-id]').forEach(i=>i.onchange=()=>{i.checked?st.off.delete(i.dataset.id):st.off.add(i.dataset.id);store.set('arene-off',[...st.off]);
     i.closest('.qcard').classList.toggle('offq',!i.checked);
     nav.querySelector(`[data-id="${chId}"] span:last-child`).textContent=`${ch.questions.filter(q=>!st.off.has(q.id)).length}/${ch.questions.length}`;
-    $('#bankInfo').textContent=`${total} questions · ${st.off.size} désactivée${st.off.size>1?'s':''}`});
+    $('#bankInfo').textContent=`${F(total)} questions · ${nGen} modèles générés · ${st.off.size} désactivé${st.off.size>1?'s':''}`});
+  const gens=GENS[chId]||[];
+  if(gens.length){
+    $('#bankList').insertAdjacentHTML('beforeend',`<h3 class="banksec">Questions générées <span class="hint">Nouvelles valeurs à chaque partie : bonne réponse calculée, distracteurs tirés des erreurs fréquentes.</span></h3>`+gens.map(g=>`<article class="card qcard gcard${st.off.has(g.id)?' offq':''}" data-g="${g.id}"></article>`).join(''));
+    const drawG=el=>{const g=gens.find(x=>x.id===el.dataset.g),q=genMake(g,ch),on=!st.off.has(g.id);if(!q)return;
+      el.innerHTML=`<div><div class="tools"><span class="pill qtype">${typeLabel(q)}</span><span class="pill genpill">Modèle</span><span class="pill">${q.time} s</span>
+        <label class="switch" style="margin-left:auto"><input type="checkbox" id="use-${g.id}" data-g="${g.id}" ${on?'checked':''}>Utiliser en partie</label></div>
+        <p class="gname">${esc(g.label)}</p><p class="qp">${fmt(q.prompt)}</p>${answerHTML(q)}<p class="ex"><b>Explication :</b> ${fmt(q.exp)}</p>
+        <button class="btn small" type="button" data-again>Autre exemple</button></div>${q.fig?`<div class="mini">${figHTML(q.fig)}</div>`:'<div></div>'}`;
+      el.querySelector('[data-again]').onclick=()=>{drawG(el);fitText(el)};
+      el.querySelector('input[data-g]').onchange=e=>{e.target.checked?st.off.delete(g.id):st.off.add(g.id);store.set('arene-off',[...st.off]);el.classList.toggle('offq',!e.target.checked)}};
+    $('#bankList').querySelectorAll('.gcard').forEach(drawG);
+  }
   $('#bankList').scrollTop=0;requestAnimationFrame(()=>fitText($('#bankList')));
 }
 
@@ -3887,12 +4469,13 @@ function updateAnswered(){const on=online(),a=on.filter(p=>p.ans).length;$('#ans
 function startGame(){
   initAudio();clearLater();
   const chs=lvlChs().filter(c=>st.sel.has(c.id));
-  const pools=chs.map(c=>shuffle(activeQs(c)).map(q=>({q,ch:c})));
+  const pools=chs.map(c=>shuffle([...activeQs(c),...genQs(c)]).map(q=>({q,ch:c})));
   const total=pools.reduce((a,p)=>a+p.length,0),want=Math.min(st.count,total);
   if(!want)return;
   let picked=[];
   while(picked.length<want){for(const p of shuffle(pools)){if(p.length&&picked.length<want)picked.push(p.shift())}}
   picked=shuffle(picked);
+  for(let i=1;i<picked.length;i++){const g=picked[i].q.gen;if(g&&g===picked[i-1].q.gen){const j=picked.findIndex((x,k)=>k>i&&x.q.gen!==g);if(j>0)[picked[i],picked[j]]=[picked[j],picked[i]]}}
   st.order=picked.map(x=>{const q=x.q;let disp=null;
     if(q.type==='ordre'){do{disp=shuffle(q.items.map((_,i)=>i))}while(disp.every((v,i)=>v===i))}
     return {q,ch:x.ch,perm:q.type==='vf'?[0,1]:shuffle([0,1,2,3]),disp,mult:1}});
@@ -3929,11 +4512,15 @@ function gaugeStart(q){
   return ok.length?ok[Math.floor(Math.random()*ok.length)]:q.min;
 }
 const RING=2*Math.PI*46;
+/* Repères chiffrés d'une droite graduée : les entiers (les multiples de 5 si le pas vaut 1), et 0,5 sur une droite de longueur 1 finement graduée.
+   Les autres graduations restent muettes : placer le point demande de compter les graduations. */
+function nlLab(v,g,n){if(g.step>=1)return Math.abs(v%5)<1e-9||v===g.min||v===g.max;if(Math.abs(v-Math.round(v))<1e-9)return true;return g.max-g.min<=1&&n>=10&&Math.abs(v*2-Math.round(v*2))<1e-9}
+function nlScale(g){const n=Math.round((g.max-g.min)/g.step);let h='<div class="nl-axis">';for(let k=0;k<=n;k++){const v=+(g.min+k*g.step).toFixed(6),lab=nlLab(v,g,n),x=(k/n*100).toFixed(3);
+  h+=`<i class="${lab?'M':''}" style="left:${x}%"></i>`+(lab?`<b style="left:${x}%">${numFR(v)}</b>`:'')}return h+'</div>'}
 function gaugeHTML(q,marks=''){
   const pct=v=>((v-q.min)/(q.max-q.min)*100).toFixed(2)+'%';
-  const n=Math.round((q.max-q.min)/q.step),every=Math.max(1,Math.ceil(n/10));
-  let ticks='';for(let k=0;k<=n;k+=every){const v=q.min+k*q.step;ticks+=`<span class="tk" style="left:${pct(v)}">${numFR(v)}</span>`}
-  if((n%every)!==0)ticks+=`<span class="tk" style="left:100%">${numFR(q.max)}</span>`;
+  const n=Math.round((q.max-q.min)/q.step);
+  let ticks='';for(let k=0;k<=n;k++){const v=+(q.min+k*q.step).toFixed(6),lab=nlLab(v,q,n);ticks+=`<span class="tk${lab?' lab':''}" style="left:${pct(v)}">${lab?numFR(v):''}</span>`}
   return `<div class="gauge"><div class="gtrack"><div class="bar0"></div>${ticks}${marks}</div><p class="ghint" id="ghint">${st.mode==='live'?'Placez le curseur sur votre téléphone':st.mode==='classe'?'Chaque équipe note sa valeur sur l’ardoise':''}${q.unit?' · unité : '+esc(q.unit):''}</p></div>`;
 }
 function ask(){
@@ -3952,7 +4539,7 @@ function ask(){
   else{
     const live=st.mode==='live',team=st.mode==='classe';
     const how={qcm:'',vf:'Vrai ou faux ?',
-      jauge:live?'Place le curseur sur ton téléphone':team?'Écris ta valeur sur l\u2019ardoise':'Place le curseur sur la jauge',
+      jauge:live?'Place le curseur sur ton téléphone':team?'Écris ta valeur sur l\u2019ardoise':'Place le point sur la droite graduée',
       saisie:live?'Tape ta réponse sur ton téléphone':team?'Écris ta réponse sur l\u2019ardoise':'Tape ta réponse sur le pavé',
       ordre:live?'Touche les éléments dans le bon ordre sur ton téléphone':team?'Écris l\u2019ordre des lettres sur l\u2019ardoise':'Touche les éléments dans le bon ordre',
       redac:live?'Remets les étapes de la rédaction dans l\u2019ordre sur ton téléphone':team?'Écris l\u2019ordre des lettres sur l\u2019ardoise':'Fais glisser les étapes pour rédiger la solution'}[typeKey(q)];
@@ -3970,7 +4557,7 @@ function ask(){
   const go=()=>{if(st.phase!=='ask'||cur()!==c)return;st.t0=performance.now();st.lastSec=null;if(st.mode==='live')broadcast(payload());cancelAnimationFrame(st.raf);musicStart();loop()};
   const steps=[];
   if(c.mult>1)steps.push(()=>{sfx.bonus();return showSplash(c.mult===3?'×3':'×2',c.mult===3?'Grande finale : points triplés':'Compte double : points doublés','',1700)});
-  if(!st.seenTypes.has(typeKey(q))){st.seenTypes.add(typeKey(q));steps.push(()=>{sfx.whoosh();return showSplash(typeLabel(q),{vf:'Deux réponses possibles',jauge:'Place le curseur au bon endroit',saisie:'Tape le nombre exact',ordre:'Touche les éléments dans le bon ordre',redac:'Fais glisser les étapes pour rédiger la solution'}[typeKey(q)],'type',1500)})}
+  if(!st.seenTypes.has(typeKey(q))){st.seenTypes.add(typeKey(q));steps.push(()=>{sfx.whoosh();return showSplash(typeLabel(q),{vf:'Deux réponses possibles',jauge:'Place le point au bon endroit',saisie:'Tape le nombre exact',ordre:'Touche les éléments dans le bon ordre',redac:'Fais glisser les étapes pour rédiger la solution'}[typeKey(q)],'type',1500)})}
   if(st.i===st.order.length-1&&st.order.length>1&&c.mult<3)steps.unshift(()=>{sfx.bonus();return showSplash('Dernière question','Tout se joue maintenant','type',1500)});
   if(st.i===0)steps.unshift(countdown);
   steps.reduce((p,f)=>p.then(f),Promise.resolve()).then(go);
@@ -3985,7 +4572,7 @@ function renderAnswerArea(c){
     if(solo)box.querySelectorAll('button.tile').forEach(b=>b.onclick=()=>soloAnswer(+b.dataset.p));
     return;
   }
-  if(q.type==='jauge'){box.innerHTML=gaugeHTML(q);if(solo){const w=document.createElement('div');w.className='inpanel';w.style.marginTop='12px';box.appendChild(w);buildInput(w,payload(),v=>soloAnswer(v))}return}
+  if(q.type==='jauge'){if(solo){box.innerHTML='<div class="inpanel nlpanel"></div>';buildInput(box.firstChild,payload(),v=>soloAnswer(v))}else box.innerHTML=gaugeHTML(q);return}
   if(q.type==='saisie'){box.innerHTML=solo?'':`<div class="typecard">${st.mode==='live'?'Les élèves tapent leur réponse sur leur téléphone':'Chaque équipe écrit sa réponse sur l\u2019ardoise'}${q.unit?' (en '+esc(q.unit)+')':''}</div>`;if(solo){const w=document.createElement('div');w.className='inpanel';w.style.maxWidth='420px';w.style.margin='0 auto';box.appendChild(w);buildInput(w,payload(),v=>soloAnswer(v))}return}
   if(q.type==='ordre'){
     if(solo){box.innerHTML=`<div class="inpanel" style="max-width:${q.redac?960:620}px;margin:0 auto"></div>`;buildInput(box.firstChild,payload(),v=>soloAnswer(v));return}
@@ -4265,11 +4852,15 @@ function initRankNext(){$('#rankNext').onclick=()=>{if(st.phase!=='rank')return;
 /* ================= Zone de saisie (téléphone et solo) ================= */
 function buildInput(root,p,submit){
   if(p.type==='jauge'){
-    const g=p.g,mid=g.start!=null?g.start:Math.round(((g.min+g.max)/2-g.min)/g.step)*g.step+g.min;
-    root.innerHTML=`<div class="val" id="jv">${numFR(mid)}${g.unit?' '+esc(g.unit):''}</div><input class="range" type="range" id="jr" min="${g.min}" max="${g.max}" step="${g.step}" value="${mid}" aria-label="Valeur"><div class="rlabels"><span>${numFR(g.min)}</span><span>${numFR(g.max)}</span></div><button class="btn primary big" type="button" id="jok">Valider</button>`;
-    const r=root.querySelector('#jr'),out=root.querySelector('#jv');
-    r.oninput=()=>out.textContent=numFR(Number(r.value))+(g.unit?' '+g.unit:'');
-    root.querySelector('#jok').onclick=()=>submit(Number(r.value));
+    const g=p.g,n=Math.round((g.max-g.min)/g.step);let k=Math.round(((g.start!=null?g.start:(g.min+g.max)/2)-g.min)/g.step);
+    root.innerHTML=`<p class="nl-hint">Fais glisser le point ou touche la droite${g.unit?' (en '+esc(g.unit)+')':''}, puis valide.</p><div class="nl" id="nl" tabindex="0" role="slider" aria-label="Position du point sur la droite graduée" aria-valuemin="${g.min}" aria-valuemax="${g.max}">${nlScale(g)}<span class="nl-cur" id="nlc"></span></div><button class="btn primary big" type="button" id="jok">Valider</button>`;
+    const el=root.querySelector('#nl'),cur=root.querySelector('#nlc'),val=()=>+(g.min+k*g.step).toFixed(6);
+    const draw=()=>{cur.style.left=(k/n*100)+'%';el.setAttribute('aria-valuenow',val());el.setAttribute('aria-valuetext',numFR(val())+(g.unit?' '+g.unit:''))};
+    const fromX=x=>{const r=el.querySelector('.nl-axis').getBoundingClientRect();k=Math.max(0,Math.min(n,Math.round((x-r.left)/r.width*n)));draw()};
+    el.onpointerdown=e=>{e.preventDefault();el.focus({preventScroll:true});try{el.setPointerCapture(e.pointerId)}catch(_){}fromX(e.clientX);el.onpointermove=ev=>fromX(ev.clientX)};
+    el.onpointerup=el.onpointercancel=()=>{el.onpointermove=null};
+    el.onkeydown=e=>{const d={ArrowRight:1,ArrowUp:1,ArrowLeft:-1,ArrowDown:-1}[e.key];if(d){k=Math.max(0,Math.min(n,k+d));draw();e.preventDefault()}};
+    draw();root.querySelector('#jok').onclick=()=>submit(val());
     return;
   }
   if(p.type==='saisie'){

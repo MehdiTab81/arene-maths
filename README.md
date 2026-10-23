@@ -4,8 +4,9 @@ Le quiz de maths en direct pour le collège, de la 6e à la 3e. Les questions s'
 
 ## Ce que contient le jeu
 
-- **1 573 questions** réparties en 61 chapitres (6e, 5e, 4e, 3e), avec une explication pour chaque réponse.
-- **6 mécaniques** : QCM, vrai ou faux, jauge à placer, réponse à taper, remettre dans l'ordre, rédaction de démonstration à glisser.
+- **1 573 questions fixes** réparties en 61 chapitres (6e, 5e, 4e, 3e), avec une explication pour chaque réponse.
+- **146 modèles de questions générées** : à chaque partie, de nouvelles valeurs, une bonne réponse calculée et des distracteurs tirés des erreurs typiques des élèves. Environ un tiers des questions d'une partie, pour qu'une classe ne revoie jamais exactement les mêmes.
+- **6 mécaniques** : QCM, vrai ou faux, droite graduée (placer un point en comptant les graduations), réponse à taper, remettre dans l'ordre, rédaction de démonstration à glisser.
 - **Figures** générées : transformations, Thalès (imbriqué et papillon), trigonométrie, graphiques de fonctions, diagrammes, arbres de probabilités.
 - **3 modes** : téléphones (QR code + code à 6 chiffres), équipes (le professeur coche les équipes qui ont trouvé), solo.
 - **Mode Boss** : toute la classe affronte un monstre (Fractodon, Hypoténus, Aléatorix ou Bugzilla selon les chapitres). Chaque bonne réponse lui retire des points de vie ; il faut environ 60 % de réussite pour le mettre K.O.
@@ -13,7 +14,9 @@ Le quiz de maths en direct pour le collège, de la 6e à la 3e. Les questions s'
 - **Réactions** : les élèves envoient 🔥 👏 😮 😂 💪 🤯 depuis leur téléphone ; elles s'envolent sur l'écran projeté (pas pendant les questions).
 - **Montée en tension** : musique dont le tempo accélère avec le chrono, vignette rouge et battements de cœur dans les 5 dernières secondes, annonce de la dernière question, écarts serrés commentés au classement.
 - **Bilan de séance** : réussite par notion, par élève et par question, copie ou export CSV (Excel).
-- **Vérifier les questions** : le professeur peut consulter et désactiver chaque question.
+- **Vérifier les questions** : le professeur peut consulter et désactiver chaque question et chaque modèle généré.
+
+Le détail des vérifications (pédagogie, figures, technique) et ce qui reste à faire avant la vente sont dans [AUDIT.md](AUDIT.md).
 
 Tout tient dans un seul fichier `index.html`, sans installation ni compte.
 
