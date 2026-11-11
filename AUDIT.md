@@ -78,3 +78,24 @@ Ces points ne relèvent pas du code ou demandent une décision de votre part.
 5. **Accessibilité.** Le jeu respecte les bases (contraste, clavier, réduction des animations), mais un audit RGAA complet est conseillé pour répondre aux marchés publics.
 6. **Explications.** 485 explications font moins de 25 caractères (par exemple « 9/12 + 10/12 = 19/12. »). Elles sont justes mais pourraient être enrichies progressivement d'une phrase de méthode.
 7. **Vrai / faux de la banque fixe.** Le déséquilibre initial (139 vrais, 72 faux) est compensé en partie par les modèles générés, équilibrés. Réécrire une quarantaine d'affirmations vraies en fausses rééquilibrerait complètement la banque.
+
+## 6. Mise à jour de novembre 2026
+
+| Sujet | Ce qui a changé |
+|---|---|
+| Figures de transformations | 16 modèles avec figure générée : 10 en 3e (reconnaître une transformation, image par symétrie axiale ou centrale, translation, rotation, homothétie, rapport d'une homothétie, image d'un point, décrire une translation, angle d'une rotation), 2 en 4e, 2 en 5e, 2 en 6e. Les formes n'ont aucune symétrie : on voit tout de suite si l'image est retournée ou a tourné. |
+| Automatismes | 4 chapitres « Automatismes » (un par niveau), 53 modèles de calcul mental façon première partie du brevet, chrono de 15 à 45 s selon la longueur de l'énoncé. |
+| Solo contre des bots | 1, 3 ou 5 bots, quatre niveaux fixes et un niveau adaptatif, quatre styles. Même barème que le joueur. |
+| Reconnexion | Session mémorisée 3 h sur le téléphone, jeton d'appareil, relance automatique (8 essais sur une minute environ), contrôle de la liaison toutes les 20 s et au retour sur l'onglet. Le tableau renvoie l'état exact : question en cours avec le temps restant, « réponse envoyée », correction ou résultat final. |
+| Accueil | Réglages à gauche, chapitres à droite sur trois colonnes sans trous : la page ne défile plus sur ordinateur et le bouton de lancement reste toujours visible. À partir de 1 440 × 800, tous les chapitres d'un niveau sont visibles d'un coup ; en dessous (1 280 × 720), seule la liste des chapitres de 3e défile légèrement dans son cadre. Sur téléphone, une barre « Lancer » reste visible en bas. |
+| Écran de question sur téléphone (solo) | Réponses courtes rangées deux par deux, pavé numérique resserré : la question et les réponses tiennent sur un écran. |
+| Typographie | Les nombres négatifs des questions générées utilisent partout le vrai signe moins (« −3 » et non « -3 »). Les réponses à quatre décimales (0,0185) ne sont plus arrondies à l'affichage de la correction. |
+
+**Contrôles effectués.** Chaque modèle (les 215) tiré 300 fois par programme : options distinctes, réponses tapables au pavé, figures dans le cadre, vrai/faux équilibrés, aucun échec de génération. Parties complètes jouées automatiquement en solo contre des bots (15 et 25 questions, ordinateur et format téléphone), sans erreur JavaScript, toutes les bonnes réponses acceptées. Reconnexion testée avec un tableau et un téléphone réels via Supabase : rechargement pendant la question, après la réponse et pendant la correction.
+
+**Conformité aux programmes des nouveautés.** 6e (cycle 3, 2025) : tables, compléments, décimaux, fractions simples, durées, symétrie axiale. 5e (2026) : addition de relatifs, priorités, fractions égales, proportionnalité, échelle, symétrie centrale. 4e : produit de relatifs, puissances de 10, racine carrée, pourcentage d'évolution, translation. 3e : coefficient multiplicateur, écriture scientifique, tableur, fonctions, rotation et homothétie. Une relecture par l'enseignant reste conseillée, en particulier pour la 5e (programme 2026).
+
+**Limites connues.**
+- Si l'onglet du tableau est fermé ou rechargé, la partie est perdue (le navigateur demande maintenant confirmation avant de fermer en pleine partie). Les téléphones, eux, se reconnectent.
+- Le mode solo ne reprend pas une partie interrompue par un rechargement de page.
+- La reconnexion via PeerJS (sans Supabase) suit le même principe mais n'a pas été retestée ; Supabase reste le mode recommandé.

@@ -588,6 +588,137 @@ body.hurry #tension{opacity:1;animation:vign .5s ease-in-out infinite alternate}
   .rx{bottom:14vh}
 }
 
+
+/* ---------- Téléphone : énoncé, figure, reconnexion ---------- */
+.pprompt{margin:0;background:var(--card);border:3px solid var(--ink);border-radius:16px;padding:8px 12px;font-family:var(--display);font-weight:600;font-size:clamp(1rem,4.4vw,1.3rem);line-height:1.25;text-align:center;text-wrap:balance}
+.pfig{background:var(--paper);border:3px solid var(--ink);border-radius:16px;padding:6px;display:grid;gap:4px;justify-items:center}
+.pfig .fig-svg{width:100%;height:auto;max-height:30vh}
+.pfig .vtab{font-size:1.05rem}
+.pfig .caption{font-size:.95rem}
+.pretry{font-weight:800;color:var(--ink-2)}
+.psolo{display:block;text-align:center;font-weight:800;color:var(--o1);padding:8px}
+
+/* Le bouton pour continuer reste toujours visible, même quand l'explication est longue */
+#side #nextBtn,#side #revealBtn{position:sticky;bottom:2px;z-index:2;flex:none}
+
+/* ---------- Solo contre des bots ---------- */
+.botopts{display:grid;gap:10px;margin-top:10px}
+#botHint{font-size:.85rem;line-height:1.35}
+#soloCfg .seg{gap:6px}
+#soloCfg .seg label{padding:5px 10px;font-size:.92rem}
+.solo-link{margin-top:10px;font-size:.85rem;overflow-wrap:anywhere}
+.rivals{display:grid;gap:5px}
+.rv{display:grid;grid-template-columns:20px 30px minmax(0,1fr) auto 18px;align-items:center;gap:7px;background:var(--card);border:2.5px solid var(--ink);border-radius:12px;padding:4px 8px;font-weight:800;font-size:.92rem;transition:background .2s}
+.rv .av{width:30px;height:30px}
+.rv.me{background:#FFF4D6;box-shadow:0 3px 0 var(--ink)}
+.rv .rk{font-family:var(--display);text-align:center;color:var(--ink-2)}
+.rv .rn{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:1.1}
+.rv .rn small{display:block;font-size:.7rem;color:var(--ink-2);font-weight:700}
+.rv .rs{font-variant-numeric:tabular-nums;text-align:right;line-height:1.1}
+.rv .rs small{display:block;color:#0B7F5F;font-size:.75rem}
+.rv .rst{width:18px;height:18px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-size:.72rem;font-weight:900;color:#fff;line-height:1}
+.rv.done .rst{background:var(--o1);border-color:var(--ink)}
+.rv.ok .rst{background:var(--good);border-color:var(--ink)}
+.rv.ko .rst{background:var(--bad);border-color:var(--ink)}
+.rv.ko{opacity:.8}
+#quiz.hasrivals .clock{width:min(100%,128px)}
+@media (max-width:860px){
+  #quiz.hasrivals .side{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:10px}
+  #quiz.hasrivals .side>*{grid-column:1/-1}
+  #quiz.hasrivals .side>.clock{grid-column:1;width:84px;margin:0}
+  #quiz.hasrivals .side>.rivals{grid-column:2;display:flex;gap:6px;overflow-x:auto;padding:2px 2px 6px}
+  #quiz.hasrivals .clock b{font-size:1.9rem}
+  .rv{grid-template-columns:auto auto auto;flex:none;padding:3px 7px;gap:5px}
+  .rv .rn,.rv .rk{display:none}
+}
+
+/* ---------- Accueil compact : tout tient sur un écran, sans trous ni défilement de page ---------- */
+.domains{display:block;columns:3 240px;column-gap:18px}
+.dom{display:block;margin-bottom:10px}
+.domtop{break-inside:avoid}
+.dom-h{margin-bottom:5px;padding-top:2px}
+.ch{break-inside:avoid;margin-bottom:5px;padding:5px 10px;gap:10px;border-radius:12px}
+.ch b{font-size:.98rem;line-height:1.2}
+.ch .t small{font-size:.8rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ch .box{width:22px;height:22px;border-radius:7px}
+.ch .n{text-align:right;line-height:1.2}
+.ch .n small{color:var(--grape)}
+.ch{position:relative;overflow:hidden}
+.ch .n small.pv{color:var(--ink);font-weight:900}
+.ch .pgbar{position:absolute;left:0;bottom:0;height:4px;border-radius:0 3px 0 0}
+.ch .pgbar.hi{background:var(--good)}.ch .pgbar.mid{background:var(--o2)}.ch .pgbar.lo{background:var(--bad)}
+.dom-h button{white-space:nowrap}
+.dom-h h3{min-width:0}
+.setup-body{display:grid;gap:16px;align-content:start}
+.fab{position:fixed;left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:30;display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--card);border:3px solid var(--ink);border-radius:18px;box-shadow:var(--sh);padding:8px 10px 8px 16px;font-weight:800}
+.fab .btn{padding:9px 20px}
+/* Téléphone et petite fenêtre : l'accueil va droit aux réglages, les réponses courtes se rangent deux par deux pour éviter de défiler */
+@media (max-width:860px){
+  #home{gap:14px}
+  #home .hero{gap:8px;padding-top:0}
+  #home .logo .mark{width:42px;height:42px}
+  #home .logo h1{font-size:1.9rem;line-height:1}
+  #home .logo h1 br{display:none}
+  #home .tag{font-size:.95rem;line-height:1.4;color:var(--ink-2)}
+  #home .how,#home .parade,#home .features{display:none}
+  #home .setup{padding:14px;gap:14px}
+  #home .chapters{padding:14px;gap:12px}
+  #home{padding-bottom:84px}
+  .tiles.short{grid-template-columns:1fr 1fr}
+  .tiles.short .tile{min-height:0}
+}
+@media (max-width:560px){
+  #quiz #mus{display:none}
+  #quiz .bar{flex-wrap:nowrap}
+  #quiz .dots{flex:1 1 auto;order:0;min-width:30px}
+  #quiz .paper .figbox{min-height:180px}
+  #quiz .qhead{gap:6px}
+  #quiz{gap:8px}
+  #quiz .dots{display:none}
+  #quiz .qn{flex:1}
+  #quiz .inpanel{padding:10px;gap:8px;border-radius:18px}
+  #quiz .keypad{gap:6px}
+  #quiz .keypad button{font-size:1.4rem;padding:4px 0;border-radius:12px;box-shadow:0 3px 0 var(--ink)}
+  #quiz .inpanel .val{font-size:1.9rem;padding:2px 10px;min-height:0}
+  #quiz .bigq{padding:12px 14px;gap:8px}
+  #quiz .bigq p{font-size:1.4rem}
+  #quiz .bigq-how{display:none}
+  #quiz .tile{min-height:48px;padding:7px 12px;box-shadow:0 4px 0 var(--ink)}
+  #quiz .tiles{gap:9px}
+  #quiz.hasrivals .side>.clock{width:66px}
+  #quiz.hasrivals .clock b{font-size:1.5rem}
+}
+@media (min-width:1101px) and (min-height:600px){
+  #home{max-width:1560px;height:100%;grid-template-columns:410px minmax(0,1fr);grid-template-rows:auto minmax(0,1fr) auto;gap:12px 20px;overflow:hidden;padding-bottom:0}
+  #home .hero{grid-column:1/-1;flex-direction:row;align-items:center;gap:20px;padding:0}
+  #home .logo{gap:10px;flex:none}
+  #home .logo .mark{width:44px;height:44px}
+  #home .logo h1{font-size:2rem;line-height:1}
+  #home .logo h1 br{display:none}
+  #home .tag{font-size:.98rem;line-height:1.35;flex:1;max-width:none;color:var(--ink-2)}
+  #home .how,#home .features{display:none}
+  #home .parade{flex:none;flex-wrap:nowrap;gap:4px;max-width:34vw;overflow:hidden}
+  #home .parade .av{width:38px;height:38px;flex:none}
+  #home .setup{grid-column:1;grid-row:2;min-height:0;display:flex;flex-direction:column;padding:0;gap:0;overflow:hidden}
+  #home .setup-body{flex:1;min-height:0;overflow:auto;padding:16px 16px 12px;gap:14px}
+  #home .setup-foot{padding:12px 16px;border-top:3px solid var(--ink);background:var(--soft);flex-wrap:nowrap}
+  #home .setup-foot .btn{white-space:nowrap}
+  #home .setup-foot .btn.big{font-size:1.2rem;padding:11px 20px}
+  #home .setup h2{margin-bottom:5px}
+  #home .opt-note{display:none}
+  #home .switch{font-size:.95rem}
+  #home #progNote{display:none}
+  #home .setup .seg{gap:6px}
+  #home .setup .seg label{padding:4px 9px;font-size:.9rem;border-radius:11px;border-width:2px}
+  #home .setup-body>.row{gap:12px!important;flex-wrap:nowrap}
+  #home .botopts{margin-top:8px;gap:8px}
+  #home .chapters{grid-column:2;grid-row:2;min-height:0;display:flex;flex-direction:column;padding:16px 16px 10px;gap:10px;overflow:hidden}
+  #home .chapters h2{font-size:1.4rem}
+  #home .domwrap{flex:1;min-height:0;overflow:auto;padding:2px 6px 4px 2px}
+  #home .homefoot{grid-column:1/-1;margin:0;padding:0 4px 2px;font-size:.8rem}
+  .fab{display:none}
+}
+@media (min-width:1101px) and (min-height:600px) and (max-width:1400px){#home .parade{display:none}}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.4/peerjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -598,15 +729,16 @@ body.hurry #tension{opacity:1;animation:vign .5s ease-in-out infinite alternate}
 <section class="screen" id="home" hidden>
   <div class="hero">
     <div class="logo"><span class="mark" id="logoMark"></span><h1>Arène<br><b>Maths</b></h1></div>
-    <p class="tag">Le quiz de maths du collège, de la 6e à la 3e : toute la classe joue en même temps, sur téléphone ou en équipes. Plus de 1 500 questions relues et de nouvelles variantes générées à chaque partie.</p>
+    <p class="tag">Le quiz de maths du collège, de la 6e à la 3e : en classe sur téléphones ou en équipes, ou seul contre des bots. Plus de 1 500 questions relues et de nouvelles variantes générées à chaque partie.</p>
     <ol class="how" aria-label="Comment ça marche"><li><b>Choisissez</b> le niveau et les chapitres</li><li><b>Ouvrez la salle</b> au tableau</li><li><b>Les élèves scannent</b> le QR code et jouent</li></ol>
     <div class="parade" id="parade" aria-hidden="true"></div>
     <div class="features">
-      <span class="pill">QCM</span><span class="pill">Droite graduée</span><span class="pill">Vrai ou faux</span><span class="pill">Réponse à taper</span><span class="pill">Remettre dans l'ordre</span><span class="pill">Rédaction à glisser</span><span class="pill" style="background:var(--pink);color:#fff">Compte double ×2</span><span class="pill boss">Mode Boss</span>
+      <span class="pill">QCM</span><span class="pill">Droite graduée</span><span class="pill">Vrai ou faux</span><span class="pill">Réponse à taper</span><span class="pill">Remettre dans l'ordre</span><span class="pill">Rédaction à glisser</span><span class="pill" style="background:var(--pink);color:#fff">Compte double ×2</span><span class="pill boss">Mode Boss</span><span class="pill">Solo contre des bots</span><span class="pill">Automatismes du brevet</span>
     </div>
   </div>
 
   <div class="card setup">
+   <div class="setup-body">
     <div>
       <h2>Mode de jeu</h2>
       <div class="seg" role="radiogroup" aria-label="Mode de jeu">
@@ -623,6 +755,37 @@ body.hurry #tension{opacity:1;animation:vign .5s ease-in-out infinite alternate}
         <button class="btn small" type="button" id="tPlus">+ Équipe</button>
       </div>
       <p class="hint" style="margin-top:8px">Les équipes répondent sur ardoise ou avec des cartons A, B, C, D ; vous cochez celles qui ont trouvé.</p>
+    </div>
+    <div id="soloCfg" hidden>
+      <h2>Adversaires (bots)</h2>
+      <div class="seg" role="radiogroup" aria-label="Nombre de bots">
+        <label><input type="radio" name="nbot" id="nbot-0" value="0">Aucun</label>
+        <label><input type="radio" name="nbot" id="nbot-1" value="1">1 bot</label>
+        <label><input type="radio" name="nbot" id="nbot-3" value="3">3 bots</label>
+        <label><input type="radio" name="nbot" id="nbot-5" value="5">5 bots</label>
+      </div>
+      <div id="botOpts" class="botopts">
+        <div>
+          <h2>Niveau des bots</h2>
+          <div class="seg" role="radiogroup" aria-label="Niveau des bots">
+            <label><input type="radio" name="blvl" id="blvl-facile" value="facile">Facile</label>
+            <label><input type="radio" name="blvl" id="blvl-moyen" value="moyen">Moyen</label>
+            <label><input type="radio" name="blvl" id="blvl-difficile" value="difficile">Difficile</label>
+            <label><input type="radio" name="blvl" id="blvl-expert" value="expert">Expert</label>
+            <label><input type="radio" name="blvl" id="blvl-adapt" value="adapt">Auto</label>
+          </div>
+        </div>
+        <div>
+          <h2>Style des bots</h2>
+          <div class="seg" role="radiogroup" aria-label="Style des bots">
+            <label><input type="radio" name="bsty" id="bsty-mix" value="mix">Variés</label>
+            <label><input type="radio" name="bsty" id="bsty-sprint" value="sprint">Rapides</label>
+            <label><input type="radio" name="bsty" id="bsty-prudent" value="prudent">Prudents</label>
+            <label><input type="radio" name="bsty" id="bsty-fou" value="fou">Surprises</label>
+          </div>
+        </div>
+        <p class="hint" id="botHint"></p>
+      </div>
     </div>
     <div class="row" style="gap:22px;align-items:flex-start">
       <div>
@@ -646,12 +809,14 @@ body.hurry #tension{opacity:1;animation:vign .5s ease-in-out infinite alternate}
       <h2>Options</h2>
       <div style="display:grid;gap:8px">
         <label class="switch"><input type="checkbox" id="optBonus" checked>Comptes double ×2 et finale triple ×3</label>
-        <label class="switch"><input type="checkbox" id="optMix" checked>Varier les mécaniques (droite graduée, vrai/faux, saisie, ordre)</label>
-        <label class="switch"><input type="checkbox" id="optBoss">Mode Boss : toute la classe affronte un monstre</label>
-        <p class="hint opt-note">Chaque bonne réponse lui retire des points de vie. Il faut environ 60 % de réussite pour le mettre K.O.</p>
+        <label class="switch" title="Droite graduée, vrai ou faux, réponse à taper, remise en ordre, rédaction"><input type="checkbox" id="optMix" checked>Varier les types de questions</label>
+        <label class="switch" id="optPhoneL" title="Utile pour les élèves loin du tableau ou qui se reconnectent en cours de question"><input type="checkbox" id="optPhone" checked>Énoncé et figure aussi sur les téléphones</label>
+        <label class="switch" title="Chaque bonne réponse retire des points de vie au monstre. Il faut environ 60 % de réussite pour le mettre K.O."><input type="checkbox" id="optBoss">Mode Boss : affronter un monstre</label>
+        <p class="hint opt-note">Boss : chaque bonne réponse lui retire des points de vie ; il faut environ 60 % de réussite pour le mettre K.O.</p>
       </div>
     </div>
-    <div class="row" style="justify-content:space-between">
+   </div>
+    <div class="row setup-foot" style="justify-content:space-between">
       <button class="btn small" type="button" id="openBank">Vérifier les questions</button>
       <button class="btn primary big" type="button" id="start">Ouvrir la salle</button>
     </div>
@@ -663,9 +828,10 @@ body.hurry #tension{opacity:1;animation:vign .5s ease-in-out infinite alternate}
       <div class="row"><span class="selinfo" id="selInfo"></span><button class="btn small" type="button" id="selAll">Tout cocher</button><button class="btn small" type="button" id="selNone">Tout décocher</button></div>
     </div>
     <p class="hint" id="progNote"></p>
-    <div class="domains" id="domains"></div>
+    <div class="domwrap"><div class="domains" id="domains"></div></div>
   </div>
-  <footer class="homefoot"><span><b>Arène Maths</b> · version 2026.10</span><span>Aucun compte, aucune donnée personnelle conservée : les élèves jouent sous un pseudo choisi en classe.</span></footer>
+  <div class="fab" id="fab" hidden><span id="fabInfo"></span><button class="btn primary" type="button" id="fabGo">Lancer</button></div>
+  <footer class="homefoot"><span><b>Arène Maths</b> · version 2026.11</span><span>Aucun compte, aucune donnée personnelle conservée : les élèves jouent sous un pseudo choisi en classe.</span></footer>
 </section>
 
 <!-- ============ BANQUE DE QUESTIONS ============ -->
@@ -733,6 +899,7 @@ body.hurry #tension{opacity:1;animation:vign .5s ease-in-out infinite alternate}
         <b id="secs">20</b>
       </div>
       <div class="answered" id="answered" hidden></div>
+      <div class="rivals" id="rivals" hidden aria-label="Classement en direct"></div>
       <div id="after" hidden style="display:grid;gap:12px">
         <div class="verdict" id="verdict"></div>
         <div class="explain"><h3>Pourquoi</h3><div id="explain"></div></div>
@@ -767,6 +934,7 @@ body.hurry #tension{opacity:1;animation:vign .5s ease-in-out infinite alternate}
       <button class="btn small" type="button" id="home2">Accueil</button>
       <button class="btn small" type="button" id="fullRank">Classement complet</button>
       <button class="btn small" type="button" id="toReport">Bilan de séance</button>
+      <button class="btn small" type="button" id="toEnd" hidden>Mes erreurs à revoir</button>
       <button class="btn primary" type="button" id="again">Rejouer</button>
     </div>
   </div>
@@ -795,6 +963,8 @@ body.hurry #tension{opacity:1;animation:vign .5s ease-in-out infinite alternate}
   <div class="foot">
     <button class="btn small" type="button" id="home3">Accueil</button>
     <button class="btn small" type="button" id="toReport2">Bilan détaillé</button>
+    <button class="btn small" type="button" id="toPodium" hidden>Revoir le podium</button>
+    <button class="btn blue" type="button" id="retry" hidden>Rejouer mes erreurs</button>
     <button class="btn primary" type="button" id="again2">Rejouer</button>
   </div>
 </section>
@@ -922,6 +1092,8 @@ function renderFig(f,posOf){
     }else if(it.t==='popt'){
       const pos=posOf(it.opt);
       o+=`<g class="ptopt" data-opt="${it.opt}"><circle cx="${X(it.p[0])}" cy="${Y(it.p[1])}" r="6" fill="var(--o${pos})"/>${badge(it.p,pos,17,-17,12)}</g>`;
+    }else if(it.t==='axis'&&it.y!=null){
+      o+=`<line class="axis" x1="${X(0)}" y1="${Y(it.y)}" x2="${X(f.w)}" y2="${Y(it.y)}"/><text class="axis-l" x="${+X(f.w)-30}" y="${+Y(it.y)-8}" font-size="17">${esc(it.name)}</text>`;
     }else if(it.t==='axis'){
       o+=`<line class="axis" x1="${X(it.x)}" y1="${Y(0)}" x2="${X(it.x)}" y2="${Y(f.h)}"/><text class="axis-l" x="${+X(it.x)+8}" y="${+Y(f.h)+18}" font-size="17">${esc(it.name)}</text>`;
     }else if(it.t==='seg'){
@@ -3917,11 +4089,323 @@ gen('n6-sym','distance','Distance à l’axe',()=>{const n=GR.i(1,9),g=GR.coin()
     `La symétrie axiale conserve les distances : A′ est de l'autre côté de (d), à la même distance, soit ${n} carreau${n>1?'x':''} à ${b}.`)});
 gen('n6-sym','conserve','Ce que conserve la symétrie',()=>{const x=GR.i(2,15),w=GR.p([['Un segment mesure',' cm','longueurs','combien mesure son image'],['Un angle mesure','°','angles','combien mesure son image'],['Une figure a une aire de',' cm²','aires','quelle est l\'aire de son image']]);
   return QS(`${w[0]} ${x}${w[1]}. Par une symétrie axiale, ${w[3]} ?`,x,`La symétrie axiale conserve les ${w[2]} : l'image mesure aussi ${x}${w[1]}.`,{unit:w[1].trim()})});
+/* ---------- Transformations : figures générées (une nouvelle figure sur quadrillage à chaque partie) ---------- */
+// Formes sans aucune symétrie : on voit tout de suite si l'image est retournée ou a tourné
+const TFS=[S,{pts:[[0,0],[1,0],[1,1],[2,1],[2,3],[0,3]],lab:[.55,2]},{pts:[[0,0],[3,0],[1,2],[0,2]],lab:[.7,.9]},{pts:[[0,0],[2,0],[3,2],[0,1]],lab:[1.2,.75]}];
+const TFT=[Tri,{pts:[[0,0],[2,0],[1,1],[0,1]],lab:[.6,.45]}];
+const reflY=a=>p=>[p[0],2*a-p[1]];
+const tfBB=s=>{const xs=s.pts.map(p=>p[0]),ys=s.pts.map(p=>p[1]);return [Math.min(...xs),Math.min(...ys),Math.max(...xs),Math.max(...ys)]};
+const tfAt=(s,x,y)=>{const b=tfBB(s);return ap(s,sh(x-b[0],y-b[1]))};
+const tfIn=(s,w,h)=>{const b=tfBB(s);return b[0]>=0&&b[1]>=0&&b[2]<=w&&b[3]<=h};
+const tfHit=(a,b,g=.4)=>{const A=tfBB(a),B=tfBB(b);return A[0]<B[2]+g&&B[0]<A[2]+g&&A[1]<B[3]+g&&B[1]<A[3]+g};
+const tfVar=(s,mir,q)=>tfAt(ap(mir?ap(s,p=>[-p[0],p[1]]):s,rot(0,0,90*q)),0,0);
+const tfBase=()=>tfVar(GR.p(TFS),GR.coin(),GR.i(0,3));
+const tfPut=(s,x0,y0,x1,y1)=>{const b=tfBB(s),W=b[2]-b[0],H=b[3]-b[1];return x1-x0<W||y1-y0<H?null:tfAt(s,GR.i(x0,x1-W),GR.i(y0,y1-H))};
+const tfDot=p=>({pts:[p,p],lab:p});
+const tfTry=(fn,n=80)=>{for(let k=0;k<n;k++){try{return fn()}catch(e){}}throw 0};
+const tfN=d=>`${Math.abs(d)} carreau${Math.abs(d)>1?'x':''}`;
+const tfMove=(dx,dy)=>[dx?`${tfN(dx)} vers la ${dx>0?'droite':'gauche'}`:'',dy?`${tfN(dy)} vers le ${dy>0?'haut':'bas'}`:''].filter(Boolean).join(' et ');
+const SENS=d=>d>0?'dans le sens inverse des aiguilles d\'une montre':'dans le sens des aiguilles d\'une montre';
+/* Figure F, son image (option 0) et trois figures pièges qui ne se chevauchent pas ; « why » explique chaque piège */
+function tfPick(w,h,Fg,T,cands,items,blk=[]){
+  if(!tfIn(T,w,h)||tfHit(Fg,T)||blk.some(b=>tfHit(Fg,b,.6)||tfHit(T,b,.6)))throw 0;
+  const out=[{s:T}],free=s=>s&&tfIn(s,w,h)&&!tfHit(s,Fg)&&!blk.some(b=>tfHit(s,b,.6))&&out.every(o=>!tfHit(s,o.s));
+  for(const c of cands){if(out.length>=4)break;for(let k=0;k<14;k++){const s=c.mk();if(free(s)){out.push({s,why:c.why});break}}}
+  if(out.length<4)throw 0;
+  return {fig:{w,h,alt:'Figure F et quatre figures A à D sur un quadrillage',items:[...items,{t:'shape',s:Fg,role:'F',name:'F'},...out.map((o,i)=>({t:'shape',s:o.s,opt:i}))]},
+    why:out.slice(1).map((o,i)=>`{${i+1}} ${o.why}`).join(' ')};
+}
+const PICK=(prompt,r,exp,time=25)=>({prompt,pick:'Figure',fig:r.fig,ok:0,exp:exp+' '+r.why,time});
+gen('transfo','fignat','Figure : reconnaître la transformation',()=>tfTry(()=>{
+  const w=14,h=8,k=GR.p(['tr','ax','ce','ro','ho']),N={tr:'Une translation',ax:'Une symétrie axiale',ce:'Une symétrie centrale',ro:'Une rotation d’un quart de tour',ho:'Une homothétie'};
+  const Fg=tfPut(k==='ho'?tfVar(GR.p(TFT),GR.coin(),GR.i(0,3)):tfBase(),0,0,w,h),O=[GR.i(3,w-3),GR.i(2,h-2)],b=tfBB(Fg);let T,items=[{t:'pt',p:O,name:'O'}],exp;
+  if(k==='tr'){const dx=GR.nz(-9,9),dy=GR.i(-3,3);T=ap(Fg,sh(dx,dy));items=[];exp=`F et F′ ont exactement la même orientation : chaque point glisse de ${tfMove(dx,dy)}. C'est une translation.`}
+  else if(k==='ax'){const v=GR.coin(),up=GR.coin(),d=GR.i(1,2),a=v?(up?b[2]+d:b[0]-d):(up?b[3]+d:b[1]-d);T=ap(Fg,v?reflX(a):reflY(a));items=[];
+    exp=`F′ est « en miroir » par rapport à F : en pliant la feuille le long d'une droite ${v?'verticale':'horizontale'}, les deux figures se superposent. C'est une symétrie axiale.`}
+  else if(k==='ce'){T=ap(Fg,rot(O[0],O[1],180));exp=`F′ est F tournée d'un demi-tour autour de O : O est le milieu de chaque segment [MM′]. C'est la symétrie de centre O.`}
+  else if(k==='ro'){const d=GR.p([90,-90]);T=ap(Fg,rot(O[0],O[1],d));exp=`F′ a la même forme et la même taille que F, mais elle a tourné d'un quart de tour autour de O, ${SENS(d)}. C'est une rotation.`}
+  else{const r=GR.p([2,3]);T=ap(Fg,hom(O[0],O[1],r));exp=`F′ a la même forme que F, mais ses longueurs sont ${r} fois plus grandes : c'est un agrandissement de centre O, donc une homothétie (de rapport ${r}).`}
+  if(!tfIn(T,w,h)||tfHit(Fg,T)||(items.length&&(tfHit(Fg,tfDot(O),.6)||tfHit(T,tfDot(O),.6))))throw 0;
+  return Q('Par quelle transformation passe-t-on de la figure F à la figure F′ ?',O4(N[k],GR.s(Object.keys(N).filter(x=>x!==k).map(x=>N[x]))),exp,
+    {time:20,fig:{w,h,alt:'Deux figures F et F′ sur un quadrillage',items:[...items,{t:'shape',s:Fg,role:'F',name:'F'},{t:'shape',s:T,role:'Fp',name:'F′'}]}})}));
+gen(['transfo','n6-sym'],'figaxe','Figure : image par une symétrie axiale',()=>tfTry(()=>{
+  const w=16,h=10,v=GR.coin(),L=v?w:h,a=GR.i(Math.floor(L/2)-1,Math.floor(L/2)+1),low=GR.coin(),B=tfBase();
+  const own=v?(low?[0,0,a-1,h]:[a+1,0,w,h]):(low?[0,0,w,a-1]:[0,a+1,w,h]),far=v?(low?[a+1,0,w,h]:[0,0,a-1,h]):(low?[0,a+1,w,h]:[0,0,w,a-1]);
+  const Fg=tfPut(B,...own);if(!Fg)throw 0;const T=ap(Fg,v?reflX(a):reflY(a));
+  const r=tfPick(w,h,Fg,T,GR.s([
+    {mk:()=>tfPut(Fg,...far),why:'a la même orientation que F : elle a seulement glissé.'},
+    {mk:()=>tfPut(ap(Fg,rot(0,0,180)),...far),why:'a fait un demi-tour : elle n\'est pas « en miroir ».'},
+    {mk:()=>{const k=GR.p([-5,-4,-3,3,4,5]);return ap(T,v?sh(0,k):sh(k,0))},why:'est bien en miroir, mais elle n\'est pas en face de F.'},
+    {mk:()=>tfPut(ap(Fg,reflX(0)),...own),why:'est en miroir, mais du même côté de (d) que F.'},
+    {mk:()=>tfPut(ap(Fg,rot(0,0,90)),...far),why:'a tourné d\'un quart de tour.'}]),[v?{t:'axis',x:a,name:'(d)'}:{t:'axis',y:a,name:'(d)'}]);
+  return PICK('Quelle figure est l\'image de F par la symétrie d\'axe (d) ?',r,'L\'image est de l\'autre côté de (d), à la même distance, et « en miroir » : en pliant le long de (d), elle se superpose à F.')}));
+gen(['transfo','n4-trans'],'figtransl','Figure : image par une translation',()=>tfTry(()=>{
+  const w=16,h=10,dx=GR.nz(-6,6),dy=GR.i(-3,3);if(Math.abs(dx)<2)throw 0;
+  const Fg=tfPut(tfBase(),0,0,w,h),T=ap(Fg,sh(dx,dy)),M=[GR.i(1,w-1),GR.i(1,h-1)],N=[M[0]+dx,M[1]+dy];
+  if(N[0]<1||N[0]>w-1||N[1]<1||N[1]>h-1)throw 0;
+  const r=tfPick(w,h,Fg,T,GR.s([
+    {mk:()=>ap(Fg,sh(2*dx,2*dy)),why:'s\'est déplacée deux fois trop loin.'},
+    {mk:()=>ap(Fg,sh(-dx,-dy)),why:'s\'est déplacée dans le sens contraire, de N vers M.'},
+    {mk:()=>ap(T,sh(GR.p([-5,-4,4,5]),GR.p([-4,-3,0,3,4]))),why:'a la bonne orientation, mais son déplacement n\'est pas celui de M vers N.'},
+    {mk:()=>tfPut(ap(Fg,reflX(0)),0,0,w,h),why:'est retournée : une translation ne retourne jamais une figure.'},
+    {mk:()=>tfPut(ap(Fg,rot(0,0,180)),0,0,w,h),why:'a fait un demi-tour : une translation ne fait pas tourner la figure.'}]),[{t:'vec',a:M,b:N,na:'M',nb:'N'}],[{pts:[M,N],lab:M}]);
+  return PICK('Quelle figure est l\'image de F par la translation qui transforme M en N ?',r,`Chaque point de F se déplace comme M vers N : ${tfMove(dx,dy)}, sans tourner ni se retourner.`)}));
+gen('transfo','figrot','Figure : image par une rotation',()=>tfTry(()=>{
+  const w=16,h=12,O=[GR.i(6,10),GR.i(4,8)],d=GR.p([90,-90]),Fg=tfPut(tfBase(),0,0,w,h),T=ap(Fg,rot(O[0],O[1],d));
+  const r=tfPick(w,h,Fg,T,GR.s([
+    {mk:()=>ap(Fg,rot(O[0],O[1],-d)),why:'a tourné dans l\'autre sens.'},
+    {mk:()=>ap(Fg,rot(O[0],O[1],180)),why:'a fait un demi-tour (180°), pas un quart de tour.'},
+    {mk:()=>tfPut(T,0,0,w,h),why:'a la bonne orientation, mais elle n\'a pas tourné autour de O.'},
+    {mk:()=>ap(Fg,GR.coin()?reflX(O[0]):reflY(O[1])),why:'est le symétrique de F par rapport à un axe : elle est retournée.'}]),[{t:'pt',p:O,name:'O'}],[tfDot(O)]);
+  return PICK(`Quelle figure est l'image de F par la rotation de centre O, d'angle 90°, ${SENS(d)} ?`,r,`Un quart de tour ${SENS(d)} autour de O : chaque point M a pour image M′ avec OM′ = OM et un angle droit en O.`,30)}));
+gen(['transfo','n5-sym'],'figsymc','Figure : image par une symétrie centrale',()=>tfTry(()=>{
+  const w=16,h=10,O=[GR.i(6,10),GR.i(4,6)],Fg=tfPut(tfBase(),0,0,w,h),T=ap(Fg,rot(O[0],O[1],180));
+  const r=tfPick(w,h,Fg,T,GR.s([
+    {mk:()=>ap(Fg,reflX(O[0])),why:'est le symétrique de F par rapport à un axe vertical, pas par rapport au point O.'},
+    {mk:()=>ap(Fg,reflY(O[1])),why:'est le symétrique de F par rapport à un axe horizontal, pas par rapport au point O.'},
+    {mk:()=>tfPut(Fg,0,0,w,h),why:'a seulement glissé : elle n\'a pas fait de demi-tour.'},
+    {mk:()=>ap(T,sh(GR.p([-4,-3,3,4]),GR.p([-3,0,3]))),why:'a bien fait un demi-tour, mais O n\'est pas le milieu des segments [MM′].'},
+    {mk:()=>ap(Fg,rot(O[0],O[1],GR.p([90,-90]))),why:'n\'a tourné que d\'un quart de tour.'}]),[{t:'pt',p:O,name:'O'}],[tfDot(O)]);
+  return PICK('Quelle figure est l\'image de F par la symétrie de centre O ?',r,'La symétrie de centre O fait faire un demi-tour autour de O : O est le milieu de chaque segment [MM′].')}));
+gen('transfo','fighomo','Figure : image par une homothétie',()=>tfTry(()=>{
+  const w=18,h=11,k=GR.p([2,2,3,-1,-2,0.5]),O=[2*GR.i(2,7),2*GR.i(1,4)],B=tfVar(GR.p(TFT),GR.coin(),GR.i(0,3)),B2=k===0.5?ap(B,p=>[2*p[0],2*p[1]]):B;
+  const Fg=tfAt(B2,O[0]+2*GR.i(-3,3),O[1]+2*GR.i(-2,2));if(!tfIn(Fg,w,h))throw 0;const H=r=>ap(Fg,hom(O[0],O[1],r)),T=H(k),k2=GR.p([2,3,-1,-2].filter(x=>x!==k&&x!==-k));
+  const r=tfPick(w,h,Fg,T,GR.s([
+    {mk:()=>H(-k),why:`correspond au rapport ${F(-k)} : elle est ${k>0?'de l\'autre côté de O':'du même côté de O que F'}.`},
+    {mk:()=>H(k2),why:`correspond au rapport ${F(k2)}.`},
+    {mk:()=>tfPut(T,0,0,w,h),why:'a la bonne taille, mais ses sommets ne sont pas alignés avec O et ceux de F.'},
+    {mk:()=>tfPut(ap(T,reflX(0)),0,0,w,h),why:'est retournée : une homothétie ne retourne pas la figure.'}]),[{t:'pt',p:O,name:'O'}],[tfDot(O)]);
+  return PICK(`Quelle figure est l'image de F par l'homothétie de centre O et de rapport ${F(k)} ?`,r,k>0?`Rapport ${F(k)} : chaque image M′ est sur la demi-droite [OM) avec OM′ = ${F(k)} × OM${k<1?' (c\'est une réduction)':''}.`
+    :`Rapport négatif : M′ est de l'autre côté de O, avec OM′ = ${k===-1?'OM (c\'est la symétrie de centre O)':F(-k)+' × OM'}.`,30)}));
+gen('transfo','figk','Figure : rapport d’une homothétie',()=>tfTry(()=>{
+  const w=18,h=11,k=GR.p([2,3,-1,-2,0.5,-0.5]),O=[2*GR.i(2,7),2*GR.i(1,4)],B=tfVar(GR.p(TFT),GR.coin(),GR.i(0,3)),B2=Math.abs(k)<1?ap(B,p=>[2*p[0],2*p[1]]):B;
+  const Fg=tfAt(B2,O[0]+2*GR.i(-3,3),O[1]+2*GR.i(-2,2)),T=ap(Fg,hom(O[0],O[1],k));
+  if(!tfIn(Fg,w,h)||!tfIn(T,w,h)||tfHit(Fg,T)||tfHit(Fg,tfDot(O),.6)||tfHit(T,tfDot(O),.6))throw 0;
+  const a=Math.abs(k),segs=Fg.pts.slice(0,3).map((p,i)=>({t:'seg',a:k<0?p:O,b:k<0||a>1?T.pts[i]:p}));
+  return Q('F′ est l\'image de F par une homothétie de centre O. Quel est son rapport ?',O4(F(k),GR.s([F(-k),F(1/k),F(-1/k)]),()=>F(GR.p([2,3,-2,-3,0.5,-0.5,1,-1]))),
+    `${k>0?'F et F′ sont du même côté de O : le rapport est positif':'O est entre F et F′ : le rapport est négatif'}. Les longueurs de F′ sont ${a>=1?`${F(a)} fois`:'deux fois plus petites que'} celles de F${a>=1?'':', soit × 0,5'} : k = ${F(k)}.`,
+    {time:30,fig:{w,h,alt:'Figure F et son image F′ par une homothétie de centre O',items:[...segs,{t:'pt',p:O,name:'O'},{t:'shape',s:Fg,role:'F',name:'F'},{t:'shape',s:T,role:'Fp',name:'F′'}]}})}));
+gen(['transfo','n4-trans'],'figvec','Figure : décrire une translation',()=>tfTry(()=>{
+  const w=14,h=8,dx=GR.nz(-8,8),dy=GR.nz(-3,3),Fg=tfPut(tfBase(),0,0,w,h),T=ap(Fg,sh(dx,dy)),b=tfBB(Fg),W=b[2]-b[0],e=dx-Math.sign(dx)*W;
+  if(Math.abs(dx)===Math.abs(dy)||!tfIn(T,w,h)||tfHit(Fg,T)||e===0)throw 0;
+  return Q('La translation qui transforme F en F′ déplace chaque point de…',O4(tfMove(dx,dy),GR.s([tfMove(e,dy),tfMove(-dx,-dy),tfMove(dy,dx)]),()=>tfMove(dx+GR.nz(-2,2),dy)),
+    `On suit un point de F jusqu'à son image dans F′ (par exemple un sommet) : il avance de ${tfMove(dx,dy)}. Compter l'écart entre les deux figures (${tfN(e)}) est l'erreur classique.`,
+    {time:25,fig:{w,h,alt:'Figure F et son image F′ par une translation',items:[{t:'shape',s:Fg,role:'F',name:'F'},{t:'shape',s:T,role:'Fp',name:'F′'}]}})}));
+gen('transfo','figang','Figure : angle et sens d’une rotation',()=>tfTry(()=>{
+  const w=16,h=12,O=[GR.i(6,10),GR.i(4,8)],d=GR.p([90,-90,180]),Fg=tfPut(tfBase(),0,0,w,h),T=ap(Fg,rot(O[0],O[1],d));
+  if(!tfIn(T,w,h)||tfHit(Fg,T)||tfHit(Fg,tfDot(O),.6)||tfHit(T,tfDot(O),.6))throw 0;
+  const N={90:'90° dans le sens inverse des aiguilles d\'une montre','-90':'90° dans le sens des aiguilles d\'une montre',180:'180° (un demi-tour)'};
+  return Q('F′ est l\'image de F par une rotation de centre O. Quel est son angle ?',O4(N[d],[...GR.s([90,-90,180].filter(x=>x!==d).map(x=>N[x])),'360° (un tour complet)']),
+    d===180?'F′ est de l\'autre côté de O, à la même distance : F a fait un demi-tour. Le sens n\'a alors pas d\'importance.':`En suivant un sommet de F jusqu'à son image, on tourne d'un angle droit autour de O, ${SENS(d)}.`,
+    {time:30,fig:{w,h,alt:'Figure F et son image F′ par une rotation de centre O',items:[{t:'pt',p:O,name:'O'},{t:'shape',s:Fg,role:'F',name:'F'},{t:'shape',s:T,role:'Fp',name:'F′'}]}})}));
+/* Image d'un point sur quadrillage : rotation (r+ / r−), symétrie centrale (c) ou axiale (a) */
+function tfPoint(kinds){
+  const k=GR.p(kinds),a=GR.nz(-4,4),b=GR.nz(-4,4);if(Math.abs(a)===Math.abs(b))throw 0;
+  const O=[5,5],P=v=>[5+v[0],5+v[1]],mv=(x,y)=>tfMove(x,y)||'0 carreau',sa=Math.sign(a);
+  const C={'r+':[[-b,a],[b,-a],[-a,-b],[-a,b]],'r-':[[b,-a],[-b,a],[-a,-b],[a,-b]],c:[[-a,-b],[-a,b],[a,-b],[-b,a]],a:[[-a,b],[-a,-b],[-a+(Math.abs(a)>1?sa:-sa),b],[a,-b]]}[k];
+  const W={'r+':['sens des aiguilles d\'une montre : mauvais sens.','demi-tour.','symétrique par rapport à la verticale passant par O.'],'r-':['sens inverse des aiguilles d\'une montre : mauvais sens.','demi-tour.','symétrique par rapport à l\'horizontale passant par O.'],
+    c:['symétrique par rapport à la verticale passant par O.','symétrique par rapport à l\'horizontale passant par O.','quart de tour autour de O.'],a:['pas à la même hauteur que M.','pas à la même distance de (d) que M.','du même côté de (d) que M.']}[k];
+  const items=k==='a'?[{t:'axis',x:5,name:'(d)'},{t:'pt',p:P([a,b]),name:'M',big:true}]:[{t:'seg',a:O,b:P([a,b])},{t:'pt',p:O,name:'O'},{t:'pt',p:P([a,b]),name:'M',big:true}];
+  const prompt={'r+':`Quel point est l'image de M par la rotation de centre O, d'angle 90°, ${SENS(1)} ?`,'r-':`Quel point est l'image de M par la rotation de centre O, d'angle 90°, ${SENS(-1)} ?`,c:'Quel point est le symétrique de M par rapport au point O ?',a:'Quel point est le symétrique de M par rapport à la droite (d) ?'}[k];
+  const exp={'r+':`De O vers M : ${mv(a,b)}. Après un quart de tour ${SENS(1)}, on obtient ${mv(-b,a)}.`,'r-':`De O vers M : ${mv(a,b)}. Après un quart de tour ${SENS(-1)}, on obtient ${mv(b,-a)}.`,
+    c:`De M vers O : ${mv(-a,-b)}. On refait le même déplacement à partir de O : O est le milieu de [MM′].`,a:`M est à ${tfN(a)} de (d). Son symétrique est de l'autre côté de (d), à la même hauteur et à ${tfN(a)} de (d).`}[k];
+  return {prompt,pick:'Point',ok:0,time:k==='a'||k==='c'?25:30,exp:exp+' '+W.map((t,i)=>`{${i+1}} : ${t}`).join(' '),
+    fig:{w:10,h:10,alt:'Point M et quatre points A à D sur un quadrillage',items:[...items,...C.map((v,i)=>({t:'popt',p:P(v),opt:i}))]}};
+}
+gen('transfo','figpt','Figure : image d’un point (rotation, symétrie centrale)',()=>tfPoint(['r+','r-','c']));
+gen('n5-sym','figpt','Figure : symétrique d’un point par rapport à un point',()=>tfPoint(['c']));
+gen('n6-sym','figpt','Figure : symétrique d’un point par rapport à une droite',()=>tfPoint(['a']));
+
+/* ---------- Automatismes : calcul mental façon première partie du brevet (questions flash, sans calculatrice) ----------
+   Un chapitre par niveau, entièrement généré : chaque partie tire de nouvelles valeurs. Les notions restent celles du programme du niveau. */
+CHAPTERS.unshift(
+  ch('3e','auto','Automatismes','Automatismes du brevet','Questions flash sans calculatrice, comme la première partie de l’épreuve',25,[]),
+  ch('4e','n4-auto','Automatismes','Automatismes : calcul mental','Questions flash sans calculatrice : relatifs, puissances, pourcentages, grandeurs',25,[]),
+  ch('5e','n5-auto','Automatismes','Automatismes : calcul mental','Questions flash sans calculatrice : relatifs, priorités, fractions, proportionnalité',25,[]),
+  ch('6e','n6-auto','Automatismes','Automatismes : calcul mental','Questions flash sans calculatrice : tables, décimaux, fractions simples, durées',25,[]));
+const RN=x=>Math.round(x*1e6)/1e6;
+
+/* ----- 6e ----- */
+gen('n6-auto','compl','Complément à 100, à 1 000, à 1 ou à 10',()=>{const k=GR.p([100,1000,1,10]);
+  if(k>=100){const a=k===100?GR.i(11,89):5*GR.i(21,189);if(a%10===0)throw 0;return QS(`Complète : ${a} + … = ${F(k)}`,k-a,`${F(k)} − ${a} = ${k-a}. On complète d'abord à la dizaine supérieure, puis jusqu'à ${F(k)}.`)}
+  const a=k===1?GR.i(11,89)/100:GR.i(11,99)/10;if(RN(a*(k===1?10:1))%1===0)throw 0;
+  return QS(`Complète : ${F(a)} + … = ${k}`,RN(k-a),`${k} − ${F(a)} = ${F(k-a)}. Vérification : ${F(a)} + ${F(k-a)} = ${k}.`)});
+gen('n6-auto','trou','Tables : multiplication et division à trou',()=>{const a=GR.i(3,9),b=GR.i(3,9),m=GR.i(0,2);
+  return m===0?QS(`Complète : ${a} × … = ${a*b}`,b,`Dans la table de ${a} : ${a} × ${b} = ${a*b}. Cela revient à calculer ${a*b} ÷ ${a}.`)
+    :m===1?QS(`Calcule ${a*b} ÷ ${a}`,b,`${a} × ${b} = ${a*b}, donc ${a*b} ÷ ${a} = ${b}.`)
+    :QS(`Complète : … ÷ ${a} = ${b}`,a*b,`Le nombre cherché vaut ${a} × ${b} = ${a*b}.`)});
+gen('n6-auto','moitie','Double, moitié, triple, quart',()=>{const w=GR.p(['double','moitié','triple','quart']);let n,r,e;
+  if(w==='double'){n=GR.p([GR.i(13,95),GR.i(11,49)/10,5*GR.i(21,59)]);r=2*n;e=`2 × ${F(n)} = ${F(r)}.`}
+  else if(w==='moitié'){n=GR.p([2*GR.i(17,99),GR.i(11,49)/5,2*GR.i(5,45)+1]);r=n/2;e=`${F(n)} ÷ 2 = ${F(r)}.`}
+  else if(w==='triple'){n=GR.p([GR.i(12,33),GR.i(11,33)/10]);r=3*n;e=`3 × ${F(n)} = ${F(r)}.`}
+  else{n=4*GR.i(6,30)+GR.p([0,0,2]);r=n/4;e=`Prendre le quart, c'est prendre la moitié de la moitié : ${n} ÷ 2 = ${n/2}, puis ${n/2} ÷ 2 = ${F(r)}.`}
+  return QS(`Quel est le ${w} de ${F(n)} ?`.replace('le moitié','la moitié'),RN(r),e)});
+gen('n6-auto','astuce','Multiplier astucieusement par 5, 50, 25, 0,5 ou 0,1',()=>{const k=GR.p([5,50,0.5,0.1,25]),n=k===25?4*GR.i(2,12):k===0.1?GR.i(12,480):2*GR.i(6,48);
+  const T={5:`Multiplier par 5, c'est multiplier par 10 puis prendre la moitié : ${n} × 10 = ${F(n*10)}, et ${F(n*10)} ÷ 2 = ${F(n*5)}.`,50:`Multiplier par 50, c'est multiplier par 100 puis prendre la moitié : ${F(n*100)} ÷ 2 = ${F(n*50)}.`,
+    0.5:`Multiplier par 0,5, c'est prendre la moitié : ${n} ÷ 2 = ${n/2}.`,0.1:`Multiplier par 0,1, c'est diviser par 10 : ${n} ÷ 10 = ${F(n/10)}.`,25:`Multiplier par 25, c'est multiplier par 100 puis diviser par 4 : ${F(n*100)} ÷ 4 = ${F(n*25)}.`};
+  return QS(`Calcule ${n} × ${F(k)}`,RN(n*k),T[k])});
+gen(['n6-auto','n5-auto'],'odg','Ordre de grandeur d’un produit',()=>{const A=GR.p([2,3,4,5,6])*100,B=GR.p([2,3,4,5])*10,a=A+GR.p([-3,-2,-1,1,2,3]),b=B+GR.p([-1,1]),r=A*B;
+  return Q(`Quel est le meilleur ordre de grandeur de ${a} × ${b} ?`,O4(F(r),[F(r/10),F(r*10),F(r/100)]),`${a} est proche de ${A} et ${b} est proche de ${B} : ${A} × ${B} = ${F(r)}. Un ordre de grandeur permet de contrôler un résultat.`)});
+gen('n6-auto','fracdec','Fractions usuelles et écriture décimale',()=>{const P=[[1,2],[1,4],[3,4],[1,5],[2,5],[3,5],[1,10],[3,10],[7,10],[1,100],[5,2],[3,2]],[n,d]=GR.p(P),v=n/d;
+  return GR.coin()?QS(`Écris ${n}/${d} sous forme décimale.`,v,`${n}/${d}, c'est ${n} ÷ ${d} = ${F(v)}.`)
+    :Q(`Quelle fraction est égale à ${F(v)} ?`,O4(`${n}/${d}`,[v<1?`1/${RN(v*100)}`:null,`${d}/${n}`,RN(v*10)%1===0?`${RN(v*10)}/100`:null],()=>GR.p(P).join('/')),`${n} ÷ ${d} = ${F(v)}, donc ${F(v)} = ${n}/${d}.`)});
+gen('n6-auto','duree','Convertir des durées',()=>{const h=GR.i(1,3),m=5*GR.i(1,11),t=h*60+m,k=GR.i(0,2),q=GR.p([[0.5,30],[0.25,15],[0.75,45],[1.5,90],[2.5,150],[0.1,6]]);
+  return k===0?QS(`Convertis ${h} h ${m} min en minutes.`,t,`1 h = 60 min, donc ${h} h = ${h*60} min, et ${h*60} + ${m} = ${t} min.`,{unit:'min'})
+    :k===1?QS(`${t} min = ${h} h et … min. Complète.`,m,`${h} h = ${h*60} min. Il reste ${t} − ${h*60} = ${m} min.`,{unit:'min'})
+    :QS(`Convertis ${F(q[0])} h en minutes.`,q[1],`1 h = 60 min, donc ${F(q[0])} h = ${F(q[0])} × 60 = ${q[1]} min.`,{unit:'min'})});
+gen('n6-auto','ranger','Ranger des nombres décimaux',()=>{const u=GR.i(0,9),a=GR.i(1,8),v=[u+a/10,u+a/10+GR.i(1,9)/100,u+(a+1)/10,u+a/10+GR.i(1,9)/1000].map(RN).sort((x,y)=>x-y);
+  return O('Range ces nombres du plus petit au plus grand.',v.map(F),`On compare les unités, puis les dixièmes, puis les centièmes : ${v.map(F).join(' < ')}. Le nombre de chiffres après la virgule ne compte pas.`)});
+gen('n6-auto','monnaie','Problème flash : prix et monnaie',()=>{
+  if(GR.coin()){const p=RN(GR.i(2,18)+GR.p([0.2,0.35,0.5,0.75,0.9])),B=p<5?5:p<10?10:20;
+    return QS(`Un livre coûte ${F(p).replace(/,(\d)$/,',$10')} €. Je paie avec un billet de ${B} €. Combien me rend-on ?`,RN(B-p),`${B} − ${F(p)} = ${F(B-p)} €. On peut compléter : de ${F(p)} à ${Math.ceil(p)}, puis de ${Math.ceil(p)} à ${B}.`,{unit:'€'})}
+  const n=GR.i(2,4),u=GR.p([1.5,2.5,0.8,1.2]),v=GR.p([3,4.5,2]),t=RN(n*u+v);
+  return QS(`J'achète ${n} cahiers à ${F(u).replace(/,(\d)$/,',$10')} € l'un et une trousse à ${F(v).replace(/,(\d)$/,',$10')} €. Combien dois-je payer ?`,t,`${n} × ${F(u)} = ${F(n*u)} €, puis ${F(n*u)} + ${F(v)} = ${F(t)} €.`,{unit:'€'})});
+gen('n6-auto','conv','Conversions : masses et contenances',()=>{const C=GR.p([['kg','g',1000],['g','kg',.001],['L','cL',100],['cL','L',.01],['L','mL',1000],['mL','L',.001],['t','kg',1000]]),up=C[2]>1;
+  const x=up?GR.p([0.5,1.5,2.5,0.25,3.2,0.75,12]):GR.p([250,500,750,1500,2500,50,125]),r=RN(x*C[2]);
+  return QS(`Convertis ${F(x)} ${C[0]} en ${C[1]}.`,r,`1 ${up?C[0]:C[1]} = ${F(up?C[2]:RN(1/C[2]))} ${up?C[1]:C[0]}, donc ${F(x)} ${C[0]} = ${F(r)} ${C[1]}.`,{unit:C[1]})});
+gen('n6-auto','vf','Vrai ou faux : calculs et comparaisons',()=>{const ok=GR.coin(),k=GR.i(0,3);
+  if(k===0){const a=GR.i(12,98);return VF(`${a} × 0,1 = ${F(ok?a/10:a*10)}`,ok,`Multiplier par 0,1, c'est diviser par 10 : ${a} × 0,1 = ${F(a/10)}.`)}
+  if(k===1){const u=GR.i(1,9),a=GR.i(2,9),x=u+a/10,y=RN(u+(a-1)/10+GR.i(1,9)/100);return VF(`${F(x)} ${ok?'>':'<'} ${F(y)}`,ok,`On compare les dixièmes : ${F(x)} en a ${a} et ${F(y)} en a ${a-1}, donc ${F(x)} > ${F(y)}. Avoir plus de chiffres ne rend pas un nombre plus grand.`)}
+  if(k===2){const d=GR.p([2,4,5,10]),q=GR.i(3,9),N=d*q,nm={2:'La moitié',4:'Le quart',5:'Le cinquième',10:'Le dixième'}[d];return VF(`${nm} de ${N} est ${ok?q:N-d}.`,ok,`${nm} de ${N}, c'est ${N} ÷ ${d} = ${q} (et non ${N} − ${d}).`)}
+  const a=GR.i(1,8),b=GR.i(1,8);return VF(`${a},5 + ${b},5 = ${ok?a+b+1:`${a+b},10`}`,ok,`5 dixièmes + 5 dixièmes = 10 dixièmes = 1 unité : ${a},5 + ${b},5 = ${a+b+1}.`)});
+gen('n6-auto','div','Division mentale',()=>{const d=GR.p([2,3,4,5,6]),q=GR.i(12,40),n=d*q,t=Math.floor(q/10)*10;
+  return QS(`Calcule ${n} ÷ ${d}`,q,`On décompose : ${n} = ${d*t} + ${n-d*t}, donc ${n} ÷ ${d} = ${t} + ${q-t} = ${q}. Vérification : ${d} × ${q} = ${n}.`)});
+
+/* ----- 5e ----- */
+gen('n5-auto','reltrou','Addition de relatifs à trou',()=>{const a=GR.nz(-12,12),x=GR.nz(-12,12),c=a+x;
+  return QS(`Complète : ${PAR(a)} + … = ${F(c)}`,x,`Le nombre cherché est ${F(c)} − ${PAR(a)} = ${F(x)}. Vérification : ${PAR(a)} + ${PAR(x)} = ${F(c)}.`)});
+gen('n5-auto','enchain','Enchaînement d’opérations',()=>{const b=GR.i(2,6),c=GR.i(2,6),a=b*c+GR.i(1,15),d=GR.i(1,9);
+  return QS(`Calcule ${a} − ${b} × ${c} + ${d}`,a-b*c+d,`La multiplication d'abord : ${b} × ${c} = ${b*c}. Puis de gauche à droite : ${a} − ${b*c} = ${a-b*c}, et ${a-b*c} + ${d} = ${a-b*c+d}.`)});
+gen('n5-auto','simplif','Simplifier une fraction',()=>{const [n,d]=GR.p([[2,3],[3,4],[2,5],[3,5],[4,5],[5,6],[3,7],[1,3],[1,4]]),k=GR.i(2,6);
+  return Q(`Quelle fraction est égale à ${k*n}/${k*d} ?`,O4(`${n}/${d}`,[n>1?`${n-1}/${d-1}`:null,`${d}/${n}`,`${n}/${k*d}`],()=>`${GR.i(1,9)}/${GR.i(2,9)}`),
+    `On divise le numérateur et le dénominateur par ${k} : ${k*n} ÷ ${k} = ${n} et ${k*d} ÷ ${k} = ${d}. Soustraire le même nombre en haut et en bas ne donne pas une fraction égale.`)});
+gen('n5-auto','pctpb','Problème flash : pourcentage d’un effectif',()=>{const N=GR.p([20,24,25,28,30,40,60]),p=GR.p([10,20,25,50,75,30,5]),r=N*p/100;if(r%1)throw 0;
+  const c=GR.p(['sont demi-pensionnaires','viennent en bus','font du sport en club','jouent d\'un instrument']);
+  return QS(`Dans un groupe de ${N} élèves, ${p} % ${c}. Combien d'élèves cela fait-il ?`,r,{10:`10 %, c'est un dixième : ${N} ÷ 10 = ${r}.`,20:`10 % de ${N} = ${F(N/10)}, donc 20 % = ${r}.`,25:`25 %, c'est un quart : ${N} ÷ 4 = ${r}.`,50:`50 %, c'est la moitié : ${N} ÷ 2 = ${r}.`,75:`75 %, ce sont les trois quarts : ${N} ÷ 4 × 3 = ${r}.`,30:`10 % de ${N} = ${F(N/10)}, donc 30 % = 3 × ${F(N/10)} = ${r}.`,5:`10 % de ${N} = ${F(N/10)}, et 5 % en est la moitié : ${r}.`}[p])});
+gen('n5-auto','testeq','Tester une égalité',()=>{const a=GR.i(2,6),v=GR.i(1,9),b=GR.i(1,12),ok=GR.coin(),c=a*v+b+(ok?0:GR.nz(-3,3));
+  return VF(`Le nombre ${v} est solution de l'équation ${a}x + ${b} = ${c}.`,ok,`On remplace x par ${v} : ${a} × ${v} + ${b} = ${a*v+b}. ${ok?`On retrouve ${c} : l'égalité est vraie.`:`Or ${a*v+b} ≠ ${c} : l'égalité est fausse.`}`)});
+gen('n5-auto','tabprop','Tableau de proportionnalité',()=>{const k=GR.p([1.5,2,2.5,3,0.5,4]),x1=GR.i(2,6),x2=GR.i(3,12);if(x1===x2)throw 0;const g=GR.p([['Masse (kg)','Prix (€)'],['Nombre de tours','Distance (km)'],['Durée (h)','Distance (km)']]);
+  return QS('Ce tableau est un tableau de proportionnalité. Quel nombre remplace le point d\'interrogation ?',RN(x2*k),`On passe de la première ligne à la seconde en multipliant par ${F(x1*k)} ÷ ${x1} = ${F(k)}. Donc ${x2} × ${F(k)} = ${F(x2*k)}.`,
+    {time:30,fig:{kind:'table',rows:[[g[0],String(x1),String(x2)],[g[1],F(x1*k),'?']]}})});
+gen('n5-auto','echelle','Échelle d’un plan',()=>{const N=GR.p([100,200,500,1000]),c=GR.i(2,9);
+  return QS(`Sur un plan à l'échelle 1/${F(N)}, une longueur mesure ${c} cm. Combien de mètres mesure-t-elle en réalité ?`,c*N/100,`1 cm sur le plan représente ${F(N)} cm, soit ${F(N/100)} m en réalité. Donc ${c} cm représentent ${c} × ${F(N/100)} = ${F(c*N/100)} m.`,{unit:'m'})});
+gen('n5-auto','carre','Carrés, cubes et priorités',()=>{const a=GR.i(2,9),b=GR.i(2,5),k=GR.i(0,2);
+  return k===0?QS(`Calcule ${a}² + ${b}²`,a*a+b*b,`${a}² = ${a*a} et ${b}² = ${b*b}, donc ${a*a} + ${b*b} = ${a*a+b*b}. Attention : ${a}² n'est pas ${a} × 2.`)
+    :k===1?QS(`Calcule ${b}³`,b**3,`${b}³ = ${b} × ${b} × ${b} = ${b**3}. Attention : ce n'est pas ${b} × 3.`)
+    :QS(`Calcule ${a} × ${b}²`,a*b*b,`Le carré est prioritaire : ${b}² = ${b*b}, puis ${a} × ${b*b} = ${a*b*b}. Calculer (${a} × ${b})² est l'erreur classique.`)});
+gen('n5-auto','rangerrel','Ranger des nombres relatifs',()=>{const v=[...GR.s([-9,-7,-6,-4,-3,-1,0,2,3,5,8]).slice(0,3),-GR.i(1,8)-0.5].sort((x,y)=>x-y);
+  return O('Range ces nombres dans l\'ordre croissant.',v.map(F),`${v.map(F).join(' < ')}. Parmi les négatifs, le plus petit est celui qui est le plus loin de zéro.`)});
+gen('n5-auto','distance','Distance sur une droite graduée',()=>{const a=-GR.i(1,9),b=GR.coin()?GR.i(1,9):-GR.i(1,9);if(a===b)throw 0;const lo=Math.min(a,b),hi=Math.max(a,b);
+  return QS(`Sur une droite graduée, quelle est la distance entre les points d'abscisses ${F(lo)} et ${F(hi)} ?`,hi-lo,hi>0?`De ${F(lo)} à 0 il y a ${-lo} unités, puis de 0 à ${hi} il y en a ${hi} : ${-lo} + ${hi} = ${hi-lo}.`:`Les deux points sont du même côté de zéro : ${-lo} − ${-hi} = ${hi-lo}. Une distance est toujours positive.`)});
+gen('n5-auto','vf','Vrai ou faux : relatifs, fractions, écritures littérales',()=>{const ok=GR.coin(),k=GR.i(0,3);
+  if(k===0){const a=-GR.i(2,9),b=GR.i(2,9);if(a+b===0)throw 0;return VF(`${PAR(a)} + ${b} = ${F(ok?a+b:a-b)}`,ok,`Les signes sont contraires : on soustrait les distances à zéro et on garde le signe du plus éloigné de zéro. ${PAR(a)} + ${b} = ${F(a+b)}.`)}
+  if(k===1){const [n,d]=GR.p([[1,4],[1,2],[3,4],[1,5],[3,5]]);return VF(`${n}/${d} = ${ok?F(n/d):`${n},${d}`}`,ok,`${n}/${d}, c'est ${n} ÷ ${d} = ${F(n/d)}. La barre de fraction n'est pas une virgule.`)}
+  if(k===2){const a=GR.i(2,6),b=GR.i(2,6);return VF(ok?`${a}x + ${b}x = ${a+b}x`:`${a}x + ${b} = ${a+b}x`,ok,ok?`On ajoute des termes en x : ${a}x + ${b}x = ${a+b}x.`:`${a}x et ${b} ne sont pas de même nature : on ne peut pas réduire ${a}x + ${b}.`)}
+  return VF(`Le ${ok?'double':'carré'} de x s'écrit 2x.`,ok,'Le double de x s\'écrit 2 × x = 2x. Le carré de x s\'écrit x × x = x².')});
+gen('n5-auto','vitesse','Problème flash : distance parcourue',()=>{const v=GR.p([4,12,15,20,60,90]),h=GR.p([0.5,1.5,2,2.5,3]),w={4:'Un marcheur avance',12:'Une coureuse avance',15:'Un cycliste roule',20:'Une cycliste roule',60:'Un scooter roule',90:'Une voiture roule'}[v];
+  return QS(`${w} à ${v} km/h pendant ${h===0.5?'une demi-heure':F(h)+' h'}. Quelle distance parcourt-on ?`,RN(v*h),`En 1 h, on parcourt ${v} km. En ${F(h)} h : ${v} × ${F(h)} = ${F(v*h)} km.`,{unit:'km'})});
+
+/* ----- 4e ----- */
+gen('n4-auto','relench','Enchaînement avec des nombres relatifs',()=>{const a=-GR.i(2,9),b=GR.nz(-9,9),c=GR.nz(-9,9),m=GR.coin();if(Math.abs(b)===1)throw 0;
+  return QS(`Calcule ${PAR(a)} × ${PAR(b)} ${m?'−':'+'} ${PAR(c)}`,a*b+(m?-c:c),`Le produit d'abord : ${PAR(a)} × ${PAR(b)} = ${F(a*b)} (${b<0?'deux négatifs donnent un positif':'signes contraires : produit négatif'}). Puis ${F(a*b)} ${m?'−':'+'} ${PAR(c)} = ${F(a*b+(m?-c:c))}.`)});
+gen('n4-auto','div05','Diviser par 0,5 ; 0,25 ; 0,1 ; 0,2',()=>{const k=GR.p([0.5,0.25,0.1,0.2]),n=GR.i(3,24),m=RN(1/k);
+  return QS(`Calcule ${n} ÷ ${F(k)}`,n*m,`Diviser par ${F(k)}, c'est multiplier par son inverse ${m} : ${n} × ${m} = ${n*m}. Le résultat est plus grand que ${n}, car on divise par un nombre plus petit que 1.`)});
+gen('n4-auto','puis10','Puissances de 10',()=>{
+  if(GR.coin()){const a=GR.nz(-6,6),b=GR.nz(-6,6);if(a*b===a+b)throw 0;
+    return Q(`10${SUP(a)} × 10${SUP(b)} = ?`,O4(`10${SUP(a+b)}`,[`10${SUP(a*b)}`,`100${SUP(a+b)}`,`10${SUP(a-b)}`]),`On ajoute les exposants : ${F(a)} + ${PAR(b)} = ${F(a+b)}, donc 10${SUP(a)} × 10${SUP(b)} = 10${SUP(a+b)}. Multiplier les exposants est l'erreur classique.`)}
+  const m=GR.i(11,95)/10,n=GR.p([-3,-2,-1,2,3]),r=RN(m*10**n);if(m%1===0)throw 0;
+  return Q(`Quelle est l'écriture décimale de ${F(m)} × 10${SUP(n)} ?`,O4(F(r),[F(RN(m*10**-n)),F(RN(r*10)),F(RN(r/10))]),`Multiplier par 10${SUP(n)}, c'est décaler la virgule de ${Math.abs(n)} rang${Math.abs(n)>1?'s':''} vers la ${n>0?'droite':'gauche'} : ${F(r)}.`)});
+gen('n4-auto','evol','Problème flash : prix après une remise ou une hausse',()=>{const P=GR.p([20,40,50,60,80,120,200]),p=GR.p([10,20,25,50]),up=GR.coin(),d=P*p/100,r=RN(up?P+d:P-d);
+  return QS(`Un article coûte ${P} €. Son prix ${up?'augmente':'baisse'} de ${p} %. Quel est son nouveau prix ?`,r,`${p} % de ${P} € = ${F(d)} €. Nouveau prix : ${P} ${up?'+':'−'} ${F(d)} = ${F(r)} €. Répondre ${F(d)} € (le montant de la ${up?'hausse':'remise'}) est l'erreur classique.`,{unit:'€'})});
+gen('n4-auto','progexpr','Programme de calcul et expression littérale',()=>{const a=GR.i(2,9),b=GR.i(2,9),f=GR.coin();if(a===b)throw 0;
+  return f?Q(`Programme : choisir un nombre x ; ajouter ${a} ; multiplier le résultat par ${b}. Quelle expression obtient-on ?`,O4(`${b}(x + ${a})`,[`${b}x + ${a}`,`x + ${a*b}`,`${a}(x + ${b})`]),`On ajoute d'abord ${a} : x + ${a}. Puis on multiplie tout le résultat par ${b} : il faut des parenthèses, ${b}(x + ${a}).`)
+    :Q(`Programme : choisir un nombre x ; le multiplier par ${b} ; ajouter ${a}. Quelle expression obtient-on ?`,O4(`${b}x + ${a}`,[`${b}(x + ${a})`,`${a+b}x`,`${a}x + ${b}`]),`On multiplie d'abord par ${b} : ${b}x. Puis on ajoute ${a} : ${b}x + ${a}. On ne peut pas réduire davantage.`)});
+gen('n4-auto','dist','Vitesse : distance parcourue en quelques minutes',()=>{const v=GR.p([30,60,90,120,80]),m=GR.p([10,15,20,30,45,40]),d=v*m/60;if(d%1)throw 0;
+  return QS(`Un véhicule roule à ${v} km/h. Quelle distance parcourt-il en ${m} min ?`,d,`En 60 min, il parcourt ${v} km. ${m} min, c'est ${FQ(m,60)} d'heure : ${v} × ${FQ(m,60)} = ${d} km.`,{unit:'km'})});
+gen('n4-auto','racine','Racines carrées',()=>{
+  if(GR.coin()){const n=GR.i(2,12);return QS(`Calcule √${n*n}`,n,`${n} × ${n} = ${n*n}, donc √${n*n} = ${n}. La racine carrée n'est pas la moitié.`)}
+  const f=GR.i(2,9),N=f*f+GR.i(1,2*f),h=Math.floor(N/2);
+  return Q(`Entre quels entiers consécutifs se trouve √${N} ?`,O4(`${f} et ${f+1}`,[`${f-1} et ${f}`,`${f+1} et ${f+2}`,`${h} et ${h+1}`],()=>{const g=GR.i(1,12);return `${g} et ${g+1}`}),`${f}² = ${f*f} et ${f+1}² = ${(f+1)**2}. Comme ${f*f} < ${N} < ${(f+1)**2}, on a ${f} < √${N} < ${f+1}.`)});
+gen('n4-auto','freq','Fréquence en pourcentage',()=>{const N=GR.p([20,25,50,10]),k=GR.i(1,N-1),c=GR.p(['portent des lunettes','sont gauchers','ont un animal','viennent à vélo']);
+  return QS(`Dans un groupe de ${N} élèves, ${k} ${c}. Quel pourcentage du groupe cela représente-t-il ?`,k*100/N,`${k}/${N} = ${k*100/N}/100 (on multiplie en haut et en bas par ${100/N}), soit ${k*100/N} %.`,{unit:'%'})});
+gen('n4-auto','recette','Problème flash : proportionnalité',()=>{const a=GR.p([2,4,6,8]),g=GR.p([50,75,60,125]),b=GR.p([3,5,6,10,12].filter(x=>x!==a)),it=GR.p(['farine','sucre','riz','chocolat']);
+  return QS(`Pour ${a} personnes, il faut ${F(a*g)} g de ${it}. Quelle masse faut-il pour ${b} personnes ?`,b*g,`Pour 1 personne : ${F(a*g)} ÷ ${a} = ${g} g. Pour ${b} personnes : ${b} × ${g} = ${F(b*g)} g.`,{unit:'g'})});
+gen('n4-auto','aire','Aires : triangle et disque',()=>{
+  if(GR.coin()){const b=2*GR.i(2,8),h=GR.i(3,9);return QS(`Quelle est l'aire d'un triangle de base ${b} cm et de hauteur ${h} cm ?`,b*h/2,`Aire = base × hauteur ÷ 2 = ${b} × ${h} ÷ 2 = ${b*h/2} cm². Oublier de diviser par 2 est l'erreur classique.`,{unit:'cm²'})}
+  const r=GR.i(3,9);return Q(`Quelle est l'aire exacte d'un disque de rayon ${r} cm ?`,O4(`${PI(r*r)} cm²`,[`${PI(2*r)} cm²`,`${PI(r)} cm²`,`${PI(2*r*r)} cm²`],()=>`${PI(GR.i(2,90))} cm²`),`Aire = π × r² = π × ${r}² = ${PI(r*r)} cm². ${PI(2*r)} correspond au périmètre du cercle (en cm).`)});
+gen('n4-auto','vf','Vrai ou faux : puissances et signes',()=>{const ok=GR.coin(),k=GR.i(0,3),a=GR.i(2,6),n=GR.i(1,3);
+  if(k===0)return VF(`(−${a})² = ${F(ok?a*a:-a*a)}`,ok,`(−${a})² = (−${a}) × (−${a}) = ${a*a} : le carré d'un nombre négatif est positif.`);
+  if(k===1)return VF(`(−${a})³ = ${F(ok?-(a**3):a**3)}`,ok,`(−${a})³ = (−${a}) × (−${a}) × (−${a}) = ${F(-(a**3))} : trois facteurs négatifs donnent un produit négatif.`);
+  if(k===2)return VF(`10${SUP(-n)} = ${F(ok?10**-n:-(10**n))}`,ok,`10${SUP(-n)} = 1/10${SUP(n)} = ${F(10**-n)}. Un exposant négatif ne donne pas un nombre négatif.`);
+  return VF(`−${a}² = ${F(ok?-a*a:a*a)}`,ok,`Sans parenthèses, le carré ne porte que sur ${a} : −${a}² = −(${a} × ${a}) = ${F(-a*a)}. À ne pas confondre avec (−${a})² = ${a*a}.`)});
+gen('n4-auto','ranger','Ranger des fractions et des décimaux',()=>{const P=[['−1/2',-.5],['−0,3',-.3],['1/4',.25],['0,2',.2],['1/3',.3333],['3/4',.75],['−1',-1],['0,7',.7],['−3/4',-.75],['1/10',.1],['0,05',.05],['2/5',.4],['1/2',.5]];
+  const v=GR.s(P).slice(0,4).sort((x,y)=>x[1]-y[1]);
+  return O('Range ces nombres dans l\'ordre croissant.',v.map(x=>x[0]),`En écriture décimale : ${v.map(x=>`${x[0]} ${x[0].includes('/')?(x[1]===.3333?'≈ 0,33':'= '+F(x[1])):''}`.trim()).join(' ; ')}. Donc ${v.map(x=>x[0]).join(' < ')}.`)});
+gen('n4-auto','moy','Moyenne d’une petite série',()=>{const n=GR.p([3,4,5]),m=GR.i(6,15),v=Array.from({length:n-1},()=>m+GR.i(-4,4)),last=n*m-v.reduce((a,b)=>a+b,0);if(last<0||last>20)throw 0;v.push(last);const s=GR.s(v);
+  return QS(`Quelle est la moyenne de la série ${s.join(' ; ')} ?`,m,`Somme : ${s.join(' + ')} = ${n*m}. Moyenne : ${n*m} ÷ ${n} = ${m}.`)});
+
+/* ----- 3e : automatismes du brevet ----- */
+gen('auto','coef','Pourcentage d’évolution et coefficient multiplicateur',()=>{const p=GR.p([5,10,15,20,25,30,40,50]),up=GR.coin(),c=RN(up?1+p/100:1-p/100);
+  return GR.coin()?Q(`${up?'Augmenter':'Diminuer'} une quantité de ${p} %, c'est la multiplier par…`,O4(F(c),[F(p/100),F(RN(up?1-p/100:1+p/100)),F(p),F(RN(1+p/10))]),`${up?'Augmenter':'Diminuer'} de ${p} %, c'est multiplier par 1 ${up?'+':'−'} ${p}/100 = ${F(c)}. Multiplier par ${F(p/100)} donnerait seulement ${p} % de la quantité.`)
+    :Q(`Multiplier une quantité par ${F(c)}, c'est…`,O4(`${up?'l\'augmenter':'la diminuer'} de ${p} %`,[`${up?'la diminuer':'l\'augmenter'} de ${p} %`,`${up?'l\'augmenter':'la diminuer'} de ${F(RN(c*100))} %`,`${up?'l\'augmenter':'la diminuer'} de ${F(c)} %`]),`${F(c)} = 1 ${up?'+':'−'} ${F(p/100)} = 1 ${up?'+':'−'} ${p}/100 : c'est une ${up?'augmentation':'diminution'} de ${p} %.`)});
+gen('auto','pctq','Exprimer une proportion en pourcentage',()=>{const b=GR.p([20,25,40,50,60,80,200]),p=GR.p([10,20,25,50,75,5,40]),a=b*p/100;if(a%1)throw 0;
+  return QS(`Quel pourcentage de ${b} représente ${a} ?`,p,`${a}/${b} = ${FQ(a,b)} = ${F(p/100)}, soit ${p} %.`,{unit:'%'})});
+gen('auto','fracpct','Fraction, décimal, pourcentage',()=>{const [n,d,p]=GR.p([[3,5,60],[1,4,25],[3,4,75],[1,5,20],[2,5,40],[7,10,70],[1,20,5],[9,20,45],[3,25,12],[1,8,12.5],[3,2,150]]);
+  return QS(`Écris ${n}/${d} sous forme de pourcentage.`,p,`${n}/${d} = ${n} ÷ ${d} = ${F(n/d)} = ${F(p)}/100, soit ${F(p)} %.`,{unit:'%'})});
+gen('auto','tableur','Formule de tableur',()=>{const x=GR.nz(-6,9),a=GR.i(2,5),b=GR.i(1,9),k=GR.i(0,2);
+  const f=['='+a+'*A2+'+b,'=A2*A2-'+b,'='+a+'*(A2+'+b+')'][k],r=[a*x+b,x*x-b,a*(x+b)][k];
+  return QS(`Dans la cellule B2 de cette feuille de calcul, on a saisi la formule ${f}. Quel nombre s'affiche dans B2 ?`,r,
+    [`Le tableur remplace A2 par ${F(x)} : ${a} × ${PAR(x)} + ${b} = ${F(a*x)} + ${b} = ${F(r)}.`,`Le tableur remplace A2 par ${F(x)} : ${PAR(x)} × ${PAR(x)} − ${b} = ${x*x} − ${b} = ${F(r)}.`,`Le tableur remplace A2 par ${F(x)} : ${a} × (${F(x)} + ${b}) = ${a} × ${PAR(x+b)} = ${F(r)}.`][k],
+    {time:35,fig:{kind:'table',rows:[['','A','B'],['1','x','f(x)'],['2',F(x),f]]}})});
+gen('auto','val','Valeur d’une expression littérale',()=>{const v=-GR.i(1,6),a=GR.i(2,5),b=GR.i(1,9),k=GR.i(0,2);
+  return k===0?QS(`Pour x = ${F(v)}, calcule ${a}x²`,a*v*v,`${a} × (${F(v)})² = ${a} × ${v*v} = ${a*v*v}. Le carré d'un nombre négatif est positif, et il se calcule avant la multiplication.`)
+    :k===1?QS(`Pour x = ${F(v)}, calcule x² − ${b}`,v*v-b,`(${F(v)})² − ${b} = ${v*v} − ${b} = ${F(v*v-b)}.`)
+    :QS(`Pour x = ${F(v)}, calcule −x² + ${b}`,-v*v+b,`x² = (${F(v)})² = ${v*v}, donc −x² + ${b} = −${v*v} + ${b} = ${F(-v*v+b)}.`)});
+gen('auto','proba','Probabilité d’un événement contraire',()=>{const t=GR.p([10,20,12]),r=GR.i(2,t-4),b=GR.i(1,t-r-1),v=t-r-b;
+  return Q(`Un sac contient ${r} boules rouges, ${b} bleue${b>1?'s':''} et ${v} verte${v>1?'s':''}. On tire une boule au hasard. Quelle est la probabilité de ne pas tirer une boule rouge ?`,O4(FQ(b+v,t),[FQ(r,t),FR(b+v,r),FQ(1,3)],()=>FQ(GR.i(1,t-1),t)),
+    `Il y a ${t} boules, dont ${b+v} ne sont pas rouges : ${b+v}/${t}${gcd(b+v,t)>1?' = '+FQ(b+v,t):''}. On peut aussi calculer 1 − ${r}/${t}.`,{time:30})});
+gen('auto','moytrou','Moyenne : retrouver une valeur',()=>{const m=GR.i(8,15),a=GR.i(5,18),b=GR.i(5,18),c=3*m-a-b;if(c<0||c>20)throw 0;
+  return QS(`La moyenne de trois notes est ${m}. Deux des notes sont ${a} et ${b}. Quelle est la troisième ?`,c,`La somme des trois notes vaut 3 × ${m} = ${3*m}. La troisième note est ${3*m} − ${a} − ${b} = ${c}.`,{time:35})});
+gen('auto','vit','Vitesses et durées : conversions',()=>{
+  if(GR.coin()){const v=GR.p([18,36,54,72,90,108]);return QS(`Convertis ${v} km/h en m/s.`,v/3.6,`${v} km/h = ${F(v*1000)} m en 3 600 s, soit ${F(v*1000)} ÷ 3 600 = ${v/3.6} m/s. On divise par 3,6.`,{unit:'m/s'})}
+  const m=GR.p([45,30,15,6,12,90,36]);return Q(`${m} min, c'est combien d'heures ?`,O4(`${F(m/60)} h`,[`${F(m/100)} h`,`${F(RN(m/10))} h`,`${F(RN(60/m))} h`]),`${m} min = ${m}/60 h = ${FQ(m,60)} h = ${F(m/60)} h. Écrire ${F(m/100)} h est l'erreur classique : une heure compte 60 minutes, pas 100.`)});
+gen('auto','echelle','Échelle d’une carte',()=>{const N=GR.p([25000,50000,100000,200000]),c=GR.i(2,12);
+  return QS(`Sur une carte à l'échelle 1/${F(N)}, deux villages sont distants de ${c} cm. Quelle est la distance réelle, en km ?`,RN(c*N/1e5),`1 cm sur la carte représente ${F(N)} cm, soit ${F(N/1e5)} km. Donc ${c} cm représentent ${c} × ${F(N/1e5)} = ${F(c*N/1e5)} km.`,{unit:'km',time:35})});
+gen('auto','prog','Programme de calcul avec un nombre négatif',()=>{const n=GR.i(2,7),a=GR.i(1,9),k=GR.i(0,2);
+  return k===0?QS(`Programme : choisir un nombre ; l'élever au carré ; soustraire ${a}. Quel résultat obtient-on en choisissant ${F(-n)} ?`,n*n-a,`(${F(-n)})² = ${n*n}, puis ${n*n} − ${a} = ${F(n*n-a)}.`)
+    :k===1?QS(`Programme : choisir un nombre ; ajouter ${a} ; élever le résultat au carré. Quel résultat obtient-on en choisissant ${F(-n)} ?`,(a-n)**2,`${F(-n)} + ${a} = ${F(a-n)}, puis ${PAR(a-n)}² = ${(a-n)**2}.`)
+    :QS(`Programme : choisir un nombre ; le multiplier par ${F(-a-1)} ; ajouter ${n}. Quel résultat obtient-on en choisissant ${F(-n)} ?`,n*(a+1)+n,`${PAR(-n)} × ${PAR(-a-1)} = ${n*(a+1)} (deux négatifs donnent un positif), puis ${n*(a+1)} + ${n} = ${n*(a+1)+n}.`)});
+gen('auto','pyth','Pythagore sans figure',()=>{const [a,b,c]=tri(),L=GR.p(LETTERS),hyp=GR.coin();
+  return hyp?QS(`${L.join('')} est un triangle rectangle en ${L[0]}, avec ${L[0]}${L[1]} = ${a} cm et ${L[0]}${L[2]} = ${b} cm. Combien mesure ${L[1]}${L[2]} ?`,c,`${L[1]}${L[2]} est l'hypoténuse : ${L[1]}${L[2]}² = ${a}² + ${b}² = ${a*a} + ${b*b} = ${c*c}, donc ${L[1]}${L[2]} = √${c*c} = ${c} cm.`,{unit:'cm',time:40})
+    :QS(`${L.join('')} est un triangle rectangle en ${L[0]}, avec ${L[1]}${L[2]} = ${c} cm et ${L[0]}${L[1]} = ${a} cm. Combien mesure ${L[0]}${L[2]} ?`,b,`${L[1]}${L[2]} est l'hypoténuse : ${L[0]}${L[2]}² = ${c}² − ${a}² = ${c*c} − ${a*a} = ${b*b}, donc ${L[0]}${L[2]} = √${b*b} = ${b} cm.`,{unit:'cm',time:40})});
+gen('auto','vol','Volumes et contenances',()=>{
+  if(GR.coin()){const a=GR.p([2,3,4,5,10]);return QS(`Quel est le volume d'un cube d'arête ${a} cm ?`,a**3,`V = ${a} × ${a} × ${a} = ${F(a**3)} cm³. Calculer ${a} × 3 est l'erreur classique.`,{unit:'cm³'})}
+  const C=GR.p([['1,5 L','cm³',1500,'1 L = 1 dm³ = 1 000 cm³'],['2,5 L','cm³',2500,'1 L = 1 dm³ = 1 000 cm³'],['2 m³','L',2000,'1 m³ = 1 000 dm³ = 1 000 L'],['0,5 m³','L',500,'1 m³ = 1 000 dm³ = 1 000 L'],['3 dm³','L',3,'1 dm³ = 1 L'],['750 cm³','L',0.75,'1 000 cm³ = 1 L'],['1 500 cm³','L',1.5,'1 000 cm³ = 1 L']]);
+  return QS(`Convertis ${C[0]} en ${C[1]}.`,C[2],`${C[3]}, donc ${C[0]} = ${F(C[2])} ${C[1]}.`,{unit:C[1]})});
+gen('auto','vf','Vrai ou faux : les erreurs classiques du brevet',()=>{const ok=GR.coin(),k=GR.i(0,4),a=GR.i(2,6),b=GR.i(2,6);
+  if(k===0)return VF(ok?`(x + ${a})² = x² + ${2*a}x + ${a*a}`:`(x + ${a})² = x² + ${a*a}`,ok,`(x + ${a})² = x² + 2 × x × ${a} + ${a}² = x² + ${2*a}x + ${a*a}. Oublier le double produit ${2*a}x est l'erreur classique.`);
+  if(k===1)return VF(ok?`${a}x × ${b}x = ${a*b}x²`:`${a}x × ${b}x = ${a*b}x`,ok,`${a}x × ${b}x = ${a} × ${b} × x × x = ${a*b}x².`);
+  if(k===2){const [p,q]=GR.p([[3,4],[6,8],[5,12]]);return VF(ok?`√${p*p} + √${q*q} = ${p+q}`:`√(${p*p} + ${q*q}) = ${p+q}`,ok,`√${p*p} + √${q*q} = ${p} + ${q} = ${p+q}, mais √(${p*p} + ${q*q}) = √${p*p+q*q} = ${Math.sqrt(p*p+q*q)}. La racine d'une somme n'est pas la somme des racines.`)}
+  if(k===3){const p=GR.p([10,20,25,30]);return VF(`Diminuer un prix de ${p} %, c'est le multiplier par ${F(ok?1-p/100:p/100)}.`,ok,`Diminuer de ${p} %, c'est multiplier par 1 − ${p}/100 = ${F(1-p/100)}. Multiplier par ${F(p/100)} donnerait le montant de la remise.`)}
+  return VF(ok?`${a+1}x − x = ${a}x`:`${a+1}x − x = ${a+1}`,ok,`${a+1}x − x = ${a+1}x − 1x = ${a}x.`)});
+gen('auto','sci','Produit en écriture scientifique',()=>{const a=GR.p([2,3,4,5]),b=GR.p([2,3,4,5]),m=GR.nz(-5,6),n=GR.nz(-5,6),p=a*b,big=p>=10,e=m+n+(big?1:0);if(a+b===p||m*n===m+n)throw 0;
+  return Q(`Quelle est l'écriture scientifique de (${a} × 10${SUP(m)}) × (${b} × 10${SUP(n)}) ?`,O4(`${F(big?p/10:p)} × 10${SUP(e)}`,big?[`${p} × 10${SUP(m+n)}`,`${F(p/10)} × 10${SUP(m+n)}`,`${F(p/10)} × 10${SUP(m*n)}`]:[`${p} × 10${SUP(m*n)}`,`${a+b} × 10${SUP(m+n)}`,`${p} × 100${SUP(m+n)}`]),
+    `${a} × ${b} = ${p} et 10${SUP(m)} × 10${SUP(n)} = 10${SUP(m+n)}.`+(big?` Mais ${p} × 10${SUP(m+n)} n'est pas une écriture scientifique : ${p} = ${F(p/10)} × 10, d'où ${F(p/10)} × 10${SUP(e)}.`:` Le nombre ${p} est bien compris entre 1 et 10.`),{time:35})});
+gen('auto','lecture','Lecture graphique : image et antécédent',()=>{const m=GR.p([-2,-1,1,2,0.5,-0.5]),p=GR.i(-2,3),x0=(m%1?2:1)*GR.nz(m%1?-1:-3,m%1?1:3),y0=m*x0+p,im=GR.coin();if(y0<-3||y0>5)throw 0;
+  return QS(im?`La droite représente une fonction f. Par lecture graphique, quelle est l'image de ${F(x0)} par f ?`:`La droite représente une fonction f. Par lecture graphique, quel est l'antécédent de ${F(y0)} par f ?`,im?y0:x0,
+    im?`On part de ${F(x0)} sur l'axe des abscisses, on rejoint la droite, puis on lit l'ordonnée : f(${F(x0)}) = ${F(y0)}.`:`On part de ${F(y0)} sur l'axe des ordonnées, on rejoint la droite, puis on lit l'abscisse : ${F(x0)}. En effet f(${F(x0)}) = ${F(y0)}.`,
+    {time:35,fig:{kind:'graph',x:[-4,4],y:[-4,6],line:{m,p},alt:'Droite représentant une fonction affine'}})});
+
 /* Prépare une question générée comme les questions fixes (type, temps, identifiant) */
 function genEstTime(q,base){const W=t=>String(t).replace(/⟦([^|]*)\|([^⟧]*)⟧/g,'$1 $2').split(/\s+/).filter(Boolean).length,r5=x=>Math.ceil(x/5)*5,b={qcm:14,vf:9,jauge:14,saisie:18,ordre:10};
   const wo=q.type==='qcm'?W(q.opts.join(' ')):0;return Math.min(60,Math.max(q.time||base,r5((b[q.type]||14)+0.5*W(q.prompt)+0.4*wo+(q.fig?6:0))))}
 function genMake(g,ch){for(let k=0;k<40;k++){let q;try{q=g.make()}catch(e){continue}
-  q.type=q.type||'qcm';if(!q.opts)q.opts=[null,null,null,null];q.gen=g.id;q.time=genEstTime(q,ch.time||30);q.id=g.id+'~'+Math.random().toString(36).slice(2,8);return q}return null}
+  q.type=q.type||'qcm';if(!q.opts)q.opts=[null,null,null,null];q.gen=g.id;
+  // Typographie : un nombre négatif inséré tel quel (« -3 ») prend le vrai signe moins (« −3 »), comme le reste des énoncés
+  const mn=t=>typeof t==='string'?t.replace(/(^|[^\w\d′²³)])-(?=\d)/g,'$1−'):t;
+  q.prompt=mn(q.prompt);q.exp=mn(q.exp);q.opts=q.opts.map(mn);if(q.items)q.items=q.items.map(mn);
+  // Chapitres « Automatismes » : chrono court, comme une question flash (15 à 45 s selon la longueur de l'énoncé)
+  q.time=ch.dom==='Automatismes'?Math.max(q.time>30?q.time:15,Math.min(45,genEstTime(Object.assign({},q,{time:0}),0))):genEstTime(q,ch.time||30);q.id=g.id+'~'+Math.random().toString(36).slice(2,8);return q}return null}
 
 /* ================= Utilitaires ================= */
 const HOST_PREFIX='arenemaths-salle-';
@@ -3983,7 +4467,7 @@ const LET5=['A','B','C','D','E','F'];
 const $=s=>document.querySelector(s);
 const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
 const fr=n=>Math.round(n).toLocaleString('fr-FR');
-const numFR=n=>{const r=Math.round(n*1000)/1000;return String(r).replace('.',',').replace('-','−')};
+const numFR=n=>{const r=Math.round(n*1e6)/1e6;return String(r).replace('.',',').replace('-','−')};
 const cleanName=s=>String(s||'').replace(/[\u0000-\u001f<>]/g,'').replace(/\s+/g,' ').trim().slice(0,16);
 const optText=(q,oi,p)=>q.opts[oi]??`${q.pick} ${LET[p]}`;
 const parseNum=v=>{const s=String(v??'').replace(/−/g,'-').replace(',','.').replace(/\s/g,'');return /^-?\d+(\.\d+)?$/.test(s)?Number(s):null};
@@ -4238,6 +4722,50 @@ const st={mode:'live',teams:['Les Pythagore','Les Thalès','Les Euclide','Les Hy
   order:[],i:0,phase:'idle',t0:0,limit:20,raf:0,lastSec:null,solo:{score:0,streak:0,right:0,log:[]},soloAns:null,pressed:new Set(),
   peer:null,pin:'',banned:new Set(),autoT:0,boss:false,bossOn:false,sel:new Set(['transfo']),off:new Set(),seenTypes:new Set(),prevOrder:[],timers:[]};
 const cur=()=>st.order[st.i];
+/* ================= Solo contre des bots =================
+   Chaque bot a un niveau (probabilité de réussite, rapidité) et un style. « Adaptatif » : les bots se règlent sur les résultats du joueur
+   pour que la partie reste serrée. Les bots marquent avec le même barème que le joueur (rapidité + série). */
+st.bots={n:3,lvl:'moyen',style:'mix'};st.rivals=[];
+const BOT_LVL={facile:{p:.45,t:[.55,.95]},moyen:{p:.65,t:[.4,.85]},difficile:{p:.8,t:[.25,.65]},expert:{p:.92,t:[.15,.45]}};
+const BOT_STYLE={equil:{n:'Équilibré',dp:0,kt:1},sprint:{n:'Sprinteur',dp:-.12,kt:.6},prudent:{n:'Prudent',dp:.08,kt:1.3},fou:{n:'Imprévisible',dp:0,kt:1,wild:true}};
+const BOT_NAMES=['Euclide','Hypatie','Fibonacci','Germain','Noether','Ramanujan','Al-Khwarizmi','Mirzakhani','Descartes','Lovelace'];
+const BOT_HINT={facile:'Facile : les bots trouvent environ une fois sur deux et prennent leur temps.',moyen:'Moyen : environ deux bonnes réponses sur trois, à un rythme tranquille.',difficile:'Difficile : quatre bonnes réponses sur cinq, et ils répondent vite.',expert:'Expert : presque jamais d\'erreur, réponses éclair. Pour les champions.',adapt:'Auto : les bots se règlent sur tes résultats pour que la partie reste serrée jusqu\'au bout.'};
+const BOT_STYLE_HINT={mix:'Styles variés : un mélange de sprinteurs, de prudents et d\'imprévisibles.',sprint:'Rapides : des sprinteurs, mais ils se trompent plus souvent.',prudent:'Prudents : plus lents, mais ils se trompent rarement.',fou:'Surprises : des bots imprévisibles, capables du meilleur comme du pire.'};
+function makeBots(){
+  const names=shuffle(BOT_NAMES),avs=shuffle(AV.map((_,i)=>i).filter(i=>i!==2)),sty=shuffle(Object.keys(BOT_STYLE));
+  return Array.from({length:st.bots.n},(_,i)=>({bot:true,name:names[i],key:'b'+i,av:avs[i],style:st.bots.style==='mix'?sty[i%sty.length]:st.bots.style,
+    score:0,streak:0,delta:0,right:0,hist:[],bestStreak:0,okT:0,okN:0,lynx:0,worst:0,climb:0,plan:null}));
+}
+/* Décide, au lancement du chrono, si chaque bot trouvera et au bout de combien de temps */
+function botPlan(c){
+  const q=c.q,L=BOT_LVL[st.bots.lvl],me=st.solo,n=st.rivals.length;
+  st.rivals.forEach((b,i)=>{const S=BOT_STYLE[b.style]||BOT_STYLE.equil;let p,lo,hi;
+    if(L){p=L.p;[lo,hi]=L.t}
+    else{const rate=(me.right+1.3)/(st.i+2),tf=((me.tfS||0)+.55)/((me.tfN||0)+1);p=rate+(i-(n-1)/2)*.08;lo=Math.max(.1,tf-.2);hi=Math.min(.97,tf+.25)}
+    p+=S.dp;if(S.wild){p+=(Math.random()-.5)*.5;lo=.1;hi=.95}
+    if(q.type==='vf')p=Math.max(p,.55);if(q.type==='saisie'||q.redac)p-=.05;
+    p=Math.max(.08,Math.min(.97,p));
+    const t=Math.min(st.limit*.98,Math.max(2.5,st.limit*Math.max(.07,Math.min(.97,(lo+Math.random()*(hi-lo))*S.kt))));
+    b.plan={ok:Math.random()<p,t,shown:false}});
+}
+function botScore(b,c){
+  const pl=b.plan||{ok:false,t:st.limit};let pts=0;
+  if(pl.ok){b.streak++;b.right++;b.bestStreak=Math.max(b.bestStreak,b.streak);b.okT+=pl.t;b.okN++;if(c.q.type==='jauge')b.lynx++;
+    pts=Math.round(1000*(1-.5*Math.min(1,pl.t/st.limit))*c.mult)+Math.min(500,100*(b.streak-1))}else b.streak=0;
+  b.score+=pts;b.delta=pts;b.hist[st.i]=pl.ok;
+}
+/* Classement en direct à côté du chrono : pendant la question on voit qui a déjà répondu, à la correction qui a trouvé */
+function drawRivals(shown){
+  const box=$('#rivals');$('#quiz').classList.toggle('hasrivals',!!st.rivals.length);
+  if(!st.rivals.length||st.mode!=='solo'){box.hidden=true;return}
+  box.hidden=false;
+  const all=[st.solo,...st.rivals].sort((a,b)=>b.score-a.score);
+  box.innerHTML=all.map((p,k)=>{const ok=p.bot?p.plan&&p.plan.ok:st.lastOk;
+    return `<div class="rv${p.bot?'':' me'}${shown?(ok?' ok':' ko'):''}" data-key="${p.key}"><span class="rk">${k+1}</span>${avatar(p.av)}<span class="rn">${esc(p.name)}${p.bot?`<small>${esc(BOT_STYLE[p.style].n)}</small>`:''}</span><span class="rs">${fr(p.score)}${shown&&p.delta?`<small>+${fr(p.delta)}</small>`:''}</span><span class="rst" aria-hidden="true">${shown?(ok?'✓':'✗'):''}</span></div>`}).join('');
+}
+function rivalTick(el){
+  st.rivals.forEach(b=>{if(b.plan&&!b.plan.shown&&el>=b.plan.t){b.plan.shown=true;const r=$('#rivals [data-key="'+b.key+'"]');if(r){r.classList.add('done');r.title='A répondu'}tone(620,.05,'triangle',.025)}});
+}
 const later=(fn,ms)=>{const t=setTimeout(fn,ms);st.timers.push(t);return t};
 const clearLater=()=>{st.timers.forEach(clearTimeout);st.timers=[]};
 
@@ -4245,7 +4773,7 @@ const clearLater=()=>{st.timers.forEach(clearTimeout);st.timers=[]};
 const activeQs=c=>c.questions.filter(q=>!st.off.has(q.id)&&(st.mix||q.type==='qcm'));
 const activeGens=c=>(GENS[c.id]||[]).filter(g=>!st.off.has(g.id));
 /* Cinq variantes par modèle actif, toutes différentes : environ un tiers des questions d'une partie */
-function genQs(c,n=5){const out=[];activeGens(c).forEach(g=>{const seen=new Set();for(let k=0;k<n*3&&seen.size<n;k++){const q=genMake(g,c);if(q&&!seen.has(q.prompt)&&(st.mix||q.type==='qcm')){seen.add(q.prompt);out.push(q)}}});return out}
+function genQs(c,n=5){const out=[];activeGens(c).forEach(g=>{const seen=new Set();for(let k=0;k<n*3&&seen.size<n;k++){const q=genMake(g,c),key=q&&q.prompt+(q.items?q.items.join('|'):'')+(q.fig?JSON.stringify(q.fig.items||q.fig.rows||''):'');if(q&&!seen.has(key)&&(st.mix||q.type==='qcm')){seen.add(key);out.push(q)}}});return out}
 function drawTeams(){
   const el=$('#teamList');
   el.innerHTML=st.teams.map((n,i)=>`<input id="team-${i}" value="${esc(n)}" maxlength="22" aria-label="Nom de l'équipe ${i+1}">`).join('');
@@ -4259,17 +4787,18 @@ function drawLevels(){
 }
 function drawChapters(){
   const box=$('#domains');
-  const L=LEVELS.find(l=>l.id===st.level);$('#progNote').textContent=`${L.name} · ${L.prog}`;
-  const doms=[...new Set(lvlChs().map(c=>c.dom))];
+  const L=LEVELS.find(l=>l.id===st.level);$('#progNote').textContent=`${L.name} · ${L.prog}`;$('#lvlTabs').title=L.prog;
+  const doms=[...new Set(lvlChs().map(c=>c.dom))],pg=store.get('arene-prog',{});
   box.innerHTML=doms.map(dm=>{const chs=lvlChs().filter(c=>c.dom===dm);const allOn=chs.every(c=>st.sel.has(c.id));
-    return `<div class="dom"><div class="dom-h"><h3>${esc(dm)}</h3><button type="button" data-dom="${esc(dm)}">${allOn?'Tout décocher':'Tout cocher'}</button></div>`+
-    chs.map(c=>`<button class="ch" type="button" id="ch-${c.id}" data-id="${c.id}" aria-pressed="${st.sel.has(c.id)}"><span class="box"></span><span class="t"><b>${esc(c.title)}</b><small>${fmt(c.sub)}</small></span><span class="n">${activeQs(c).length} q.${activeGens(c).length?`<small>+${activeGens(c).length} modèles</small>`:''}</span></button>`).join('')+`</div>`}).join('');
-  box.querySelectorAll('.ch').forEach(b=>b.onclick=()=>{const id=b.dataset.id;st.sel.has(id)?st.sel.delete(id):st.sel.add(id);store.set('arene-sel',[...st.sel]);drawChapters()});
+    const items=chs.map(c=>{const nq=activeQs(c).length,ng=activeGens(c).length,pr=pg[c.id],pv=pr&&pr[1]>=3?Math.round(pr[0]/pr[1]*100):null;
+      return `<button class="ch" type="button" id="ch-${c.id}" data-id="${c.id}" aria-pressed="${st.sel.has(c.id)}" title="${esc(c.sub)}"><span class="box"></span><span class="t"><b>${esc(c.title)}</b><small>${fmt(c.sub)}</small></span><span class="n">${nq?nq+' q.':ng+' modèles'}${pv!==null?`<small class="pv" title="Ta réussite en solo : ${pr[0]} bonnes réponses sur ${pr[1]}">${pv} % réussi</small>`:nq&&ng?`<small>+${ng} modèles</small>`:''}</span>${pv!==null?`<i class="pgbar ${pv>=70?'hi':pv>=40?'mid':'lo'}" style="width:${Math.max(6,pv)}%"></i>`:''}</button>`});
+    return `<div class="dom"><div class="domtop"><div class="dom-h"><h3>${esc(dm)}</h3><button type="button" data-dom="${esc(dm)}">${allOn?'Tout décocher':'Tout cocher'}</button></div>${items[0]}</div>${items.slice(1).join('')}</div>`}).join('');
+  box.querySelectorAll('.ch').forEach(b=>b.onclick=()=>{const id=b.dataset.id,sc=box.parentElement,y=sc.scrollTop;st.sel.has(id)?st.sel.delete(id):st.sel.add(id);store.set('arene-sel',[...st.sel]);drawChapters();sc.scrollTop=y;const nb=document.getElementById('ch-'+id);nb&&nb.focus({preventScroll:true})});
   box.querySelectorAll('.dom-h button').forEach(b=>b.onclick=()=>{const chs=lvlChs().filter(c=>c.dom===b.dataset.dom);const allOn=chs.every(c=>st.sel.has(c.id));
     chs.forEach(c=>allOn?st.sel.delete(c.id):st.sel.add(c.id));store.set('arene-sel',[...st.sel]);drawChapters()});
   const mine=lvlChs().filter(c=>st.sel.has(c.id)),nCh=mine.length,nQ=mine.reduce((a,c)=>a+activeQs(c).length,0),nG=mine.reduce((a,c)=>a+activeGens(c).length,0);
   $('#selInfo').textContent=nCh?`${nCh} chapitre${nCh>1?'s':''} · ${nQ} questions + ${nG} modèles de questions générées`:'Aucun chapitre choisi';
-  $('#start').disabled=nQ+nG===0;
+  $('#start').disabled=nQ+nG===0;$('#fabGo').disabled=nQ+nG===0;$('#fabInfo').textContent=nCh?`${lvlName(st.level)} · ${nCh} chapitre${nCh>1?'s':''}`:'Choisis un chapitre';
 }
 function initHome(){
   const s=store.get('arene-sel',null);if(Array.isArray(s)){const ok=s.filter(id=>CHAPTERS.some(c=>c.id===id));if(ok.length)st.sel=new Set(ok)}
@@ -4285,15 +4814,25 @@ function initHome(){
   $('#tPlus').onclick=()=>{if(st.teams.length<8){st.teams.push('Équipe '+(st.teams.length+1));drawTeams()}};
   $('#tMinus').onclick=()=>{if(st.teams.length>2){st.teams.pop();drawTeams()}};
   const lbl={live:'Ouvrir la salle',classe:'Lancer la partie',solo:'Lancer la partie'};
-  document.querySelectorAll('input[name=mode]').forEach(r=>r.addEventListener('change',()=>{st.mode=r.value;$('#teamCfg').hidden=st.mode!=='classe';$('#start').textContent=lbl[st.mode]}));
+  const bc=store.get('arene-bots',null);if(bc&&typeof bc==='object'){if([0,1,3,5].includes(bc.n))st.bots.n=bc.n;if(BOT_LVL[bc.lvl]||bc.lvl==='adapt')st.bots.lvl=bc.lvl;if(BOT_STYLE[bc.style]||bc.style==='mix')st.bots.style=bc.style}
+  const syncBots=()=>{const b=st.bots;$('#nbot-'+b.n).checked=true;$('#blvl-'+b.lvl).checked=true;$('#bsty-'+b.style).checked=true;$('#botOpts').hidden=!b.n;
+    $('#botHint').textContent=BOT_HINT[b.lvl]+' '+BOT_STYLE_HINT[b.style];
+    lbl.solo=b.n?'Défier les bots':'Lancer la partie';$('#start').textContent=lbl[st.mode]};
+  [['nbot','n',Number],['blvl','lvl',String],['bsty','style',String]].forEach(([nm,k,f])=>document.querySelectorAll(`input[name=${nm}]`).forEach(r=>r.addEventListener('change',()=>{st.bots[k]=f(r.value);store.set('arene-bots',st.bots);syncBots()})));
+  document.querySelectorAll('input[name=mode]').forEach(r=>r.addEventListener('change',()=>{st.mode=r.value;$('#teamCfg').hidden=st.mode!=='classe';$('#soloCfg').hidden=st.mode!=='solo';$('#optPhoneL').hidden=st.mode!=='live';$('#start').textContent=lbl[st.mode]}));
+  syncBots();
   document.querySelectorAll('input[name=len]').forEach(r=>r.addEventListener('change',()=>st.count=+r.value));
   document.querySelectorAll('input[name=tm]').forEach(r=>r.addEventListener('change',()=>st.timeMul=+r.value));
   $('#optBonus').onchange=e=>st.bonus=e.target.checked;
   $('#optMix').onchange=e=>{st.mix=e.target.checked;drawChapters()};
   st.boss=!!store.get('arene-boss',false);$('#optBoss').checked=st.boss;
   $('#optBoss').onchange=e=>{st.boss=e.target.checked;store.set('arene-boss',st.boss)};
+  st.phoneQ=store.get('arene-phoneq',true)!==false;$('#optPhone').checked=st.phoneQ;
+  $('#optPhone').onchange=e=>{st.phoneQ=e.target.checked;store.set('arene-phoneq',st.phoneQ)};
   MUS.on=store.get('arene-mus',true)!==false;$('#mus').textContent='Musique : '+(MUS.on?'oui':'non');$('#mus').setAttribute('aria-pressed',MUS.on);
   $('#start').onclick=()=>{initAudio();st.mode==='live'?openRoom():startGame()};
+  $('#fabGo').onclick=()=>$('#start').click();
+  if('IntersectionObserver' in window)new IntersectionObserver(es=>{$('#fab').hidden=es[0].isIntersecting||$('#home').hidden},{threshold:.6}).observe($('#start'));
   $('#openBank').onclick=()=>openBank((lvlChs().find(c=>st.sel.has(c.id))||lvlChs()[0]).id);
   $('#bankBack').onclick=()=>{drawChapters();show('home')};
 }
@@ -4333,7 +4872,7 @@ function openBank(chId){
     const drawG=el=>{const g=gens.find(x=>x.id===el.dataset.g),q=genMake(g,ch),on=!st.off.has(g.id);if(!q)return;
       el.innerHTML=`<div><div class="tools"><span class="pill qtype">${typeLabel(q)}</span><span class="pill genpill">Modèle</span><span class="pill">${q.time} s</span>
         <label class="switch" style="margin-left:auto"><input type="checkbox" id="use-${g.id}" data-g="${g.id}" ${on?'checked':''}>Utiliser en partie</label></div>
-        <p class="gname">${esc(g.label)}</p><p class="qp">${fmt(q.prompt)}</p>${answerHTML(q)}<p class="ex"><b>Explication :</b> ${fmt(q.exp)}</p>
+        <p class="gname">${esc(g.label)}</p><p class="qp">${fmt(q.prompt)}</p>${answerHTML(q)}<p class="ex"><b>Explication :</b> ${fmt(q.exp.replace(/\{(\d)\}/g,(m,d)=>LET[+d]))}</p>
         <button class="btn small" type="button" data-again>Autre exemple</button></div>${q.fig?`<div class="mini">${figHTML(q.fig)}</div>`:'<div></div>'}`;
       el.querySelector('[data-again]').onclick=()=>{drawG(el);fitText(el)};
       el.querySelector('input[data-g]').onchange=e=>{e.target.checked?st.off.delete(g.id):st.off.add(g.id);store.set('arene-off',[...st.off]);el.classList.toggle('offq',!e.target.checked)}};
@@ -4344,7 +4883,7 @@ function openBank(chId){
 
 /* ================= Salle en direct (hôte) ================= */
 const online=()=>st.players.filter(p=>p.online);
-function send(pl,msg){if(pl&&pl.conn&&pl.online){try{pl.conn.send(msg)}catch(e){}}}
+function send(pl,msg){if(msg&&(msg.t==='res'||msg.t==='end'))pl.last=msg;if(pl&&pl.conn&&pl.online){try{pl.conn.send(msg)}catch(e){}}}
 function broadcast(msg){online().forEach(p=>send(p,msg))}
 function pendingStatus(){if(st.phase!=='lobby')return;setStatus(st.pending?`Salle ouverte · ${st.pending} téléphone${st.pending>1?'s':''} en cours de connexion…`:'Salle ouverte','ok')}
 function setStatus(t,cls=''){const s=$('#netStatus');s.textContent=t;s.className='status '+cls}
@@ -4438,17 +4977,24 @@ function hostMsg(conn,d){
     let name=cleanName(d.name);if(!name)return;
     let key=name.toLowerCase();const av=Math.max(0,Math.min(AV.length-1,Number(d.av)|0));
     if(st.banned.has(key)){try{conn.send({t:'kick'})}catch(e){}return}
-    let pl=st.players.find(p=>p.key===key);
-    if(pl&&pl.online&&pl.conn!==conn&&d.rejoin!==true){
+    const tok=typeof d.tok==='string'?d.tok.slice(0,40):'';
+    // Même appareil (même jeton) : c'est une reconnexion, même si l'ancienne liaison n'est pas encore signalée comme coupée
+    let pl=(tok&&st.players.find(p=>p.tok===tok&&p.key===key))||st.players.find(p=>p.key===key);
+    if(pl&&pl.online&&pl.conn!==conn&&!(tok&&pl.tok===tok)&&!(d.rejoin===true&&!pl.tok)){
       let k=2;while(st.players.some(p=>p.key===(key+' '+k)))k++;
       name=name.slice(0,13)+' '+k;key=name.toLowerCase();pl=null;
     }
-    if(!pl){pl={name,key,av,score:0,streak:0,delta:0,online:true,conn,ans:null,right:0};st.players.push(pl);sfx.join()}
+    const back=!!pl;
+    if(!pl){pl={name,key,av,tok,score:0,streak:0,delta:0,online:true,conn,ans:null,right:0};st.players.push(pl);sfx.join()}
     else{if(pl.conn&&pl.conn!==conn){try{pl.conn.close()}catch(e){}}pl.conn=conn;pl.online=true;pl.av=av}
-    send(pl,{t:'welcome',name:pl.name,score:pl.score,av:pl.av});
-    if(st.phase==='ask'&&!pl.ans&&st.t0){const m=payload();m.time=Math.max(1,st.limit-(performance.now()-st.t0)/1000);send(pl,m)}
+    if(tok)pl.tok=tok;
+    send(pl,{t:'welcome',name:pl.name,score:pl.score,av:pl.av,back});
+    // Reprise exacte : question en cours (temps restant), réponse déjà envoyée, correction ou résultat final
+    if(st.phase==='ask'&&st.t0){if(!pl.ans){const m=payload();m.time=Math.max(1,st.limit-(performance.now()-st.t0)/1000);send(pl,m)}else send(pl,{t:'sent'})}
+    else if(back&&pl.last&&((st.phase==='reveal'||st.phase==='rank')&&pl.last.t==='res'||st.phase==='end'&&pl.last.t==='end'))send(pl,pl.last);
     refreshCounts();return;
   }
+  if(d.t==='ping'){const pl=st.players.find(p=>p.conn===conn);try{conn.send({t:'pong',known:!!pl,phase:st.phase,n:st.i,answered:!!(pl&&pl.ans)})}catch(e){}return}
   if(d.t==='react'){
     const pl=st.players.find(p=>p.conn===conn),i=Number(d.e);
     if(!pl||st.phase==='ask'||!(i>=0&&i<REACTS.length))return;
@@ -4466,11 +5012,12 @@ function hostMsg(conn,d){
 function updateAnswered(){const on=online(),a=on.filter(p=>p.ans).length;$('#answered').innerHTML=`${a} / ${on.length}<small>réponses reçues</small>`}
 
 /* ================= Partie ================= */
-function startGame(){
+/* custom : liste {q,ch} imposée (« Rejouer mes erreurs ») ; sinon tirage dans les chapitres cochés */
+function startGame(custom){
   initAudio();clearLater();
   const chs=lvlChs().filter(c=>st.sel.has(c.id));
-  const pools=chs.map(c=>shuffle([...activeQs(c),...genQs(c)]).map(q=>({q,ch:c})));
-  const total=pools.reduce((a,p)=>a+p.length,0),want=Math.min(st.count,total);
+  const pools=Array.isArray(custom)?[custom.slice()]:chs.map(c=>shuffle([...activeQs(c),...genQs(c)]).map(q=>({q,ch:c})));
+  const total=pools.reduce((a,p)=>a+p.length,0),want=Array.isArray(custom)?total:Math.min(st.count,total);
   if(!want)return;
   let picked=[];
   while(picked.length<want){for(const p of shuffle(pools)){if(p.length&&picked.length<want)picked.push(p.shift())}}
@@ -4486,9 +5033,10 @@ function startGame(){
   }
   const keep=st.mode==='live';
   if(st.mode==='classe')st.players=st.teams.map((n,i)=>({name:(n||'').trim()||('Équipe '+(i+1)),key:'t'+i,av:i*5%AV.length,score:0,streak:0,delta:0,right:0}));
-  if(keep)st.players=st.players.filter(p=>p.online).map(p=>Object.assign(p,{score:0,streak:0,delta:0,ans:null,right:0}));
+  if(keep)st.players=st.players.filter(p=>p.online).map(p=>Object.assign(p,{score:0,streak:0,delta:0,ans:null,right:0,last:null}));
   st.report=[];st.started=new Date();st.players.forEach(p=>{p.hist=[];Object.assign(p,{bestStreak:0,okT:0,okN:0,lynx:0,worst:0,climb:0})});
-  st.solo={score:0,streak:0,right:0,log:[],name:'Toi',av:2,bestStreak:0,okT:0,okN:0,lynx:0};st.seenTypes=new Set(['qcm']);st.prevOrder=[];
+  st.solo={score:0,streak:0,right:0,log:[],name:'Toi',key:'me',av:2,bestStreak:0,okT:0,okN:0,lynx:0,delta:0,hist:[],worst:0,climb:0,tfS:0,tfN:0};st.seenTypes=new Set(['qcm']);st.prevOrder=[];
+  st.rivals=st.mode==='solo'&&st.bots.n>0?makeBots():[];st.lastOk=false;if(st.mode==='solo')st.players=[];
   st.i=0;
   $('#soloScore').hidden=st.mode!=='solo';$('#soloScore').textContent='0 pt';
   $('#dots').innerHTML=st.order.map(o=>`<i class="${o.mult>1?'x2':''}"></i>`).join('');
@@ -4498,6 +5046,7 @@ function startGame(){
 }
 function payload(){
   const c=cur(),q=c.q;const p={t:'q',n:st.i,total:st.order.length,time:st.limit,type:q.type,mult:c.mult};
+  if(st.phoneQ&&st.mode==='live'){p.prompt=q.prompt;if(q.fig){p.fig=q.fig;p.perm=c.perm}}
   if(q.type==='qcm'||q.type==='vf')p.tiles=c.perm.map((oi,k)=>({L:q.type==='vf'?q.opts[oi]:LET[k],text:optText(q,oi,k)}));
   if(q.type==='jauge'){c.gstart=c.gstart??gaugeStart(q);p.g={min:q.min,max:q.max,step:q.step,unit:q.unit,start:c.gstart}}
   if(q.type==='saisie')p.unit=q.unit;
@@ -4554,7 +5103,8 @@ function ask(){
   st.limit=q.time*st.timeMul;
   $('#secs').textContent=Math.ceil(st.limit);$('#ring').style.strokeDasharray=RING;$('#ring').style.strokeDashoffset=0;$('#clock').classList.remove('hurry');
   if(st.mode==='live'){st.players.forEach(p=>p.ans=null);updateAnswered()}
-  const go=()=>{if(st.phase!=='ask'||cur()!==c)return;st.t0=performance.now();st.lastSec=null;if(st.mode==='live')broadcast(payload());cancelAnimationFrame(st.raf);musicStart();loop()};
+  st.rivals.forEach(b=>{b.plan=null;b.delta=0});st.solo.delta=0;drawRivals(false);
+  const go=()=>{if(st.phase!=='ask'||cur()!==c)return;st.t0=performance.now();st.lastSec=null;if(st.mode==='live')broadcast(payload());if(st.rivals.length)botPlan(c);cancelAnimationFrame(st.raf);musicStart();loop()};
   const steps=[];
   if(c.mult>1)steps.push(()=>{sfx.bonus();return showSplash(c.mult===3?'×3':'×2',c.mult===3?'Grande finale : points triplés':'Compte double : points doublés','',1700)});
   if(!st.seenTypes.has(typeKey(q))){st.seenTypes.add(typeKey(q));steps.push(()=>{sfx.whoosh();return showSplash(typeLabel(q),{vf:'Deux réponses possibles',jauge:'Place le point au bon endroit',saisie:'Tape le nombre exact',ordre:'Touche les éléments dans le bon ordre',redac:'Fais glisser les étapes pour rédiger la solution'}[typeKey(q)],'type',1500)})}
@@ -4566,7 +5116,8 @@ function renderAnswerArea(c){
   const q=c.q,box=$('#answers'),solo=st.mode==='solo';
   if(q.type==='qcm'||q.type==='vf'){
     const two=q.type==='vf';
-    box.innerHTML=`<div class="tiles${two?' two':''}">`+c.perm.map((oi,p)=>{const t=optText(q,oi,p),cls=two?(oi===0?' vrai':' faux'):'';
+    const short=!two&&c.perm.every((oi,p)=>String(optText(q,oi,p)).length<=12);
+    box.innerHTML=`<div class="tiles${two?' two':''}${short?' short':''}">`+c.perm.map((oi,p)=>{const t=optText(q,oi,p),cls=two?(oi===0?' vrai':' faux'):'';
       const inner=two?`<span class="tx">${esc(t)}</span>`:`<span class="k">${LET[p]}</span><span class="tx">${fmt(t)}</span>`;
       return solo?`<button class="tile${cls}" type="button" data-p="${p}">${inner}</button>`:`<div class="tile${cls}" data-p="${p}">${inner}</div>`}).join('')+`</div>`;
     if(solo)box.querySelectorAll('button.tile').forEach(b=>b.onclick=()=>soloAnswer(+b.dataset.p));
@@ -4586,6 +5137,7 @@ function loop(){
   $('#ring').style.strokeDashoffset=RING*(1-rem/st.limit);
   $('#clock').classList.toggle('hurry',rem<=5);document.body.classList.toggle('hurry',rem<=5&&rem>0);
   if(sec!==st.lastSec){if(sec<=5&&sec>0&&st.lastSec!==null){sfx.tick();if(sec<=3)sfx.heart()}st.lastSec=sec}
+  if(st.rivals.length)rivalTick(st.limit-rem);
   if(rem<=0){reveal();return}
   st.raf=requestAnimationFrame(loop);
 }
@@ -4612,7 +5164,7 @@ function correctText(c){const q=c.q;
 }
 function reveal(){
   if(st.phase!=='ask')return;
-  cancelAnimationFrame(st.raf);clearTimeout(st.autoT);st.phase='reveal';musicStop();document.body.classList.remove('hurry');
+  cancelAnimationFrame(st.raf);clearTimeout(st.autoT);st.phase='reveal';musicStop();document.body.classList.remove('hurry');KEYPAD=null;
   const c=cur(),q=c.q,okP=(q.type==='qcm'||q.type==='vf')?c.perm.indexOf(q.ok):-1;
   // Résultats
   let res=null,counts=[0,0,0,0],answers=[];
@@ -4624,7 +5176,11 @@ function reveal(){
     st.players.forEach(pl=>send(pl,{t:'res',ok:pl.res.ok,f:pl.res.f,answered:!!pl.ans,pts:pl.delta,score:pl.score,streak:pl.streak,rank:sorted.indexOf(pl)+1,count:sorted.length,okText:correctText(c),exp:expTxt,boss:st.bossOn?bossState(st.bossFrom):null}));
     st.players.forEach(pl=>{pl.hist=pl.hist||[];pl.hist[st.i]=!!pl.res.ok});
     logQ(c,st.players.filter(p=>p.res.ok).length,st.players.length);
-  }else if(st.mode==='solo'){res=score(st.solo,c,st.soloAns);if(st.bossOn){st.bossFrom=st.bossHP;bossHit(res.f*c.mult,st.solo)}if(!res.ok)st.solo.log.push(st.i);if(st.soloAns)answers=[st.soloAns.v];logQ(c,res.ok?1:0,1)}
+  }else if(st.mode==='solo'){res=score(st.solo,c,st.soloAns);st.solo.delta=res.pts;st.solo.hist[st.i]=!!res.ok;st.lastOk=!!res.ok;
+    if(st.soloAns){st.solo.tfS+=Math.min(1,st.soloAns.t/st.limit);st.solo.tfN++}
+    st.rivals.forEach(b=>botScore(b,c));
+    [st.solo,...st.rivals].sort((a,b)=>b.score-a.score).forEach((p,k)=>p.worst=Math.max(p.worst||0,k+1));
+    if(st.bossOn){st.bossFrom=st.bossHP;bossHit(res.f*c.mult,st.solo)}if(!res.ok)st.solo.log.push(st.i);if(st.soloAns)answers=[st.soloAns.v];logQ(c,res.ok?1:0,1)}
   // Affichage de la bonne réponse
   if(okP>=0){
     document.querySelectorAll('#answers .tile').forEach(t=>{const k=+t.dataset.p;t.classList.add(k===okP?'ok':'off');if(st.soloAns&&k===st.soloAns.v)t.classList.add('picked');
@@ -4656,6 +5212,8 @@ function reveal(){
     else if(res.f>0){v.className='verdict';v.innerHTML=`Presque ! +${fr(res.pts)}<small>${esc(correctText(c))}</small>`;sfx.reveal()}
     else{v.className='verdict ko';v.innerHTML=(st.soloAns?'Raté':'Temps écoulé')+`<small>${fmt(correctText(c))}</small>`;sfx.bad()}
     $('#who').hidden=true;$('#nextBtn').textContent=st.i+1<st.order.length?'Question suivante':'Voir mon résultat';
+    if(st.rivals.length){drawRivals(true);const all=[st.solo,...st.rivals].sort((a,b)=>b.score-a.score),rk=all.indexOf(st.solo)+1;
+      v.insertAdjacentHTML('beforeend',`<small>Tu es ${rk}${rk===1?'er':'e'} sur ${all.length}</small>`);if(st.i+1>=st.order.length)$('#nextBtn').textContent='Voir le podium'}
   }else if(st.mode==='live'){
     const nOk=st.players.filter(p=>p.res&&p.res.ok).length,nAns=answers.length;
     const fast=st.players.filter(p=>p.res&&p.res.ok&&p.ans).sort((a,b)=>a.ans.t-b.ans.t)[0];
@@ -4715,6 +5273,7 @@ function showRank(){
 function startPodium(){
   if(st.bossOn&&!st.bossShown){st.bossShown=true;st.phase='end';clearLater();bossFinale().then(startPodium);return}
   show('podium');clearLater();st.phase='end';
+  $('#toEnd').hidden=!(st.mode==='solo'&&st.rivals.length);$('#toReport').hidden=st.mode==='solo';
   const s=st.players.slice().sort((a,b)=>b.score-a.score);
   s.forEach((p,k)=>{p.climb=Math.max(0,(p.worst||k+1)-(k+1))});
   const bad=computeBadges(s);$('#badges').innerHTML='';
@@ -4727,7 +5286,7 @@ function startPodium(){
   later(()=>reveal(2,s[1]),4300);
   later(()=>{$('#spot').classList.add('on');reveal(1,s[0]);
     later(()=>{const cr=$('#step1 .crown');cr&&cr.classList.add('on')},200);
-    if(s[0]){$('#champ').textContent=`Bravo ${s[0].name} !`;$('#champ').classList.add('on')}
+    if(s[0]){$('#champ').textContent=st.rivals.length?(s[0]===st.solo?'Bravo, tu gagnes la partie !':`${s[0].name} l'emporte… Revanche ?`):`Bravo ${s[0].name} !`;$('#champ').classList.add('on')}
     sfx.fanfare();confetti(220);fireworks(6);
     if(st.mode==='live')st.players.forEach(pl=>send(pl,{t:'end',rank:s.indexOf(pl)+1,count:s.length,score:pl.score,right:pl.right,total:st.order.length,badges:bad.filter(b=>b.p===pl).map(b=>({k:b.k,d:b.d})),boss:st.bossOn?{win:st.bossHP<=0,n:BOSSES[st.bossK].n}:null}));
   },6000);
@@ -4736,9 +5295,25 @@ function startPodium(){
 
 /* ================= Bilan solo ================= */
 function finishSolo(){
+  saveProgress();
+  if(st.rivals.length){st.players=[st.solo,...st.rivals];startPodium();return}
   if(st.bossOn&&!st.bossShown){st.bossShown=true;st.phase='end';bossFinale().then(finishSolo);return}
-  st.phase='end';show('end');sfx.fanfare();confetti(200);
-  const bad=computeBadges([st.solo]);
+  showEnd(true);
+}
+/* Progression en solo, par chapitre : affichée sur l'accueil pour repérer ce qu'il reste à travailler (conservée dans ce navigateur seulement) */
+function saveProgress(){
+  const pg=store.get('arene-prog',{});
+  st.order.forEach((o,i)=>{if(st.solo.hist[i]===undefined)return;const e=pg[o.ch.id]||(pg[o.ch.id]=[0,0]);e[0]+=st.solo.hist[i]?1:0;e[1]++});
+  store.set('arene-prog',pg);
+}
+/* Rejouer seulement les questions ratées : même question fixe, ou nouvelle variante du même modèle (mêmes notions, autres valeurs) */
+function retryList(){
+  return st.solo.log.map(i=>{const o=st.order[i],g=o.q.gen&&(GENS[o.ch.id]||[]).find(x=>x.id===o.q.gen);return {q:(g&&genMake(g,o.ch))||o.q,ch:o.ch}});
+}
+function showEnd(party){
+  st.phase='end';show('end');if(party){sfx.fanfare();confetti(200)}
+  $('#retry').hidden=!st.solo.log.length;$('#toPodium').hidden=!st.rivals.length;
+  const bad=st.rivals.length?[]:computeBadges([st.solo]);
   const n=st.order.length,r=st.solo.right;
   const miss=st.solo.log.map(i=>{const {q,perm,ch}=st.order[i];return `<div><b>Q${i+1} · ${esc(ch.title)}.</b> ${fmt(q.prompt)}<br>${fmt(correctText(st.order[i]))}<br><span class="muted">${fmt(q.exp.replace(/\{(\d)\}/g,(m,d)=>LET[perm.indexOf(+d)]))}</span></div>`}).join('');
   $('#endBody').innerHTML=`<div class="row" style="gap:20px">${avatar(2,'av" style="width:110px;height:110px')}<div><div class="bignum">${fr(st.solo.score)} pts</div><p class="tag" style="margin-top:6px">${r} bonne${r>1?'s':''} réponse${r>1?'s':''} sur ${n}</p>${st.bossOn?`<p class="tag"><b>${esc(BOSSES[st.bossK].n)} ${st.bossHP<=0?'est K.O. Bien joué !':'s’est enfui avec '+Math.ceil(st.bossHP)+' PV.'}</b></p>`:''}</div></div>${bad.length?`<h3>Tes distinctions</h3><div class="badges" style="justify-content:flex-start">${bad.map((b,i)=>badgeHTML(b,i)).join('')}</div>`:''}${miss?`<h3>À revoir</h3><div class="review">${miss}</div>`:'<p class="tag">Sans faute. Bravo !</p>'}`;
@@ -4820,6 +5395,8 @@ function initHostControls(){
   $('#rankNext').onclick=()=>{if(st.phase!=='rank')return;st.i++;show('quiz');ask()};
   $('#again').onclick=()=>{clearLater();if(st.mode==='live'){st.phase='lobby';broadcast({t:'lobby'});st.players=st.players.filter(p=>p.online);show('lobby');drawRoster()}else startGame()};
   $('#again2').onclick=()=>startGame();
+  $('#retry').onclick=()=>{const l=retryList();if(l.length)startGame(l)};
+  $('#toEnd').onclick=()=>{clearLater();showEnd(false)};$('#toPodium').onclick=()=>{show('podium')};
   $('#home2').onclick=goHome;$('#home3').onclick=goHome;
   $('#fullRank').onclick=()=>{st.prevOrder=[];showRank();$('#rankNext').textContent='Retour au podium';$('#rankNext').onclick=()=>{show('podium');$('#rankNext').onclick=null;initRankNext()}};
   $('#liveStart').onclick=()=>{if(online().length)startGame()};
@@ -4835,6 +5412,10 @@ function initHostControls(){
     quitArm=Date.now();b.textContent='Confirmer ?';setTimeout(()=>{b.textContent='Quitter'},3000)};
   document.addEventListener('keydown',e=>{
     if(e.target.tagName==='INPUT')return;
+    // Solo sur ordinateur : la réponse à taper se saisit aussi au clavier (chiffres, virgule, signe moins, Retour arrière, Entrée)
+    if(KEYPAD&&st.phase==='ask'&&st.mode==='solo'&&st.t0&&!e.ctrlKey&&!e.metaKey&&!e.altKey){
+      const k=/^\d$/.test(e.key)?e.key:e.key===','||e.key==='.'?',':e.key==='-'||e.key==='−'?'−':e.key==='Backspace'||e.key==='Delete'?'del':e.key==='Enter'?'ok':null;
+      if(k){e.preventDefault();KEYPAD(k);return}}
     if(e.key==='f'||e.key==='F'){toggleFs();return}
     if(e.key===' '||e.key==='Enter'){
       if(document.activeElement&&document.activeElement.tagName==='BUTTON'&&e.key==='Enter')return;
@@ -4845,12 +5426,16 @@ function initHostControls(){
       return}
     if(st.phase==='ask'&&st.mode==='solo'&&st.t0&&(cur().q.type==='qcm'||cur().q.type==='vf')){const k='1234'.indexOf(e.key);if(k>=0&&k<(cur().q.type==='vf'?2:4))soloAnswer(k)}
   });
-  window.addEventListener('beforeunload',()=>{try{st.peer&&st.peer.destroy()}catch(e){}});
+  // Fermer l'onglet du tableau en pleine partie ferait perdre la séance à toute la classe : le navigateur demande confirmation
+  window.addEventListener('beforeunload',e=>{if(st.mode==='live'&&['ask','reveal','rank'].includes(st.phase)){e.preventDefault();e.returnValue='';return}try{st.peer&&st.peer.destroy()}catch(_){}});
+  window.addEventListener('pagehide',()=>{try{st.peer&&st.peer.destroy()}catch(_){}});
 }
 function initRankNext(){$('#rankNext').onclick=()=>{if(st.phase!=='rank')return;st.i++;show('quiz');ask()}}
 
 /* ================= Zone de saisie (téléphone et solo) ================= */
+let KEYPAD=null;
 function buildInput(root,p,submit){
+  KEYPAD=null;
   if(p.type==='jauge'){
     const g=p.g,n=Math.round((g.max-g.min)/g.step);let k=Math.round(((g.start!=null?g.start:(g.min+g.max)/2)-g.min)/g.step);
     root.innerHTML=`<p class="nl-hint">Fais glisser le point ou touche la droite${g.unit?' (en '+esc(g.unit)+')':''}, puis valide.</p><div class="nl" id="nl" tabindex="0" role="slider" aria-label="Position du point sur la droite graduée" aria-valuemin="${g.min}" aria-valuemax="${g.max}">${nlScale(g)}<span class="nl-cur" id="nlc"></span></div><button class="btn primary big" type="button" id="jok">Valider</button>`;
@@ -4868,10 +5453,12 @@ function buildInput(root,p,submit){
     root.innerHTML=`<div class="val" id="sv">&nbsp;</div><div class="keypad">${['7','8','9','4','5','6','1','2','3','−','0',','].map(k=>`<button type="button" data-k="${k}">${k}</button>`).join('')}<button type="button" data-k="del" aria-label="Effacer">⌫</button><button type="button" data-k="ok" style="grid-column:span 2;background:var(--gold)">Valider</button></div>`;
     const out=root.querySelector('#sv');
     const draw=()=>out.innerHTML=s?esc(s)+(p.unit?` <span style="font-size:.5em">${esc(p.unit)}</span>`:''):'&nbsp;';
-    root.querySelectorAll('.keypad button').forEach(b=>b.onclick=()=>{const k=b.dataset.k;
-      if(k==='del')s=s.slice(0,-1);else if(k==='ok'){if(parseNum(s)!==null)submit(s);else{out.animate&&out.animate([{transform:'translateX(-8px)'},{transform:'translateX(8px)'},{transform:'none'}],{duration:250})}return}
+    const press=k=>{
+      if(k==='del')s=s.slice(0,-1);else if(k==='ok'){if(parseNum(s)!==null){KEYPAD=null;submit(s)}else{out.animate&&out.animate([{transform:'translateX(-8px)'},{transform:'translateX(8px)'},{transform:'none'}],{duration:250})}return}
       else if(k==='−'){s=s.startsWith('−')?s.slice(1):'−'+s}else if(k===','){if(!s.includes(','))s=(s===''||s==='−'?s+'0':s)+','}else if(s.replace(/[−,]/g,'').length<7)s+=k;
-      draw()});
+      draw()};
+    root.querySelectorAll('.keypad button').forEach(b=>b.onclick=()=>press(b.dataset.k));
+    KEYPAD=press;
     return;
   }
   if(p.type==='ordre'&&p.redac){
@@ -4916,7 +5503,12 @@ function buildInput(root,p,submit){
 /* ================= Téléphone élève ================= */
 function playerApp(pin0){
   show('player');
-  const P={pin:(pin0||'').replace(/\D/g,'').slice(0,6),name:store.get('arene-name',''),av:store.get('arene-av',Math.floor(Math.random()*AV.length)),state:'join',err:'',peer:null,conn:null,q:null,res:null,end:null,score:0,joined:false,timer:0,sent:null};
+  const P={pin:(pin0||'').replace(/\D/g,'').slice(0,6),name:store.get('arene-name',''),av:store.get('arene-av',Math.floor(Math.random()*AV.length)),state:'join',err:'',peer:null,conn:null,q:null,res:null,end:null,score:0,joined:false,timer:0,sent:null,retry:0,retryT:0,pingT:0,stop:false};
+  // Jeton de l'appareil : le tableau reconnaît le téléphone qui revient et lui rend son score, sans doublon « Prénom 2 »
+  P.tok=store.get('arene-tok','');if(!P.tok){P.tok=Math.random().toString(36).slice(2)+Date.now().toString(36);store.set('arene-tok',P.tok)}
+  // Session en cours (moins de 3 h) : après un rechargement ou une mise en veille, on revient directement dans la partie
+  const sess=store.get('arene-sess',null),resume=!!(sess&&sess.pin&&sess.name&&Date.now()-sess.ts<3*3600*1000&&(!P.pin||P.pin===sess.pin));
+  if(resume){P.pin=sess.pin;P.name=sess.name;P.av=sess.av|0}
   const root=$('#player');
   const top=()=>`<div class="ptop"><span class="brand">${avatar(2,'av" style="width:28px;height:28px')}Arène Maths</span>${P.joined?`<span class="me">${avatar(P.av)}<span>${esc(P.name)} · ${fr(P.score)} pts</span></span>`:''}</div>`;
   function render(){
@@ -4927,7 +5519,7 @@ function playerApp(pin0){
         <label for="p-pin">Code de la partie<input id="p-pin" inputmode="numeric" autocomplete="off" maxlength="7" value="${esc(P.pin)}" placeholder="123456"></label>
         <label for="p-name">Ton prénom ou pseudo<input id="p-name" maxlength="16" autocomplete="off" value="${esc(P.name)}" placeholder="Ex. Yasmine"></label>
         <p class="perr" id="perr">${esc(P.err)}</p>
-        <button class="btn primary big" type="submit">Choisir mon avatar</button></form></div>`;
+        <button class="btn primary big" type="submit">Choisir mon avatar</button></form><a class="psolo" href="?solo">Pas de partie en cours ? S\u2019entraîner seul contre des bots</a></div>`;
     }else if(P.state==='avatar'){
       h+=`<div class="pcenter"><div class="pcard"><h2>Choisis ton avatar</h2><div class="avgrid">${AV.map((a,i)=>`<button class="avbtn" type="button" data-i="${i}" aria-pressed="${i===P.av}">${avatar(i)}<span>${esc(a.n)}</span></button>`).join('')}</div>
         <button class="btn primary big" type="button" id="pgo" style="width:100%">C'est parti !</button><button class="btn small" type="button" id="pback">Modifier le code ou le pseudo</button></div></div>`;
@@ -4938,6 +5530,8 @@ function playerApp(pin0){
     }else if(P.state==='play'){
       const q=P.q;
       h+=`<div class="pq"><span class="pill">Question ${q.n+1} / ${q.total}</span><span class="pill qtype">${esc(TYPE_LABEL[q.redac?'redac':q.type])}</span>${q.mult>1?`<span class="pill qmult">×${q.mult}</span>`:''}</div><div class="ptimer" aria-hidden="true"><i style="animation-duration:${Math.max(1,+q.time||20).toFixed(1)}s"></i></div>`;
+      if(q.prompt)h+=`<p class="pprompt">${fmt(q.prompt)}</p>`;
+      if(q.fig){try{h+=`<div class="pfig">${figHTML(q.fig,i=>(q.perm||[0,1,2,3]).indexOf(i))}${q.fig.caption?`<p class="caption">${fmt(q.fig.caption)}</p>`:''}</div>`}catch(e){}}
       if(q.type==='qcm'||q.type==='vf'){
         const two=q.type==='vf';
         h+=`<div class="pbtns${two?' two':''}">${q.tiles.map((t,p)=>`<button class="pbtn${two?(t.L==='Vrai'?' vrai':' faux'):''}" type="button" data-p="${p}"><b>${esc(t.L)}</b>${two?'':`<small>${fmt(t.text)}</small>`}</button>`).join('')}</div>`;
@@ -4955,7 +5549,7 @@ function playerApp(pin0){
     }else if(P.state==='kicked'){
       h+=`<div class="pcenter"><div class="pcard ko"><h2>Tu as été retiré de la partie</h2><p>Demande au prof si tu peux revenir.</p></div></div>`;
     }else if(P.state==='lost'){
-      h+=`<div class="pcenter"><div class="pcard"><h2>Connexion perdue</h2><p>${esc(P.err||'La partie est peut-être terminée.')}</p><button class="btn primary" type="button" id="prejoin">Se reconnecter</button></div></div>`;
+      h+=`<div class="pcenter"><div class="pcard">${P.stop?'':'<div class="spin"></div>'}<h2>${P.stop?'Partie terminée':'Connexion perdue'}</h2><p>${esc(P.err||'La partie est peut-être terminée.')}</p>${P.stop?'':`<p class="pretry">${P.retry<RETRY.length?'Reconnexion automatique en cours… Ton score est conservé.':'La reconnexion automatique n\u2019a pas abouti.'}</p>`}<button class="btn primary" type="button" id="prejoin">${P.stop?'Rejoindre une autre partie':'Se reconnecter maintenant'}</button></div></div>`;
     }
     if(P.joined&&['wait','sent','res','end'].includes(P.state))h=h.replace(/<\/div>$/,`<div class="pcard" style="gap:8px"><p class="preact-l">Réagis au tableau</p><div class="preact" role="group" aria-label="Réactions">${REACTS.map((e,i)=>`<button type="button" data-r="${i}" aria-label="Envoyer ${e}">${e}</button>`).join('')}</div></div></div>`);
     root.innerHTML=h;
@@ -4975,12 +5569,29 @@ function playerApp(pin0){
     const bk=$('#pback');if(bk)bk.onclick=()=>{P.state='join';render()};
     root.querySelectorAll('.pbtn').forEach(b=>b.onclick=()=>{const p=+b.dataset.p;P.sentLabel='Tu as choisi : '+P.q.tiles[p].L;sendAns(p)});
     const panel=$('#pin2');if(panel)buildInput(panel,P.q,v=>{P.sentLabel=P.q.type==='jauge'?'Ta valeur : '+numFR(v)+(P.q.g.unit?' '+P.q.g.unit:''):P.q.type==='saisie'?'Ta réponse : '+v:'Ordre envoyé';sendAns(v)});
-    const rj=$('#prejoin');if(rj)rj.onclick=()=>connect(true);
+    const rj=$('#prejoin');if(rj)rj.onclick=()=>{if(P.stop){P.stop=false;P.joined=false;P.pin='';P.err='';P.state='join';render();return}P.retry=0;clearTimeout(P.retryT);connect(true)};
     requestAnimationFrame(()=>fitText(root));
     const pa=$('#ptsAnim');if(pa){const target=P.res.pts,t0=performance.now();(function f(){const k=Math.min(1,(performance.now()-t0)/700);pa.textContent='+'+fr(target*k);if(k<1)requestAnimationFrame(f)})()}
   }
   function sendAns(v){if(P.state!=='play')return;try{P.conn.send({t:'ans',n:P.q.n,v})}catch(e){}try{navigator.vibrate&&navigator.vibrate(30)}catch(e){};P.state='sent';render()}
-  function fail(msg){P.state=P.joined?'lost':'join';P.err=msg;try{P.peer&&P.peer.destroy()}catch(e){};render()}
+  const RETRY=[800,1500,2500,4000,6000,8000,10000,12000];
+  function fail(msg,final){
+    clearTimeout(P.timer);clearTimeout(P.retryT);try{P.peer&&P.peer.destroy()}catch(e){}
+    if(final){P.stop=true;store.set('arene-sess',null)}
+    // Reprise d'une session mémorisée qui n'existe plus : retour au formulaire, sans insister
+    if(!P.joined&&P.auto){P.auto=false;store.set('arene-sess',null);P.state='join';P.err='La partie précédente est terminée. Entre le nouveau code.';P.pin='';render();return}
+    P.state=P.joined?'lost':'join';P.err=msg;render();
+    if(P.joined&&!P.stop&&P.retry<RETRY.length)P.retryT=setTimeout(()=>{if(P.state==='lost'&&!P.stop){P.retry++;connect(true)}},RETRY[P.retry]);
+  }
+  // Contrôle de la liaison : au retour sur l'onglet, au retour du réseau et toutes les 20 s. Sans réponse du tableau, on se reconnecte.
+  function ping(){
+    if(!P.joined||P.stop||document.hidden||!['wait','play','sent','res'].includes(P.state))return;
+    try{P.conn.send({t:'ping'})}catch(e){}
+    clearTimeout(P.pingT);P.pingT=setTimeout(()=>{if(P.joined&&!P.stop&&['wait','play','sent','res'].includes(P.state))fail('La connexion avec le tableau a été coupée.')},5000);
+  }
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden){if(P.state==='lost'&&!P.stop){P.retry=0;clearTimeout(P.retryT);connect(true)}else ping()}});
+  window.addEventListener('online',()=>{if(P.state==='lost'&&!P.stop){P.retry=0;clearTimeout(P.retryT);connect(true)}else ping()});
+  setInterval(ping,20000);
   function stepMsg(t){P.step=t;const el=document.getElementById('pstep');if(el)el.textContent=t}
   async function connectSB(rejoin){
     try{P.peer&&P.peer.destroy()}catch(e){}
@@ -5000,11 +5611,11 @@ function playerApp(pin0){
         asked=true;stepMsg('Étape 2/3 : recherche de la salle '+P.pin+'…');
         try{await ch.track({role:'player'})}catch(e){}
         for(let k=0;k<12&&alive&&P.state==='connecting';k++){
-          if((ch.presenceState().host||[]).length){stepMsg('Étape 3/3 : liaison avec le tableau…');P.conn.send({t:'join',name:P.name,av:P.av,rejoin:!!rejoin});return}
+          if((ch.presenceState().host||[]).length){stepMsg('Étape 3/3 : liaison avec le tableau…');P.conn.send({t:'join',name:P.name,av:P.av,rejoin:!!rejoin,tok:P.tok});return}
           await new Promise(r=>setTimeout(r,300));
         }
         if(alive&&P.state==='connecting')fail('Aucune salle ouverte avec le code '+P.pin+'. Vérifie le code au tableau.');
-      }else if((status==='CHANNEL_ERROR'||status==='TIMED_OUT')&&P.state==='connecting')fail('Connexion impossible. Vérifie internet puis réessaie.');
+      }else if(status==='CHANNEL_ERROR'||status==='TIMED_OUT'||status==='CLOSED'){if(P.state==='connecting')fail('Connexion impossible. Vérifie internet puis réessaie.');else if(P.joined&&['wait','play','sent','res'].includes(P.state))fail('La connexion a été interrompue.')}
     });
   }
   async function connect(rejoin){
@@ -5019,7 +5630,7 @@ function playerApp(pin0){
       stepMsg('Étape 2/3 : recherche de la salle '+P.pin+'…');
       const conn=peer.connect(HOST_PREFIX+P.pin,{reliable:true});P.conn=conn;
       setTimeout(()=>{if(P.state==='connecting'&&P.step.startsWith('Étape 2'))stepMsg('Étape 3/3 : liaison avec le tableau…')},1500);
-      conn.on('open',()=>conn.send({t:'join',name:P.name,av:P.av,rejoin:!!rejoin}));
+      conn.on('open',()=>conn.send({t:'join',name:P.name,av:P.av,rejoin:!!rejoin,tok:P.tok}));
       conn.on('data',onMsg);
       conn.on('close',()=>{if(P.state!=='kicked'&&P.state!=='end')fail('La connexion avec le tableau a été coupée.')});
     });
@@ -5027,22 +5638,30 @@ function playerApp(pin0){
   }
   function onMsg(d){
     if(!d||typeof d!=='object')return;
-    if(d.t==='welcome'){clearTimeout(P.timer);P.joined=true;P.name=d.name;P.score=d.score||0;store.set('arene-name',P.name);if(P.state==='connecting')P.state='wait';render();return}
+    if(d.t==='welcome'){clearTimeout(P.timer);clearTimeout(P.retryT);P.joined=true;P.auto=false;P.stop=false;P.retry=0;P.name=d.name;P.score=d.score||0;store.set('arene-name',P.name);
+      store.set('arene-sess',{pin:P.pin,name:P.name,av:P.av,ts:Date.now()});if(P.state==='connecting'||P.state==='lost')P.state='wait';render();return}
+    if(d.t==='pong'){clearTimeout(P.pingT);
+      // Le tableau ne nous connaît plus, ou nous avons manqué une question ou une correction : on se resynchronise
+      const late=d.phase==='ask'?!d.answered&&!(P.state==='play'&&P.q&&P.q.n===d.n):(d.phase==='reveal'||d.phase==='rank')&&(P.state==='play'||P.state==='sent');
+      if(!d.known||late)connect(true);return}
+    if(d.t==='sent'){P.sentLabel='';P.state='sent';render();return}
     if(d.t==='q'){P.q=d;P.state='play';render();return}
     if(d.t==='res'){P.res=d;P.score=d.score;P.state='res';try{navigator.vibrate&&navigator.vibrate(d.ok?[40,60,40]:200)}catch(e){};render();if(d.ok)confetti(70);return}
     if(d.t==='end'){P.end=d;P.score=d.score;P.state='end';render();if(d.rank<=3){confetti(d.rank===1?260:150);if(d.rank===1)fireworks(4)}else confetti(50);return}
     if(d.t==='lobby'){P.score=0;P.state='wait';render();return}
-    if(d.t==='kick'){P.state='kicked';render();try{P.peer.destroy()}catch(e){};return}
-    if(d.t==='closed'){P.state='lost';P.err='Le prof a fermé la salle.';render()}
+    if(d.t==='kick'){P.state='kicked';P.stop=true;store.set('arene-sess',null);render();try{P.peer.destroy()}catch(e){};return}
+    if(d.t==='closed'){P.joined=true;fail('Le prof a fermé la salle.',true)}
   }
-  render();
+  if(resume){P.auto=true;connect(true)}else render();
 }
 
 /* ================= Démarrage ================= */
 (function boot(){
   const sp=new URLSearchParams(location.search),pin=sp.get('pin');
   if(pin!==null||sp.has('join'))playerApp(pin||'');
-  else{initHome();initHostControls();show('home')}
+  else{initHome();initHostControls();show('home');
+    // ?solo : lien direct vers l'entraînement seul (contre des bots), à donner aux élèves
+    if(sp.has('solo')){const r=$('#m-solo');r.checked=true;r.dispatchEvent(new Event('change'))}}
 })();
 
 </script>

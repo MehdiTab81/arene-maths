@@ -4,11 +4,17 @@ Le quiz de maths en direct pour le collège, de la 6e à la 3e. Les questions s'
 
 ## Ce que contient le jeu
 
-- **1 573 questions fixes** réparties en 61 chapitres (6e, 5e, 4e, 3e), avec une explication pour chaque réponse.
-- **146 modèles de questions générées** : à chaque partie, de nouvelles valeurs, une bonne réponse calculée et des distracteurs tirés des erreurs typiques des élèves. Environ un tiers des questions d'une partie, pour qu'une classe ne revoie jamais exactement les mêmes.
+- **1 573 questions fixes** réparties en 65 chapitres (6e, 5e, 4e, 3e), avec une explication pour chaque réponse.
+- **215 modèles de questions générées** : à chaque partie, de nouvelles valeurs, une bonne réponse calculée et des distracteurs tirés des erreurs typiques des élèves. Environ un tiers des questions d'une partie, pour qu'une classe ne revoie jamais exactement les mêmes.
 - **6 mécaniques** : QCM, vrai ou faux, droite graduée (placer un point en comptant les graduations), réponse à taper, remettre dans l'ordre, rédaction de démonstration à glisser.
 - **Figures** générées : transformations, Thalès (imbriqué et papillon), trigonométrie, graphiques de fonctions, diagrammes, arbres de probabilités.
+- **Automatismes** : un chapitre de calcul mental par niveau, façon première partie du brevet (questions flash sans calculatrice, chrono court). 53 modèles : tables et compléments en 6e, relatifs et priorités en 5e, puissances et pourcentages en 4e, coefficients multiplicateurs, tableur, lecture graphique et écriture scientifique en 3e.
+- **Figures de transformations générées** : symétrie axiale (6e), symétrie centrale (5e), translation (4e), rotation et homothétie (3e). À chaque partie, une nouvelle figure sur quadrillage, l'image correcte et trois pièges expliqués à la correction. En 3e, plus de la moitié des questions du chapitre Transformations ont une figure.
 - **3 modes** : téléphones (QR code + code à 6 chiffres), équipes (le professeur coche les équipes qui ont trouvé), solo.
+- **Solo contre des bots** : l'élève affronte 1, 3 ou 5 adversaires. Il choisit leur niveau (Facile, Moyen, Difficile, Expert, ou Auto : les bots se règlent sur ses résultats pour que la partie reste serrée) et leur style (rapides, prudents, imprévisibles). Classement en direct pendant la partie, podium à la fin. Lien direct à donner aux élèves : ajoutez `?solo` à l'adresse du jeu.
+- **Rejouer mes erreurs** : en solo, un bouton relance uniquement les questions ratées (pour les questions générées : même notion, nouvelles valeurs). La réussite par chapitre s'affiche ensuite sur l'accueil (conservée dans le navigateur de l'élève, jamais envoyée).
+- **Reconnexion automatique** : un téléphone qui se met en veille, perd le réseau ou recharge la page revient seul dans la partie, avec son score, sur la question en cours. Le tableau le reconnaît (pas de doublon « Prénom 2 »).
+- **Énoncé sur les téléphones** : la question et sa figure s'affichent aussi sur le téléphone (option à décocher pour garder les yeux au tableau).
 - **Mode Boss** : toute la classe affronte un monstre (Fractodon, Hypoténus, Aléatorix ou Bugzilla selon les chapitres). Chaque bonne réponse lui retire des points de vie ; il faut environ 60 % de réussite pour le mettre K.O.
 - **Distinctions de fin** : Sans faute, Coup fatal, Éclair, Inarrêtable, Remontada, Cerveau, Œil de lynx. Elles s'affichent au podium et sur le téléphone de chaque élève.
 - **Réactions** : les élèves envoient 🔥 👏 😮 😂 💪 🤯 depuis leur téléphone ; elles s'envolent sur l'écran projeté (pas pendant les questions).
@@ -63,5 +69,5 @@ La clé publique est faite pour être visible dans une page web : elle ne permet
 
 - `Espace` ou `Entrée` : révéler la réponse, puis passer à la suite.
 - `F` : plein écran.
-- En solo : touches `1` à `4` pour répondre aux QCM.
+- En solo : touches `1` à `4` pour répondre aux QCM ; les réponses à taper se saisissent au clavier (chiffres, virgule, `-`, `Entrée`).
 - Boutons **Son** et **Musique** dans la barre du haut pendant les questions.
